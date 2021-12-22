@@ -14,7 +14,10 @@ import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 
 import 'bloc/authentication_bloc.dart';
 
-//Team app pattern update
+/* Fresh 앱 비동기 방식
+  Bloc Pattern 으로 작성되었음.
+  dadad
+ */
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
