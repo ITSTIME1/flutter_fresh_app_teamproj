@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:fresh_app_teamproj/repository/authentication_repository.dart';
 import 'package:fresh_app_teamproj/repository/user.dart';
 
+//d
 class AuthenticationState extends Equatable {
   const AuthenticationState._({
     this.status = AuthenticationStatus.unknown,
