@@ -16,7 +16,7 @@ import 'bloc/authentication_bloc.dart';
 
 /* Fresh 앱 비동기 방식
   Bloc Pattern 으로 작성되었음.
-  dadad
+  bloc pattern
  */
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
