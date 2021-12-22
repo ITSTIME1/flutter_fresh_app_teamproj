@@ -14,6 +14,7 @@ import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 
 import 'bloc/authentication_bloc.dart';
 
+//Team app pattern update
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
