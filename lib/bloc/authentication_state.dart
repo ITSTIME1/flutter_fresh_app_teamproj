@@ -1,25 +1,23 @@
 import 'package:equatable/equatable.dart';
-import 'package:fresh_app_teamproj/repository/authentication_repository.dart';
-import 'package:fresh_app_teamproj/repository/user.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-//d
-class AuthenticationState extends Equatable {
-  const AuthenticationState._({
-    this.status = AuthenticationStatus.unknown,
-    this.user = User.empty,
-  });
+abstract class AuthenticationState extends Equatable {
+  @override
+  List<Object> get props => [];
+}
 
-  const AuthenticationState.unknown() : this._();
+//* 초기상태.
+class AuthenticationInitial extends AuthenticationState {}
 
-  const AuthenticationState.authenticated(User user)
-      : this._(status: AuthenticationStatus.authenticated, user: user);
+//* 성공상태.
+class AuthenticationSuccess extends AuthenticationState {
+  final User? firebaseUser;
 
-  const AuthenticationState.unauthenticated()
-      : this._(status: AuthenticationStatus.unauthenticated);
-
-  final AuthenticationStatus status;
-  final User user;
+  AuthenticationSuccess({this.firebaseUser});
 
   @override
-  List<Object> get props => [status, user];
+  List<Object> get props => [];
 }
+
+//* 실패 상태.
+class AuthenticationFailure extends AuthenticationState {}
