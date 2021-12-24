@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
-import 'package:fresh_app_teamproj/data/model/validator_page.dart';
+import 'package:fresh_app_teamproj/data/model/validators.dart';
 
 import 'package:fresh_app_teamproj/views/forgotpassword_page.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
@@ -10,10 +10,6 @@ import 'package:fresh_app_teamproj/views/onboarding_page.dart';
 import 'package:fresh_app_teamproj/views/signup_page.dart';
 
 class LoginPage extends StatefulWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => LoginPage());
-  }
-
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -40,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
    *  validate 유효성 검사를 하는 class CheckValidate를 만들어서 String 값으로 전달 받는 방식으로 구현하였습니다.
    *  이메일과 패스워드 두개를 따로 만들어 클래스에 string
    */
-
   FocusNode _emailFocus = new FocusNode();
   FocusNode _passwordFocus = new FocusNode();
   final _authentication = FirebaseAuth.instance;

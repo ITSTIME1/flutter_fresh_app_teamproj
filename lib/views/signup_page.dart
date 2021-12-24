@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
-import 'package:fresh_app_teamproj/data/model/validator_page.dart';
+import 'package:fresh_app_teamproj/data/model/validators.dart';
 
 import 'package:fresh_app_teamproj/views/login_page.dart';
 
