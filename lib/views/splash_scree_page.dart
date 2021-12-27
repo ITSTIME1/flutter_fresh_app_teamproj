@@ -6,10 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/views/onboarding_page.dart';
 
 class SplashScreen extends StatelessWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => SplashScreen());
-  }
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/appstyle.dart';
 import 'package:fresh_app_teamproj/data/model/onboardingdata_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
-import 'package:fresh_app_teamproj/views/login_page.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 
 class OnboardingScreen2 extends StatefulWidget {
   const OnboardingScreen2({Key? key}) : super(key: key);

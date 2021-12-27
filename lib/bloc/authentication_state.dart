@@ -13,10 +13,13 @@ class AuthenticationInitial extends AuthenticationState {}
 class AuthenticationSuccess extends AuthenticationState {
   final User? firebaseUser;
 
-  AuthenticationSuccess({this.firebaseUser});
+  AuthenticationSuccess({required this.firebaseUser});
 
   @override
   List<Object> get props => [];
+  @override
+  String toString() =>
+      'AuthenticationStateSuccess, email: ${firebaseUser!.email}';
 }
 
 //* 실패 상태.

@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:fresh_app_teamproj/views/login_page.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 
 class TeachableMachine extends StatefulWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => TeachableMachine());
-  }
-
   @override
   _TeachableMachineState createState() => _TeachableMachineState();
 }
