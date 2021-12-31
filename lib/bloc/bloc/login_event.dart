@@ -32,8 +32,6 @@ class LoginPasswordChanged extends LoginEvent {
   String toString() => 'LoginPasswordChanged { password: $password }';
 }
 
-class LoginWithGooglePressed extends LoginEvent {}
-
 class LoginWithCredentialsPressed extends LoginEvent {
   final String email;
   final String password;

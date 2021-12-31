@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
+import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
+import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
 // 메인 페이지 기능은 아직 구현이 되지 않았습니다.
@@ -13,24 +13,43 @@ class TeachableMachine extends StatefulWidget {
 }
 
 class _TeachableMachineState extends State<TeachableMachine> {
+  final UserRepository _userRepository = UserRepository();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('TeachableMachine'),
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.exit_to_app),
-          )
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: Text('Welcome!')),
-        ],
+    return BlocProvider<AuthenticationBloc>(
+      create: (BuildContext context) =>
+          AuthenticationBloc(userRepository: _userRepository),
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          actions: [
+            Builder(builder: (BuildContext context) {
+              return IconButton(
+                onPressed: () {
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(AuthenticationLoggedOut());
+                },
+                icon: Icon(Icons.backpack_rounded),
+              );
+            }),
+          ],
+          title: Text('메인화면'),
+        ),
       ),
     );
   }
 }
+
+// body: Builder(
+//           builder: (BuildContext newContext) {
+//             return RaisedButton(
+//               onPressed: () {
+//                 newContext
+//                     .read<AuthenticationBloc>()
+//                     .add(AuthenticationLoggedOut());
+//               },
+//               child: Text('LogOut'),
+//             );
+//           },
+//         ),

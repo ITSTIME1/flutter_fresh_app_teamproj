@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/data/model/validators.dart';
-
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
-
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
-
 import 'package:firebase_auth/firebase_auth.dart';
+
+// ** 회원가입 페이지 입니다.
+// 회원가입을 할 수 있도록 만들어진 페이지입니다.
+// Bloc Pattern 으로 제작되어야 하며, Login Bloc를 참조하시면 됩니다.
 
 class SignUp extends StatefulWidget {
   static Route route() {

@@ -43,8 +43,20 @@ void main() async {
 // AuthenticationFailure -> 인증의 실패한 경우입니다. 인증의 실패했다는건 isSignedIn 로직에서 로그인된 사용자 정보가 틀리거나
 // 혹은 정보가 없을때 Failure 상태를 가져옵니다.
 
-class TeamApp extends StatelessWidget {
+class TeamApp extends StatefulWidget {
+  @override
+  State<TeamApp> createState() => _TeamAppState();
+}
+
+class _TeamAppState extends State<TeamApp> {
   final UserRepository _userRepository = UserRepository();
+  late AuthenticationBloc _authenticationBloc;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationBloc = AuthenticationBloc(userRepository: _userRepository);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -70,5 +82,11 @@ class TeamApp extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _authenticationBloc.close();
+    super.dispose();
   }
 }

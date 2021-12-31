@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 
+// ** 이벤트에 따른 오류 정보를 표현하는 부분입니다.
+
 class AuthenticationBlocObserver extends BlocObserver {
   @override
   void onEvent(Bloc bloc, Object? event) {

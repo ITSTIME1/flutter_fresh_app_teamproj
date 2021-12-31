@@ -5,7 +5,6 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/data/model/validators.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-
 import 'package:fresh_app_teamproj/views/forgotpassword_page.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 import 'package:fresh_app_teamproj/views/onboarding_page.dart';

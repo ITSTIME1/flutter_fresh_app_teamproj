@@ -4,14 +4,18 @@ import 'package:fresh_app_teamproj/data/model/onboardingdata_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 
-class OnboardingScreen2 extends StatefulWidget {
-  const OnboardingScreen2({Key? key}) : super(key: key);
+// ** 앱을 처음 런치하면 보여질 소개 화면 입니다.
+// 폰트, 사이즈, 색상 등은 추가적으로 수정되어야 하는 부분입니다.
+// OnboardingScreen 또한 Bloc Pattern으로 제작되어야 합니다.
+
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({Key? key}) : super(key: key);
 
   @override
-  _OnboardingScreen2State createState() => _OnboardingScreen2State();
+  _OnboardingScreenState createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreen2State extends State<OnboardingScreen2> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   //* For PageView variable
 
   int currentPage = 0;

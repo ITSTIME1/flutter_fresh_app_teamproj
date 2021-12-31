@@ -1,11 +1,16 @@
-// * Splash Screen 페이지
-
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/views/onboarding_page.dart';
 
-class SplashScreen extends StatelessWidget {
+// ** 앱이 시작되면 처음에 표시될 화면입니다.
+// 폰트, 색상, 사이즈 등은 수정이 꼭 필요합니다.
+
+class SplashScreen extends StatefulWidget {
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
