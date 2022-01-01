@@ -3,6 +3,7 @@ import 'package:fresh_app_teamproj/data/appstyle.dart';
 import 'package:fresh_app_teamproj/data/model/onboardingdata_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
+import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 // ** 앱을 처음 런치하면 보여질 소개 화면 입니다.
 // 폰트, 사이즈, 색상 등은 추가적으로 수정되어야 하는 부분입니다.
@@ -16,6 +17,7 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
+  final UserRepository _userRepository = UserRepository();
   //* For PageView variable
 
   int currentPage = 0;
@@ -127,11 +129,16 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       width: SizeConfig.blockSizeH! * 100,
                       height: SizeConfig.blockSizeH! * 15.1,
                       child: ElevatedButton(
+                        // LoginPage => userRepository transmission
                         onPressed: () {
                           Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(
+                                userRepository: _userRepository,
+                              ),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color.fromRGBO(50, 180, 29, 88),

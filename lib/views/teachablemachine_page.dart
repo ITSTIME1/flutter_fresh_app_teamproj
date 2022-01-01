@@ -14,28 +14,25 @@ class TeachableMachine extends StatefulWidget {
 
 class _TeachableMachineState extends State<TeachableMachine> {
   final UserRepository _userRepository = UserRepository();
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AuthenticationBloc>(
-      create: (BuildContext context) =>
-          AuthenticationBloc(userRepository: _userRepository),
-      child: Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          actions: [
-            Builder(builder: (BuildContext context) {
-              return IconButton(
-                onPressed: () {
-                  context
-                      .read<AuthenticationBloc>()
-                      .add(AuthenticationLoggedOut());
-                },
-                icon: Icon(Icons.backpack_rounded),
-              );
-            }),
-          ],
-          title: Text('메인화면'),
-        ),
+    final AuthenticationBloc authenticationBloc =
+        BlocProvider.of<AuthenticationBloc>(context);
+    return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        actions: [
+          Builder(builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                authenticationBloc.add(AuthenticationLoggedOut());
+              },
+              icon: Icon(Icons.backpack_rounded),
+            );
+          }),
+        ],
+        title: Text('메인화면'),
       ),
     );
   }

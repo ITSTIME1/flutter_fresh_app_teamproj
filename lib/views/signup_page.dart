@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/data/model/validators.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
+import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -10,15 +11,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 // Bloc Pattern 으로 제작되어야 하며, Login Bloc를 참조하시면 됩니다.
 
 class SignUp extends StatefulWidget {
-  static Route route() {
-    return MaterialPageRoute<void>(builder: (_) => SignUp());
-  }
-
   @override
   _SignUpState createState() => _SignUpState();
 }
 
 class _SignUpState extends State<SignUp> {
+  final UserRepository _userRepository = UserRepository();
   FocusNode _userNameFoucus = new FocusNode();
   FocusNode _emailFocus = new FocusNode();
   FocusNode _passwordFocus = new FocusNode();
@@ -382,7 +380,9 @@ class _SignUpState extends State<SignUp> {
                                 if (newUser.user != null) {
                                   Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return LoginPage();
+                                    return LoginPage(
+                                      userRepository: _userRepository,
+                                    );
                                   }));
                                   //* 페이지를 이동시키고 정상적으로 로그아웃 시킨다.
                                   _authentication.signOut();
@@ -417,7 +417,9 @@ class _SignUpState extends State<SignUp> {
                           onPressed: () {
                             Navigator.of(context)
                                 .push(MaterialPageRoute(builder: (context) {
-                              return LoginPage();
+                              return LoginPage(
+                                userRepository: _userRepository,
+                              );
                             }));
                           },
                         ),
