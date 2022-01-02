@@ -37,16 +37,3 @@ class _TeachableMachineState extends State<TeachableMachine> {
     );
   }
 }
-
-// body: Builder(
-//           builder: (BuildContext newContext) {
-//             return RaisedButton(
-//               onPressed: () {
-//                 newContext
-//                     .read<AuthenticationBloc>()
-//                     .add(AuthenticationLoggedOut());
-//               },
-//               child: Text('LogOut'),
-//             );
-//           },
-//         ),

@@ -59,6 +59,12 @@ class _TeamAppState extends State<TeamApp> {
   }
 
   @override
+  void dispose() {
+    _authenticationBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -74,7 +80,7 @@ class _TeamAppState extends State<TeamApp> {
             } else if (state is AuthenticationFailure) {
               return BlocProvider<LoginBloc>(
                 create: (context) => LoginBloc(userRepository: _userRepository),
-                child: SignUp(),
+                child: LoginPage(userRepository: _userRepository),
               );
             }
             return SplashScreen();
@@ -82,11 +88,5 @@ class _TeamAppState extends State<TeamApp> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _authenticationBloc.close();
-    super.dispose();
   }
 }
