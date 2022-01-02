@@ -17,8 +17,6 @@ class _TeachableMachineState extends State<TeachableMachine> {
 
   @override
   Widget build(BuildContext context) {
-    final AuthenticationBloc authenticationBloc =
-        BlocProvider.of<AuthenticationBloc>(context);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -26,7 +24,8 @@ class _TeachableMachineState extends State<TeachableMachine> {
           Builder(builder: (BuildContext context) {
             return IconButton(
               onPressed: () {
-                authenticationBloc.add(AuthenticationLoggedOut());
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .add(AuthenticationLoggedOut());
               },
               icon: Icon(Icons.backpack_rounded),
             );

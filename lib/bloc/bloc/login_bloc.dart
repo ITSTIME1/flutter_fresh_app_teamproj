@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
@@ -9,44 +11,40 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({
     required UserRepository userRepository,
-  }) : super(LoginState.initial());
+  }) : super(LoginState.initial()) {
+    on<LoginEmailChanged>(_onEmailChanged);
+    on<LoginPasswordChanged>(_onPasswordChanged);
+    on<LoginWithCredentialsPressed>(_onWithChanged);
+  }
 
-  @override
-  Stream<LoginState> mapEventToState(LoginEvent event) async* {
-    if (event is LoginEmailChanged) {
-      yield* _mapLoginEmailChangedToState(event.email);
-    } else if (event is LoginPasswordChanged) {
-      yield* _mapLoginPasswordChangedToState(event.password);
-    } else if (event is LoginWithCredentialsPressed) {
-      yield* _mapLoginWithCredentialsPressedToState(
-        email: event.email,
-        password: event.password,
-      );
+  Future<LoginState?> _onEmailChanged(
+      LoginEmailChanged event, Emitter<LoginState> emit,
+      {String? email}) async {
+    if (email != null) {
+      emit(state.update(isEmailValid: Validators.isValidEmail(email)));
     }
   }
 
-  Stream<LoginState> _mapLoginEmailChangedToState(String email) async* {
-    yield state.update(
-      isEmailValid: Validators.isValidEmail(email),
-    );
+  Future<LoginState?> _onPasswordChanged(
+      LoginPasswordChanged event, Emitter<LoginState> emit,
+      {String? password}) async {
+    if (password != null) {
+      emit(state.update(isPasswordValid: Validators.isValidPassword(password)));
+    }
   }
 
-  Stream<LoginState> _mapLoginPasswordChangedToState(String password) async* {
-    yield state.update(
-      isPasswordValid: Validators.isValidPassword(password),
-    );
-  }
-
-  Stream<LoginState> _mapLoginWithCredentialsPressedToState({
-    required String email,
-    required String password,
-  }) async* {
-    yield LoginState.loading();
+  Future<LoginState?> _onWithChanged(
+      LoginWithCredentialsPressed event, Emitter<LoginState> emit,
+      {String? email, String? password}) async {
+    emit(LoginState.loading());
     try {
-      await _userRepository!.signInWithEmailAndPassword(email, password);
-      yield LoginState.success();
+      final logedUser =
+          await _userRepository!.signInWithEmailAndPassword(email!, password!);
+      if (logedUser != null) {
+        emit(LoginState.success());
+      }
     } catch (_) {
-      yield LoginState.failure();
+      emit(LoginState.failure());
     }
   }
 }

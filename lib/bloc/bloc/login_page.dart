@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
+import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
+import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
@@ -8,6 +10,7 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 
 class LoginPage extends StatefulWidget {
   final UserRepository _userRepository;
@@ -64,21 +67,20 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       // 이부분은 수정이 필요에 따라서 snacbar로 표현할 예정.
       body: BlocListener<LoginBloc, LoginState>(
-        listener: (BuildContext context, state) {
-          // 상태가 실패일때 알림.
+        listener: (context, state) {
           if (state.isFailure) {
             Scaffold.of(context)
               ..hideCurrentSnackBar()
               ..showSnackBar(
                 SnackBar(
                   content: Row(
-                    children: [Text('Login Failure!'), Icon(Icons.error)],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [Text('Login Failure'), Icon(Icons.error)],
                   ),
                   backgroundColor: Colors.red,
                 ),
               );
           }
-          // 상태가 성공했을때 알림.
           if (state.isSubmitting) {
             Scaffold.of(context)
               ..hideCurrentSnackBar()
@@ -158,8 +160,8 @@ class _LoginPageState extends State<LoginPage> {
                                     controller: _emailController,
                                     validator: (_) {
                                       return !state.isEmailValid
-                                          ? 'Invalid Email'
-                                          : null;
+                                          ? null
+                                          : 'Invalid Email';
                                     },
                                     decoration: InputDecoration(
                                       suffixIcon: _emailController.text.isEmpty
@@ -177,7 +179,6 @@ class _LoginPageState extends State<LoginPage> {
                                             color: Colors.lightGreen),
                                       ),
                                       labelText: '이메일',
-                                      labelStyle: TextStyle(),
                                       focusedBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                         borderSide: BorderSide(
@@ -196,13 +197,12 @@ class _LoginPageState extends State<LoginPage> {
                                 Padding(
                                   padding: const EdgeInsets.all(10.0),
                                   child: TextFormField(
-                                    textInputAction: TextInputAction.done,
                                     keyboardType: TextInputType.visiblePassword,
                                     controller: _passwordController,
                                     validator: (_) {
                                       return !state.isPasswordValid
-                                          ? 'Invalid Password'
-                                          : null;
+                                          ? null
+                                          : 'Invalid password';
                                     },
                                     decoration: InputDecoration(
                                       labelText: '비밀번호',
@@ -212,10 +212,6 @@ class _LoginPageState extends State<LoginPage> {
                                               ? null
                                               : Column(
                                                   children: [
-                                                    IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(Icons.ac_unit),
-                                                    ),
                                                     IconButton(
                                                       onPressed: () {},
                                                       icon: Icon(Icons.ac_unit),
