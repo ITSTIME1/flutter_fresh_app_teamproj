@@ -10,7 +10,24 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController animationController;
+  @override
+  void initState() {
+    super.initState();
+    animationController =
+        AnimationController(duration: new Duration(seconds: 2), vsync: this);
+    animationController.repeat();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -38,6 +55,20 @@ class _SplashScreenState extends State<SplashScreen> {
                     ),
                   ],
                   color: Colors.white,
+                ),
+              ),
+            ],
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 30.0,
+                height: 30.0,
+                child: CircularProgressIndicator(
+                  valueColor: animationController.drive(
+                    ColorTween(begin: Colors.greenAccent, end: Colors.white),
+                  ),
                 ),
               ),
             ],
