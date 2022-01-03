@@ -8,6 +8,7 @@ class LoginState {
   final bool isSuccess;
   final bool isFailure;
 
+  // 둘다 true 값으로 되어있을시에
   bool get isFormValid => isEmailValid && isPasswordValid;
 
   LoginState({
