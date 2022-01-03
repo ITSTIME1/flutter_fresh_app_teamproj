@@ -14,12 +14,10 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   //* 회원가입 메서드.
-  Future<User?> createUserWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> signIn(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _firebaseAuth.createUserWithEmailAndPassword(
-              email: email.trim(), password: password);
+      await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -32,11 +30,10 @@ class UserRepository {
   }
 
   //* 로그인 메서드
-  Future<User?> signInWithEmailAndPassword(
-      String email, String password) async {
+  Future<void> logIn(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
-          .signInWithEmailAndPassword(email: email.trim(), password: password);
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
@@ -47,7 +44,7 @@ class UserRepository {
   }
 
   //* 로그아웃 메서드
-  Future<void> signOut() async {
+  Future<void> logOut() async {
     return await _firebaseAuth.signOut();
   }
 

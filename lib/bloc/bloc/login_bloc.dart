@@ -9,15 +9,14 @@ import 'package:fresh_app_teamproj/repository/user_repository.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   UserRepository? _userRepository;
 
-  LoginBloc({
-    required UserRepository userRepository,
-  }) : super(LoginState.initial()) {
+  LoginBloc({required UserRepository userRepository})
+      : super(LoginState.initial()) {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginWithCredentialsPressed>(_onWithChanged);
   }
 
-  Future<LoginState?> _onEmailChanged(
+  Future<void> _onEmailChanged(
       LoginEmailChanged event, Emitter<LoginState> emit,
       {String? email}) async {
     if (email != null) {
@@ -25,7 +24,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<LoginState?> _onPasswordChanged(
+  Future<void> _onPasswordChanged(
       LoginPasswordChanged event, Emitter<LoginState> emit,
       {String? password}) async {
     if (password != null) {
@@ -33,16 +32,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
-  Future<LoginState?> _onWithChanged(
+  Future<void> _onWithChanged(
       LoginWithCredentialsPressed event, Emitter<LoginState> emit,
       {String? email, String? password}) async {
     emit(LoginState.loading());
     try {
-      final logedUser =
-          await _userRepository!.signInWithEmailAndPassword(email!, password!);
-      if (logedUser != null) {
-        emit(LoginState.success());
-      }
+      await _userRepository!.logIn(email!, password!);
+      emit(LoginState.success());
     } catch (_) {
       emit(LoginState.failure());
     }

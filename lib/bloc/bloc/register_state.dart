@@ -1,17 +1,17 @@
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 @immutable
-class LoginState {
+class RegisterState {
   final bool isEmailValid;
   final bool isPasswordValid;
+
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
 
-  // 둘다 true 값으로 되어있을시에
   bool get isFormValid => isEmailValid && isPasswordValid;
 
-  const LoginState({
+  const RegisterState({
     required this.isEmailValid,
     required this.isPasswordValid,
     required this.isSubmitting,
@@ -19,8 +19,9 @@ class LoginState {
     required this.isFailure,
   });
 
-  factory LoginState.initial() {
-    return LoginState(
+  // Register 초기상태.
+  factory RegisterState.initial() {
+    return RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -28,9 +29,9 @@ class LoginState {
       isFailure: false,
     );
   }
-
-  factory LoginState.loading() {
-    return LoginState(
+  // RegisterState 검사하는 상태.
+  factory RegisterState.loading() {
+    return RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: true,
@@ -38,9 +39,8 @@ class LoginState {
       isFailure: false,
     );
   }
-
-  factory LoginState.failure() {
-    return LoginState(
+  factory RegisterState.failure() {
+    return RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -49,8 +49,8 @@ class LoginState {
     );
   }
 
-  factory LoginState.success() {
-    return LoginState(
+  factory RegisterState.success() {
+    return RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -59,7 +59,7 @@ class LoginState {
     );
   }
 
-  LoginState update({
+  RegisterState update({
     bool? isEmailValid,
     bool? isPasswordValid,
   }) {
@@ -72,15 +72,16 @@ class LoginState {
     );
   }
 
-  LoginState copyWith({
+  RegisterState copyWith({
     bool? isEmailValid,
     bool? isPasswordValid,
+    bool? isConfirmPasswordValid,
     bool? isSubmitEnabled,
     bool? isSubmitting,
     bool? isSuccess,
     bool? isFailure,
   }) {
-    return LoginState(
+    return RegisterState(
       isEmailValid: isEmailValid ?? this.isEmailValid,
       isPasswordValid: isPasswordValid ?? this.isPasswordValid,
       isSubmitting: isSubmitting ?? this.isSubmitting,
@@ -88,15 +89,4 @@ class LoginState {
       isFailure: isFailure ?? this.isFailure,
     );
   }
-
-  // @override
-  // String toString() {
-  //   return '''LoginState {
-  //     isEmailValid: $isEmailValid,
-  //     isPasswordValid: $isPasswordValid,
-  //     isSubmitting: $isSubmitting,
-  //     isSuccess: $isSuccess,
-  //     isFailure: $isFailure,
-  //   }''';
-  // }
 }

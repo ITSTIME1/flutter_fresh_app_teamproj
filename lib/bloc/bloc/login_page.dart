@@ -1,21 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/signup_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 
 class LoginPage extends StatefulWidget {
   final UserRepository _userRepository;
 
-  const LoginPage({Key, key, required UserRepository userRepository})
+  const LoginPage({Key? key, required UserRepository userRepository})
       : _userRepository = userRepository,
         super(key: key);
 
@@ -29,14 +28,14 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   late LoginBloc _loginBloc;
 
+  UserRepository get _userRepository => widget._userRepository;
+
   //*로그인 버튼의 활성화 로직.
   // Login button enabled logic
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
   bool isLoginButtonEnabled(LoginState state) =>
       state.isFormValid && isPopulated && !state.isSubmitting;
-
-  UserRepository get _userRepository => widget._userRepository;
 
   // * LifeCycle => _loginBloc 에다 BlocProvider를 제공해준다는건 LoginBloc를 사용할 수 있게 한다는 의미.
   // _emailController & _passwordController => addListner 를 통해서 loginBloc에 참조한곳에 있는 LoginEmailChanged 에 입력받은 값을 전달한다.
@@ -45,13 +44,8 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     _loginBloc = BlocProvider.of<LoginBloc>(context);
-    // when (email and password) is changed, this function is called!
-    _emailController.addListener(() {
-      _loginBloc.add(LoginEmailChanged(email: _emailController.text));
-    });
-    _passwordController.addListener(() {
-      _loginBloc.add(LoginPasswordChanged(password: _passwordController.text));
-    });
+    _emailController.addListener(_onLoginEmailChanged);
+    _passwordController.addListener(_onLoginPasswordChanged);
   }
 
   @override
@@ -65,7 +59,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      // 이부분은 수정이 필요에 따라서 snacbar로 표현할 예정.
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.isFailure) {
@@ -143,13 +136,31 @@ class _LoginPageState extends State<LoginPage> {
                                 SizedBox(
                                   height: 20.0,
                                 ),
-                                Text(
-                                  'Login',
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 30.0,
+                                TextButton(
+                                  child: Text(
+                                    '회원가입',
+                                    style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 18.0,
+                                      decoration: TextDecoration.underline,
+                                    ),
                                   ),
+                                  onPressed: () {
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) {
+                                          return BlocProvider<RegisterBloc>(
+                                            create: (context) => RegisterBloc(
+                                                userRepository:
+                                                    _userRepository),
+                                            child: SignUp(
+                                                userRepository:
+                                                    _userRepository),
+                                          );
+                                        },
+                                      ),
+                                    );
+                                  },
                                 ),
 
                                 SizedBox(height: 24.0),
@@ -236,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                                   width: double.infinity,
                                   child: LoginButton(
                                     onPressed: isLoginButtonEnabled(state)
-                                        ? _onLoginEmailAndPassword
+                                        ? _onSubmiting
                                         : null,
                                   ),
                                 ),
@@ -371,11 +382,25 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // When use Login button Click
-  void _onLoginEmailAndPassword() {
+  // When use Login button Click to summiting
+  void _onSubmiting() {
     _loginBloc.add(
       LoginWithCredentialsPressed(
           email: _emailController.text, password: _passwordController.text),
     );
   }
+
+  void _onLoginEmailChanged() {
+    _loginBloc.add(
+      LoginEmailChanged(email: _emailController.text),
+    );
+  }
+
+  void _onLoginPasswordChanged() {
+    _loginBloc.add(
+      LoginPasswordChanged(password: _passwordController.text),
+    );
+  }
+  // Password State method
+  // Login State method
 }

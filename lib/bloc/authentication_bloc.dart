@@ -52,6 +52,6 @@ class AuthenticationBloc
   Future<void> _onLoggedOut(
       AuthenticationLoggedOut event, Emitter<AuthenticationState> emit) async {
     emit(AuthenticationFailure());
-    await _userRepository.signOut();
+    await _userRepository.logOut();
   }
 }
