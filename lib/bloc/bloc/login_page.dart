@@ -160,8 +160,8 @@ class _LoginPageState extends State<LoginPage> {
                                     controller: _emailController,
                                     validator: (_) {
                                       return !state.isEmailValid
-                                          ? null
-                                          : 'Invalid Email';
+                                          ? 'Invalid Email'
+                                          : null;
                                     },
                                     decoration: InputDecoration(
                                       suffixIcon: _emailController.text.isEmpty
@@ -201,22 +201,21 @@ class _LoginPageState extends State<LoginPage> {
                                     controller: _passwordController,
                                     validator: (_) {
                                       return !state.isPasswordValid
-                                          ? null
-                                          : 'Invalid password';
+                                          ? 'Invalid password'
+                                          : null;
                                     },
                                     decoration: InputDecoration(
                                       labelText: '비밀번호',
                                       labelStyle: TextStyle(),
                                       suffixIcon:
                                           _passwordController.text.isEmpty
-                                              ? null
-                                              : Column(
-                                                  children: [
-                                                    IconButton(
-                                                      onPressed: () {},
-                                                      icon: Icon(Icons.ac_unit),
-                                                    ),
-                                                  ],
+                                              ? Container(width: 0)
+                                              : IconButton(
+                                                  icon: Icon(Icons.close,
+                                                      color: Colors.grey[600]),
+                                                  onPressed: () => {
+                                                    _passwordController.clear(),
+                                                  },
                                                 ),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
