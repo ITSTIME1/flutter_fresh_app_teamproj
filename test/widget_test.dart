@@ -10,12 +10,10 @@ import 'package:flutter_test/flutter_test.dart';
 
 import 'package:fresh_app_teamproj/main.dart';
 
-import 'package:fresh_app_teamproj/repository/user_repository.dart';
-
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(TeamApp());
+    await tester.pumpWidget(const TeamApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

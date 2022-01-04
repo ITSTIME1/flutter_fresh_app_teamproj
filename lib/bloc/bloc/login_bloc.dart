@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
@@ -20,7 +19,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginEmailChanged event, Emitter<LoginState> emit,
       {String? email}) async {
     if (email != null) {
-      emit(state.update(isEmailValid: Validators.isValidEmail(email)));
+      emit(state.update(isEmailValid: true));
     }
   }
 
@@ -28,7 +27,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       LoginPasswordChanged event, Emitter<LoginState> emit,
       {String? password}) async {
     if (password != null) {
-      emit(state.update(isPasswordValid: Validators.isValidPassword(password)));
+      emit(state.update(isPasswordValid: true));
     }
   }
 
@@ -37,7 +36,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       {String? email, String? password}) async {
     emit(LoginState.loading());
     try {
-      await _userRepository!.logIn(email!, password!);
+      await _userRepository!.logIn(event.email, event.password);
       emit(LoginState.success());
     } catch (_) {
       emit(LoginState.failure());

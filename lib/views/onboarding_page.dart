@@ -1,3 +1,5 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/appstyle.dart';
 import 'package:fresh_app_teamproj/data/model/onboardingdata_page.dart';
@@ -21,20 +23,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   //* For PageView variable
 
   int currentPage = 0;
-  PageController _pageController = PageController(initialPage: 0);
+  final PageController _pageController = PageController(initialPage: 0);
 
   //* Circle indicator
 
   AnimatedContainer dotIndicator(index) {
     return AnimatedContainer(
-      margin: EdgeInsets.only(right: 9),
-      duration: Duration(milliseconds: 400),
+      margin: const EdgeInsets.only(right: 9),
+      duration: const Duration(milliseconds: 400),
       height: 12,
       width: 12,
       decoration: BoxDecoration(
         color: currentPage == index
-            ? Color.fromRGBO(50, 180, 29, 100) // 현재 페이지면 인디케이터는 찐한색
-            : Color.fromRGBO(167, 248, 154, 70),
+            ? const Color.fromRGBO(50, 180, 29, 100) // 현재 페이지면 인디케이터는 찐한색
+            : const Color.fromRGBO(167, 248, 154, 70),
         // 현재 페이지가 아니라면 연한색
         shape: BoxShape.circle,
       ),
@@ -43,10 +45,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //* SizeConfig value
-
     SizeConfig().init(context);
-    double sizeH = SizeConfig.blockSizeH!;
     double sizeV = SizeConfig.blockSizeV!;
 
     return Scaffold(
@@ -74,6 +73,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       textAlign: TextAlign.center,
                     ),
                     // image
+                    // ignore: avoid_unnecessary_containers
                     Container(
                       child: Image.asset(
                         onboardingContents[index].image,
@@ -141,12 +141,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          primary: Color.fromRGBO(50, 180, 29, 88),
+                          primary: const Color.fromRGBO(50, 180, 29, 88),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                         ),
-                        child: Text(
+                        child: const Text(
                           "시작해봐요",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
@@ -170,13 +170,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             onPressed: () {
                               _pageController.nextPage(
-                                  duration: Duration(milliseconds: 400),
+                                  duration: const Duration(milliseconds: 400),
                                   curve: Curves.easeInOut);
                             },
-                            child: Text(
+                            child: const Text(
                               '다음',
                               style: TextStyle(
                                 color: Colors.white,
@@ -202,13 +202,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15),
                             ),
-                            padding: EdgeInsets.all(15),
+                            padding: const EdgeInsets.all(15),
                             onPressed: () {
                               _pageController.nextPage(
-                                  duration: Duration(milliseconds: 400),
+                                  duration: const Duration(milliseconds: 400),
                                   curve: Curves.easeInOut);
                             },
-                            child: Text(
+                            child: const Text(
                               '다음',
                               style: TextStyle(
                                 color: Colors.white,
@@ -231,8 +231,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 }
 
 //* 다음 버튼
-class forwardBtn extends StatelessWidget {
-  const forwardBtn({
+class FowardBtn extends StatelessWidget {
+  const FowardBtn({
     Key? key,
     required this.onPressed,
   }) : super(key: key);
@@ -243,7 +243,7 @@ class forwardBtn extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(6),
-      child: Icon(
+      child: const Icon(
         Icons.arrow_forward_ios,
         color: Color.fromRGBO(50, 180, 29, 100),
         size: 40.0,
@@ -253,8 +253,8 @@ class forwardBtn extends StatelessWidget {
 }
 
 //* 이전 버튼
-class backBtn extends StatelessWidget {
-  const backBtn({
+class BackBtn extends StatelessWidget {
+  const BackBtn({
     Key? key,
     required this.onPressed,
   }) : super(key: key);
@@ -266,7 +266,7 @@ class backBtn extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.circular(6),
-      child: Icon(
+      child: const Icon(
         Icons.arrow_back_ios,
         color: Color.fromRGBO(50, 180, 29, 100),
         size: 40.0,

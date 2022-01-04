@@ -1,8 +1,5 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
@@ -31,13 +28,14 @@ class AuthenticationBloc
   Future<void> _onStarted(
       AuthenticationStarted event, Emitter<AuthenticationState> emit) async {
     final isSignedIn = await _userRepository.isSignedIn();
+    // User information
     if (isSignedIn) {
       final firebaseUser = await _userRepository.getUser();
       await Future.delayed(const Duration(seconds: 10));
-      emit(await AuthenticationSuccess(firebaseUser: firebaseUser!));
+      emit(AuthenticationSuccess(firebaseUser: firebaseUser!));
     } else {
       await Future.delayed(const Duration(seconds: 10));
-      emit(await AuthenticationFailure());
+      emit(AuthenticationFailure());
     }
   }
 

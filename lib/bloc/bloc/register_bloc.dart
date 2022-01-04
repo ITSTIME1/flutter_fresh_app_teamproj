@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_state.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/validators.dart';
@@ -19,7 +18,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       RegisterEmailChanged event, Emitter<RegisterState> emit,
       {String? email}) async {
     if (email != null) {
-      emit(state.update(isEmailValid: Validators.isValidEmail(email)));
+      emit(state.update(isEmailValid: Validators.isValidEmail(event.email)));
     }
   }
 
@@ -27,18 +26,20 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       RegisterPasswordChanged event, Emitter<RegisterState> emit,
       {String? password}) async {
     if (password != null) {
-      emit(state.update(isPasswordValid: Validators.isValidPassword(password)));
+      emit(state.update(
+          isPasswordValid: Validators.isValidPassword(event.password)));
     }
   }
 
-  Future<void> _onRegisterSubmittedChanged(
+  Future<UserCredential?> _onRegisterSubmittedChanged(
       RegisterSubmitted event, Emitter<RegisterState> emit,
       {String? email, String? password}) async {
     emit(RegisterState.loading());
     try {
-      await _userRepository!.signIn(email!, password!);
+      await _userRepository!.signUp(event.email, event.password);
+      emit(RegisterState.success());
     } catch (_) {
-      RegisterState.failure();
+      emit(RegisterState.failure());
     }
   }
 }

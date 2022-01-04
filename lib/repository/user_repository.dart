@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter/foundation.dart';
 
 // ** 유저 정보 저장소입니다 회원가입 메서드, 로그인 메서드
 // 로그아웃, 사용자 정보 가져오기 등의 메서드가 있습니다.
@@ -14,10 +13,10 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   //* 회원가입 메서드.
-  Future<void> signIn(String email, String password) async {
+  Future<UserCredential?> signUp(String? email, String? password) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+          email: email!, password: password!);
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
@@ -30,15 +29,21 @@ class UserRepository {
   }
 
   //* 로그인 메서드
-  Future<void> logIn(String email, String password) async {
+  Future<void> logIn(String? email, String? password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(
-          email: email, password: password);
+        email: email!.trim(),
+        password: password!.trim(),
+      );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        if (kDebugMode) {
+          print('No user found for that email.');
+        }
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        if (kDebugMode) {
+          print('Wrong password provided for that user.');
+        }
       }
     }
   }
@@ -50,11 +55,11 @@ class UserRepository {
 
   //* 로그인완료된 사용자 정보 가져오기
   Future<bool> isSignedIn() async {
-    final currentUser = await _firebaseAuth.currentUser;
+    final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
 
   Future<User?> getUser() async {
-    return await _firebaseAuth.currentUser;
+    return _firebaseAuth.currentUser;
   }
 }

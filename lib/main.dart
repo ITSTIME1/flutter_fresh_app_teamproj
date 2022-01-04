@@ -6,7 +6,6 @@ import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/signup_page.dart';
 import 'package:fresh_app_teamproj/bloc/simple_bloc_observer.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/splash_scree_page.dart';
@@ -23,10 +22,10 @@ import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  blocObserver:
-  AuthenticationBlocObserver();
-
-  runApp(TeamApp());
+  BlocOverrides.runZoned(
+    () => runApp(TeamApp()),
+    blocObserver: AuthenticationBlocObserver(),
+  );
 }
 
 // ** TeamApp 은 BlocProvder 를 이용하여 AuthenticationBloc, AuthenticationState 참조한다음
@@ -42,6 +41,8 @@ void main() async {
 // 혹은 정보가 없을때 Failure 상태를 가져옵니다.
 
 class TeamApp extends StatefulWidget {
+  const TeamApp({Key? key}) : super(key: key);
+
   @override
   State<TeamApp> createState() => _TeamAppState();
 }
@@ -72,16 +73,18 @@ class _TeamAppState extends State<TeamApp> {
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             if (state is AuthenticationInitial) {
-              return SplashScreen();
+              return const SplashScreen();
             } else if (state is AuthenticationSuccess) {
-              return TeachableMachine();
+              return const TeachableMachine();
             } else if (state is AuthenticationFailure) {
               return BlocProvider<LoginBloc>(
                 create: (context) => LoginBloc(userRepository: _userRepository),
-                child: LoginPage(userRepository: _userRepository),
+                child: LoginPage(
+                  userRepository: _userRepository,
+                ),
               );
             }
-            return SplashScreen();
+            return const SplashScreen();
           },
         ),
       ),

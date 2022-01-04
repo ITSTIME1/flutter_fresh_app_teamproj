@@ -8,6 +8,8 @@ import 'package:fresh_app_teamproj/repository/user_repository.dart';
 // 메인 페이지 기능은 아직 구현이 되지 않았습니다.
 // 구현이 되면 이 페이지에 추가될 예정입니다.
 class TeachableMachine extends StatefulWidget {
+  const TeachableMachine({Key? key}) : super(key: key);
+
   @override
   _TeachableMachineState createState() => _TeachableMachineState();
 }
@@ -27,11 +29,11 @@ class _TeachableMachineState extends State<TeachableMachine> {
                 BlocProvider.of<AuthenticationBloc>(context)
                     .add(AuthenticationLoggedOut());
               },
-              icon: Icon(Icons.backpack_rounded),
+              icon: const Icon(Icons.backpack_rounded),
             );
           }),
         ],
-        title: Text('메인화면'),
+        title: const Text('메인화면'),
       ),
     );
   }

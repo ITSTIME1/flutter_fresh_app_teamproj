@@ -3,31 +3,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/validators.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/register_button.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/register_event.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/register_state.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
-class LoginPage extends StatefulWidget {
+import 'register_bloc.dart';
+
+class SignUpPage extends StatefulWidget {
   final UserRepository _userRepository;
 
-  const LoginPage({Key? key, required UserRepository userRepository})
+  const SignUpPage({Key? key, required UserRepository userRepository})
       : _userRepository = userRepository,
         super(key: key);
 
   @override
-  _LoginPageState createState() => _LoginPageState();
+  _SignUpPageState createState() => _SignUpPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _SignUpPageState extends State<SignUpPage> {
   // Email, password Controller
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  LoginBloc? _loginBloc;
+  RegisterBloc? _registerBloc;
 
   UserRepository get _userRepository => widget._userRepository;
 
@@ -35,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   // Login button enabled logic
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-  bool isLoginButtonEnabled(LoginState state) =>
+  bool isRegisterButtonEnabled(RegisterState state) =>
       state.isFormValid && isPopulated && !state.isSubmitting;
 
   // * LifeCycle => _loginBloc 에다 BlocProvider를 제공해준다는건 LoginBloc를 사용할 수 있게 한다는 의미.
@@ -44,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loginBloc = BlocProvider.of<LoginBloc>(context);
+    _registerBloc = BlocProvider.of<RegisterBloc>(context);
     _emailController.addListener(_onLoginEmailChanged);
     _passwordController.addListener(_onLoginPasswordChanged);
   }
@@ -61,7 +63,7 @@ class _LoginPageState extends State<LoginPage> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
-      body: BlocListener<LoginBloc, LoginState>(
+      body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.isFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -70,33 +72,31 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Text('Login Failure'),
+                    const Text('SignIn Failure'),
                     const Icon(Icons.error)
                   ],
                 ),
                 backgroundColor: Colors.red,
               ),
             );
-          }
-          if (state.isSubmitting) {
+          } else if (state.isSubmitting) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text('Logging In...'),
+                    const Text('Sign In...'),
                     const CircularProgressIndicator(),
                   ],
                 ),
               ),
             );
-          }
-          if (state.isSuccess) {
+          } else if (state.isSuccess) {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(AuthenticationLoggedIn());
           }
         },
-        child: BlocBuilder<LoginBloc, LoginState>(
+        child: BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             return Form(
               child: GestureDetector(
@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               TextButton(
                                 child: Text(
-                                  '회원가입',
+                                  '로그인',
                                   style: TextStyle(
                                     color: Colors.grey[700],
                                     fontSize: 18.0,
@@ -149,11 +149,11 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return BlocProvider<RegisterBloc>(
-                                          create: (context) => RegisterBloc(
+                                      builder: (context) {
+                                        return BlocProvider<LoginBloc>(
+                                          create: (context) => LoginBloc(
                                               userRepository: _userRepository),
-                                          child: SignUpPage(
+                                          child: LoginPage(
                                             userRepository: _userRepository,
                                           ),
                                         );
@@ -170,9 +170,6 @@ class _LoginPageState extends State<LoginPage> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
                                   controller: _emailController,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  autocorrect: false,
                                   validator: (email) {
                                     return !state.isEmailValid
                                         ? 'Invalid Email'
@@ -203,9 +200,6 @@ class _LoginPageState extends State<LoginPage> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
                                   controller: _passwordController,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  autocorrect: false,
                                   validator: (password) {
                                     return !state.isPasswordValid
                                         ? 'Invalid password'
@@ -229,120 +223,14 @@ class _LoginPageState extends State<LoginPage> {
                               Container(
                                 padding: const EdgeInsets.all(8.0),
                                 width: double.infinity,
-                                child: LoginButton(
-                                  onPressed: isLoginButtonEnabled(state)
-                                      ? _onSubmiting
+                                child: RegisterButton(
+                                  onPressed: isRegisterButtonEnabled(state)
+                                      ? _onRegisterSubmiting
                                       : null,
                                 ),
                               ),
                               const SizedBox(
                                 height: 30.0,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 5.0, right: 10.0),
-                                      child: const Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    '또는',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.0,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 10.0, right: 5.0),
-                                      child: const Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 30.0,
-                              ),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 2.0,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/kakaotalk.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 2.0,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/google.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 1.0,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/naver.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
                               ),
                             ],
                           ),
@@ -360,22 +248,22 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // When use Login button Click to summiting
-  void _onSubmiting() {
-    _loginBloc?.add(
-      LoginWithCredentialsPressed(
+  void _onRegisterSubmiting() {
+    _registerBloc?.add(
+      RegisterSubmitted(
           email: _emailController.text, password: _passwordController.text),
     );
   }
 
   void _onLoginEmailChanged() {
-    _loginBloc?.add(
-      LoginEmailChanged(email: _emailController.text),
+    _registerBloc?.add(
+      RegisterEmailChanged(email: _emailController.text),
     );
   }
 
   void _onLoginPasswordChanged() {
-    _loginBloc?.add(
-      LoginPasswordChanged(password: _passwordController.text),
+    _registerBloc?.add(
+      RegisterPasswordChanged(password: _passwordController.text),
     );
   }
 }
