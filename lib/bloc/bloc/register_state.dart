@@ -1,14 +1,14 @@
-import 'package:flutter/material.dart';
+import 'package:meta/meta.dart';
 
 @immutable
 class RegisterState {
   final bool isEmailValid;
   final bool isPasswordValid;
-
   final bool isSubmitting;
   final bool isSuccess;
   final bool isFailure;
 
+  // 둘다 true 값으로 되어있을시에
   bool get isFormValid => isEmailValid && isPasswordValid;
 
   const RegisterState({
@@ -19,9 +19,8 @@ class RegisterState {
     required this.isFailure,
   });
 
-  // Register 초기상태.
   factory RegisterState.initial() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -29,9 +28,9 @@ class RegisterState {
       isFailure: false,
     );
   }
-  // RegisterState 검사하는 상태.
+
   factory RegisterState.loading() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: true,
@@ -39,8 +38,10 @@ class RegisterState {
       isFailure: false,
     );
   }
+
+
   factory RegisterState.failure() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -50,7 +51,7 @@ class RegisterState {
   }
 
   factory RegisterState.success() {
-    return RegisterState(
+    return const RegisterState(
       isEmailValid: true,
       isPasswordValid: true,
       isSubmitting: false,
@@ -75,7 +76,6 @@ class RegisterState {
   RegisterState copyWith({
     bool? isEmailValid,
     bool? isPasswordValid,
-    bool? isConfirmPasswordValid,
     bool? isSubmitEnabled,
     bool? isSubmitting,
     bool? isSuccess,
@@ -89,4 +89,15 @@ class RegisterState {
       isFailure: isFailure ?? this.isFailure,
     );
   }
+
+  // @override
+  // String toString() {
+  //   return '''LoginState {
+  //     isEmailValid: $isEmailValid,
+  //     isPasswordValid: $isPasswordValid,
+  //     isSubmitting: $isSubmitting,
+  //     isSuccess: $isSuccess,
+  //     isFailure: $isFailure,
+  //   }''';
+  // }
 }
