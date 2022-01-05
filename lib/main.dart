@@ -5,25 +5,22 @@ import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/simple_bloc_observer.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/splash_scree_page.dart';
+import 'package:fresh_app_teamproj/views/splash_screen_page.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 
 // ** main 메소드는 건들지 않아도 됩니다.**
-// WidgetsFlutterBinding.ensureInitialized(); -> SharedPreferences 비동기로 데이터를 다루는거기 때문에 반드시 필요합니다.
-
-// Firebase.initializeApp(); -> Firebase 를 사용하기 위해서 명시해주어야 합니다.
-
+// WidgetsFlutterBinding.ensureInitialized(); => SharedPreferences 비동기로 데이터를 다루는거기 때문에 반드시 필요합니다.
+// Firebase.initializeApp(); -> Firebase를 사용하기 위해서 명시해주어야 합니다.
 // blocObserver: AuthenticationBlocObserver() -> 인증 절차를 밟을때 이벤트에 의해서 오류를 핸들링 하는 부분입니다.
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   BlocOverrides.runZoned(
-    () => runApp(TeamApp()),
+    () => runApp(const TeamApp()),
     blocObserver: AuthenticationBlocObserver(),
   );
 }

@@ -1,5 +1,13 @@
 import 'package:meta/meta.dart';
 
+// [Register State]
+
+// Register State 부분은 이메일, 패스워드, 제출, 실패, 성공
+// bool type 을 지향합니다.
+// ex) RegisterState.initial() 상태라면 이메일, 패스워드 값은 트루값으로 바꾸어주고, 제출이랑, 성공 or 실패의 상태는 모르기 때문에 false로 지정합니다.
+// 후에 RegisterState.Success() 가 되었을시에 boolean 값을 보면 쉽게 확인이 됩니다.
+
+// immutable => 변경 불가능한 상태로 만들기 위해서 지정했습니다.
 @immutable
 class RegisterState {
   final bool isEmailValid;
@@ -38,7 +46,6 @@ class RegisterState {
       isFailure: false,
     );
   }
-
 
   factory RegisterState.failure() {
     return const RegisterState(

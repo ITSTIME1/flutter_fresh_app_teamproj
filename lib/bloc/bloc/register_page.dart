@@ -1,8 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_button.dart';
@@ -11,8 +12,16 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_state.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-
 import 'register_bloc.dart';
+
+// [SignUp Page] //
+
+// 회원가입 페이지 => [UserRepository] Class를 가지고 옵니다.
+// UserRepository Class 내부에 있는 [FirebaseAuth] 인스턴스를 사용하기 위함입니다.
+// FLow => 이메일, 패스워드는 입력시 Validators의 유효성검사를 거친뒤에 회원가입을 누르게되면
+// RegisterSubmitted 함수가 발동되면서 그 안에 email, password 값을 전달하게 됩니다
+// 이 값은 이벤트를 핸들하는 BLoc로 전달되게 되며 최종적으로 creatuserwithemailandpassword() 메서드로 전달받게 되어
+// 회원가입이 이루어집니다.
 
 class SignUpPage extends StatefulWidget {
   final UserRepository _userRepository;
@@ -26,23 +35,29 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  // Email, password Controller
+  // [Email, Password Controller handle controller]
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  RegisterBloc? _registerBloc;
+
+  // late => 초기화 시점을 나중으로 미룹니다
+  // RegisterBloc 서버 통신은 비동기적으로 작동합니다. 따라서 초기화를 올바르게 할 수 없기에
+  // 초기값이 설정될때까지는 'null'값을 가지고 있다가 값이 초기화가 되는 순간 nonullable로 변합니다.
+  late RegisterBloc _registerBloc;
 
   UserRepository get _userRepository => widget._userRepository;
 
-  //*로그인 버튼의 활성화 로직.
-  // Login button enabled logic
+  // [Register Button Enabled]
+  // _emailController & _passwordController 의 .text 값 즉 TextEditingController() 위젯은
+  // String? 값을 기본적으로 요구합니다. 때문에 두개의 텍스트 값이 비어있지 않다면 true 값을 반환합니다.
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
   bool isRegisterButtonEnabled(RegisterState state) =>
       state.isFormValid && isPopulated && !state.isSubmitting;
 
-  // * LifeCycle => _loginBloc 에다 BlocProvider를 제공해준다는건 LoginBloc를 사용할 수 있게 한다는 의미.
-  // _emailController & _passwordController => addListner 를 통해서 loginBloc에 참조한곳에 있는 LoginEmailChanged 에 입력받은 값을 전달한다.
-
+  // [LifeCycle]
+  // 초기에 RegisterBloc 값이 참조되어진 BlocProvider를 생성시킵니다.
+  // _emailController, _passwordController => addListner를 통해서 상태를 지속적으로 전달받습니다.
   @override
   void initState() {
     super.initState();
@@ -51,6 +66,8 @@ class _SignUpPageState extends State<SignUpPage> {
     _passwordController.addListener(_onLoginPasswordChanged);
   }
 
+  // [dispose]
+  // 앱이 종료되는 시점에 _emailController, _passwordController 의 핸들러도 종료시킵니다.
   @override
   void dispose() {
     super.dispose();
@@ -63,6 +80,10 @@ class _SignUpPageState extends State<SignUpPage> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
+
+      // [BlocListner] => 상태의 대한 설명을 넣는 부분입니다.
+      // 성공,실패,제출중 총 세가지의 상태로 나뉘어집니다.
+
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state.isFailure) {
@@ -84,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     const Text('Sign In...'),
                     const CircularProgressIndicator(),
@@ -96,6 +118,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 .add(AuthenticationLoggedIn());
           }
         },
+        // [BlocBuilder] => BlocProvider로 제공받고 Builder로 제작합니다.
         child: BlocBuilder<RegisterBloc, RegisterState>(
           builder: (context, state) {
             return Form(
@@ -164,13 +187,15 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
 
                               const SizedBox(height: 24.0),
-                              // * email field next aciton
+
+                              // [Email field]
+
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: TextFormField(
                                   keyboardType: TextInputType.emailAddress,
                                   controller: _emailController,
-                                  validator: (email) {
+                                  validator: (_) {
                                     return !state.isEmailValid
                                         ? 'Invalid Email'
                                         : null;
@@ -192,15 +217,15 @@ class _SignUpPageState extends State<SignUpPage> {
                               const SizedBox(
                                 height: 10.0,
                               ),
-                              // * password field
-                              // * passowrd field done
+
+                              // [Password field]
 
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
                                   controller: _passwordController,
-                                  validator: (password) {
+                                  validator: (_) {
                                     return !state.isPasswordValid
                                         ? 'Invalid password'
                                         : null;
@@ -220,6 +245,9 @@ class _SignUpPageState extends State<SignUpPage> {
                                   ),
                                 ),
                               ),
+
+                              // [Register Button]
+
                               Container(
                                 padding: const EdgeInsets.all(8.0),
                                 width: double.infinity,
@@ -247,22 +275,24 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 
-  // When use Login button Click to summiting
+  // 회원가입 버튼을 눌렀을때 실행되는 void 메서드 입니다.
   void _onRegisterSubmiting() {
-    _registerBloc?.add(
+    _registerBloc.add(
       RegisterSubmitted(
           email: _emailController.text, password: _passwordController.text),
     );
   }
 
+  // 텍스트를 작성할때 상태값을 변경해주고 그 값을 전달해주는 email void 메서드입니다.
   void _onLoginEmailChanged() {
-    _registerBloc?.add(
+    _registerBloc.add(
       RegisterEmailChanged(email: _emailController.text),
     );
   }
 
+  // 텍스트를 작성할때 상태값을 변경해주고 그 값을 전달해주는 password void 메서드입니다.
   void _onLoginPasswordChanged() {
-    _registerBloc?.add(
+    _registerBloc.add(
       RegisterPasswordChanged(password: _passwordController.text),
     );
   }

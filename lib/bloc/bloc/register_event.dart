@@ -1,5 +1,10 @@
 import 'package:equatable/equatable.dart';
 
+// [Register Event]
+
+// 회원가입 이벤트를 핸들링하는 곳입니다.
+// 여기서 email, password 값을 전달 받습니다.
+
 abstract class RegisterEvent extends Equatable {
   const RegisterEvent();
 

@@ -7,10 +7,18 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/validators.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+
+// [Login Page]
+
+// 로그인 페이지 => [UserRepository] Class를 가지고 옵니다.
+// UserRepository Class 내부에 있는 [FirebaseAuth] 인스턴스를 사용하기 위함입니다.
+// FLow => 이메일, 패스워드는 입력시 Validators의 유효성검사를 거친뒤에 로그인버튼을 누르게되면
+//  _onSubmiting 함수가 발동되면서 그 안에 email, password 값을 전달하게 됩니다
+// 이 값은 이벤트를 핸들하는 BLoc로 전달되게 되며 최종적으로 signInWithEmailAndPassword() 메서드로 전달
+// 로그인이 이루어집니다.
 
 class LoginPage extends StatefulWidget {
   final UserRepository _userRepository;
@@ -27,12 +35,11 @@ class _LoginPageState extends State<LoginPage> {
   // Email, password Controller
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  LoginBloc? _loginBloc;
+  late LoginBloc _loginBloc;
 
   UserRepository get _userRepository => widget._userRepository;
 
-  //*로그인 버튼의 활성화 로직.
-  // Login button enabled logic
+  // [Login Button Enabled Logic]
   bool get isPopulated =>
       _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
   bool isLoginButtonEnabled(LoginState state) =>
@@ -83,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
               SnackBar(
                 content: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
                     const Text('Logging In...'),
                     const CircularProgressIndicator(),
@@ -168,16 +176,13 @@ class _LoginPageState extends State<LoginPage> {
                               Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: _emailController,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  autocorrect: false,
                                   validator: (email) {
                                     return !state.isEmailValid
                                         ? 'Invalid Email'
                                         : null;
                                   },
+                                  keyboardType: TextInputType.emailAddress,
+                                  controller: _emailController,
                                   decoration: InputDecoration(
                                     suffixIcon: _emailController.text.isEmpty
                                         ? Container(width: 0)
@@ -203,9 +208,6 @@ class _LoginPageState extends State<LoginPage> {
                                 child: TextFormField(
                                   keyboardType: TextInputType.visiblePassword,
                                   controller: _passwordController,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  autocorrect: false,
                                   validator: (password) {
                                     return !state.isPasswordValid
                                         ? 'Invalid password'
@@ -361,21 +363,15 @@ class _LoginPageState extends State<LoginPage> {
 
   // When use Login button Click to summiting
   void _onSubmiting() {
-    _loginBloc?.add(
-      LoginWithCredentialsPressed(
-          email: _emailController.text, password: _passwordController.text),
-    );
+    _loginBloc.add(LoginWithCredentialsPressed(
+        email: _emailController.text, password: _passwordController.text));
   }
 
   void _onLoginEmailChanged() {
-    _loginBloc?.add(
-      LoginEmailChanged(email: _emailController.text),
-    );
+    _loginBloc.add(LoginEmailChanged(email: _emailController.text));
   }
 
   void _onLoginPasswordChanged() {
-    _loginBloc?.add(
-      LoginPasswordChanged(password: _passwordController.text),
-    );
+    _loginBloc.add(LoginPasswordChanged(password: _passwordController.text));
   }
 }
