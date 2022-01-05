@@ -13,47 +13,38 @@ class UserRepository {
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
 
   //* 회원가입 메서드.
-  Future<UserCredential?> signUp(String? email, String? password) async {
+  Future<User?> signUp(
+      {required String email, required String password}) async {
     try {
-      await _firebaseAuth.createUserWithEmailAndPassword(
-          email: email!, password: password!);
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        print('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        print('The account already exists for that email.');
-      }
+      final newUser = await _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+      return newUser.user;
     } catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
   }
 
   //* 로그인 메서드
-  Future<void> logIn(String? email, String? password) async {
+  Future<User?> logIn({required String email, required String password}) async {
     try {
-      await _firebaseAuth.signInWithEmailAndPassword(
-        email: email!.trim(),
-        password: password!.trim(),
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'user-not-found') {
-        if (kDebugMode) {
-          print('No user found for that email.');
-        }
-      } else if (e.code == 'wrong-password') {
-        if (kDebugMode) {
-          print('Wrong password provided for that user.');
-        }
+      final logedUser = await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return logedUser.user;
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
       }
     }
   }
 
-  //* 로그아웃 메서드
+//* 로그아웃 메서드
   Future<void> logOut() async {
     return await _firebaseAuth.signOut();
   }
 
-  //* 로그인완료된 사용자 정보 가져오기
+//* 로그인완료된 사용자 정보 가져오기
   Future<bool> isSignedIn() async {
     final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;

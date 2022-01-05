@@ -1,6 +1,10 @@
-// ignore_for_file: deprecated_member_use
-
 import 'package:flutter/material.dart';
+
+// [Login Button]
+
+// 로그인 버튼만 따로 Extract 한 것입니다.
+// 빼도 안빼도 상관은 없지만 UI 부분과 onPressed 부분을 조금 나누기 위해서
+// 보기 쉽게 뺐습니다.
 
 class LoginButton extends StatelessWidget {
   final VoidCallback? _onPressed;
@@ -11,6 +15,7 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ignore: deprecated_member_use
     return RaisedButton(
       color: Colors.green,
       shape: RoundedRectangleBorder(

@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+// [Register Button]
+
+// 회원가입 버튼만 따로 Extract 한 것입니다.
+// 빼도 안빼도 상관은 없지만 UI 부분과 onPressed 부분을 조금 나누기 위해서
+// 보기 쉽게 뺐습니다.
+
 class RegisterButton extends StatelessWidget {
   final VoidCallback? _onPressed;
 
