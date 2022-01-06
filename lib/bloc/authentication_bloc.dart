@@ -41,6 +41,7 @@ class AuthenticationBloc
 
   Future<void> _onLoggedIn(
       AuthenticationLoggedIn event, Emitter<AuthenticationState> emit) async {
+    await Future.delayed(const Duration(seconds: 5));
     emit(AuthenticationSuccess(firebaseUser: await _userRepository.getUser()));
   }
 

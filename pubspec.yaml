@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
     
   equatable: ^2.0.3
+  card_swiper: ^1.0.4
   flutter_bloc: ^8.0.0
   cupertino_icons: ^1.0.2
   google_fonts: ^2.1.0

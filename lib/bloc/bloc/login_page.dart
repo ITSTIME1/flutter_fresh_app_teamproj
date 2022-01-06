@@ -84,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.red,
               ),
             );
+            print('실패..');
           }
           if (state.isSubmitting) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -98,10 +99,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             );
+            print('제출중..');
           }
           if (state.isSuccess) {
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(AuthenticationLoggedIn());
+            print('성공');
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

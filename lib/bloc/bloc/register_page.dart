@@ -114,6 +114,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             );
           } else if (state.isSuccess) {
+            Future.delayed(const Duration(seconds: 8));
             BlocProvider.of<AuthenticationBloc>(context)
                 .add(AuthenticationLoggedIn());
           }

@@ -20,28 +20,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         super(LoginState.initial()) {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
-    on<LoginWithCredentialsPressed>(_onWithChanged);
+    on<LoginWithCredentialsPressed>(_onLoginSubmitChanged);
   }
 
   Future<void> _onEmailChanged(
       LoginEmailChanged event, Emitter<LoginState> emit,
       {String? email}) async {
-    if (email != null) {
-      return emit(state.update(isEmailValid: Validators.isValidEmail(email)));
-    }
+    emit(state.update(isEmailValid: Validators.isValidEmail(event.email)));
   }
 
   Future<void> _onPasswordChanged(
       LoginPasswordChanged event, Emitter<LoginState> emit,
       {String? password}) async {
-    if (password != null) {
-      emit(state.update(isPasswordValid: Validators.isValidPassword(password)));
-    }
+    emit(state.update(
+        isPasswordValid: Validators.isValidPassword(event.password)));
   }
 
-  Future<void> _onWithChanged(
-      LoginWithCredentialsPressed event, Emitter<LoginState> emit,
-      {String? email, String? password}) async {
+  Future<void> _onLoginSubmitChanged(
+      LoginWithCredentialsPressed event, Emitter<LoginState> emit) async {
     emit(LoginState.loading());
     try {
       await _userRepository.logIn(email: event.email, password: event.password);

@@ -30,23 +30,18 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   Future<void> _onRegisterEmailChanged(
       RegisterEmailChanged event, Emitter<RegisterState> emit,
       {String? email}) async {
-    if (email != null) {
-      return emit(state.update(isEmailValid: Validators.isValidEmail(email)));
-    }
+    emit(state.update(isEmailValid: Validators.isValidEmail(event.email)));
   }
 
   Future<void> _onRegisterPasswordChanged(
       RegisterPasswordChanged event, Emitter<RegisterState> emit,
       {String? password}) async {
-    if (password != null) {
-      return emit(
-          state.update(isPasswordValid: Validators.isValidPassword(password)));
-    }
+    emit(
+        state.update(isEmailValid: Validators.isValidPassword(event.password)));
   }
 
   Future<void> _onRegisterSubmittedChanged(
-      RegisterSubmitted event, Emitter<RegisterState> emit,
-      {String? email, String? password}) async {
+      RegisterSubmitted event, Emitter<RegisterState> emit) async {
     emit(RegisterState.loading());
     try {
       await _userRepository!

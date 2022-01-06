@@ -30,7 +30,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
             );
           }),
         ],
-        title: const Text('메인화면'),
+        title: const Text('Teachable Machine'),
       ),
     );
   }
