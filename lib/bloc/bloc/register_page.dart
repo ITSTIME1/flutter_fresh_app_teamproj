@@ -12,6 +12,7 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_state.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 import 'register_bloc.dart';
 
 // [SignUp Page] //
@@ -114,9 +115,24 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
             );
           } else if (state.isSuccess) {
-            Future.delayed(const Duration(seconds: 8));
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(AuthenticationLoggedIn());
+            Future.delayed(
+              const Duration(seconds: 4),
+              () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return BlocProvider<AuthenticationBloc>(
+                        create: (context) =>
+                            AuthenticationBloc(userRepository: _userRepository),
+                        child: TeachableMachine(
+                          userRepository: _userRepository,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
           }
         },
         // [BlocBuilder] => BlocProvider로 제공받고 Builder로 제작합니다.

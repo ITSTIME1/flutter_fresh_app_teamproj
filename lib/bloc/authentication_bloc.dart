@@ -1,7 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 // ** Bloc Pattern은 Event, State를 연결하는데 의미가 있습니다.
@@ -50,7 +54,6 @@ class AuthenticationBloc
   // 추가적으로 상태를 한개더 만들어서 LogOut시에 -> Teachablemachine 페이지로 갈 수 있게끔 한다.
   Future<void> _onLoggedOut(
       AuthenticationLoggedOut event, Emitter<AuthenticationState> emit) async {
-    emit(AuthenticationFailure());
     await _userRepository.logOut();
   }
 }

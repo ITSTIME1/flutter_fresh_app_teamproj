@@ -10,6 +10,7 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 
 // [Login Page]
 
@@ -65,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
       body: BlocListener<LoginBloc, LoginState>(
@@ -84,7 +84,6 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: Colors.red,
               ),
             );
-            print('실패..');
           }
           if (state.isSubmitting) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -99,12 +98,26 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
             );
-            print('제출중..');
           }
           if (state.isSuccess) {
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(AuthenticationLoggedIn());
-            print('성공');
+            Future.delayed(
+              const Duration(seconds: 5),
+              () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return BlocProvider<AuthenticationBloc>(
+                        create: (context) =>
+                            AuthenticationBloc(userRepository: _userRepository),
+                        child: TeachableMachine(
+                          userRepository: _userRepository,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            );
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

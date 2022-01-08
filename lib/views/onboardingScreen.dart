@@ -53,7 +53,7 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        '이런 앱이에요',
+                        '우리는',
                         style: TextStyle(color: Colors.black, fontSize: 20.0),
                       ),
                       const SizedBox(height: 20),
@@ -65,6 +65,7 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
                         ),
                         textAlign: TextAlign.center,
                       ),
+                      const SizedBox(height: 20),
                     ],
                   ),
                 ),
@@ -81,12 +82,12 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text('카메라만 사용하자',
+                      const Text('단순해도',
                           style:
                               TextStyle(color: Colors.black, fontSize: 20.0)),
                       const SizedBox(height: 20),
                       const Text(
-                        '카메라 혹은 갤러리에서 찍은 이미지를 \n보여주세요\n그러면 자동적으로 인공지능 알고리즘을 통해 \n 화면상에 수치로 보여드립니다.',
+                        '"카메라"\n 혹은 갤러리에서 찍은 이미지를 \n보여주세요\n그러면 자동적으로 인공지능 알고리즘을 통해 \n 화면상에 수치로 보여드립니다.',
                         style: TextStyle(
                             color: Color.fromRGBO(89, 89, 89, 100),
                             fontSize: 15.0),
@@ -99,7 +100,7 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      SizedBox(height: 45),
+                      const SizedBox(height: 45),
                       Center(
                         child: Image(
                           image: const AssetImage('lib/images/img3.png'),
@@ -108,16 +109,51 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text('시작부터 해봐요',
+                      const Text('정확해',
                           style:
                               TextStyle(color: Colors.black, fontSize: 20.0)),
                       const SizedBox(height: 20),
                       const Text(
-                        '장보러 가시나요? \n앱만 실행하세요! \n "보다 나은 재료"를 사용하고 싶으신가요? \n 저희가 도와 드립니다.',
+                        '"똑똑하게"\n 선택해보세요\n 신선한 재료는 항상 \n 가까이에 있습니다.\n ',
                         style: TextStyle(
                             color: Color.fromRGBO(89, 89, 89, 100),
                             fontSize: 15.0),
                         textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 50,
+                            width: 200,
+                            child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return BlocProvider<LoginBloc>(
+                                        create: (context) => LoginBloc(
+                                            userRepository: _userRepository),
+                                        child: LoginPage(
+                                          userRepository: _userRepository,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.green,
+                              ),
+                              child: const Text(
+                                '시작해보세요',
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          )
+                        ],
                       ),
                     ],
                   ),
@@ -133,25 +169,13 @@ class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
   Container SkipButton(BuildContext context) {
     return Container(
       alignment: Alignment.centerRight,
-      child: ElevatedButton(
+      child: FlatButton(
         // when clicking the button, go to the [Login Page]
         onPressed: () {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return BlocProvider<LoginBloc>(
-                  create: (context) =>
-                      LoginBloc(userRepository: _userRepository),
-                  child: LoginPage(
-                    userRepository: _userRepository,
-                  ),
-                );
-              },
-            ),
-          );
+          _pageController.jumpToPage(2);
         },
         child: const Text('Skip',
-            style: TextStyle(color: Colors.white, fontSize: 20.0)),
+            style: TextStyle(color: Colors.green, fontSize: 20.0)),
       ),
     );
   }
