@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
@@ -10,8 +11,6 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
-
 // [Login Page]
 
 // 로그인 페이지 => [UserRepository] Class를 가지고 옵니다.
@@ -99,25 +98,10 @@ class _LoginPageState extends State<LoginPage> {
               ),
             );
           }
+
           if (state.isSuccess) {
-            Future.delayed(
-              const Duration(seconds: 5),
-              () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return BlocProvider<AuthenticationBloc>(
-                        create: (context) =>
-                            AuthenticationBloc(userRepository: _userRepository),
-                        child: TeachableMachine(
-                          userRepository: _userRepository,
-                        ),
-                      );
-                    },
-                  ),
-                );
-              },
-            );
+            BlocProvider.of<AuthenticationBloc>(context)
+                .add(AuthenticationLoggedIn());
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(
