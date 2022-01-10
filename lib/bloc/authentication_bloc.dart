@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 // ** Bloc Pattern은 Event, State를 연결하는데 의미가 있습니다.
@@ -45,8 +42,10 @@ class AuthenticationBloc
 
   Future<void> _onLoggedIn(
       AuthenticationLoggedIn event, Emitter<AuthenticationState> emit) async {
-    await Future.delayed(const Duration(seconds: 5));
-    emit(AuthenticationSuccess(firebaseUser: await _userRepository.getUser()));
+    final loginUser = await _userRepository.getUser();
+    if (loginUser != null) {
+      emit(AuthenticationSuccess(firebaseUser: loginUser));
+    }
   }
 
   // ** 로그아웃 메서드

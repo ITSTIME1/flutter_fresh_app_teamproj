@@ -11,6 +11,7 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
 import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
 // [Login Page]
 
 // 로그인 페이지 => [UserRepository] Class를 가지고 옵니다.
@@ -69,6 +70,7 @@ class _LoginPageState extends State<LoginPage> {
       backgroundColor: Colors.white,
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
+          // 상태가 실패했을때.
           if (state.isFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -76,14 +78,17 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Text('Login Failure'),
-                    const Icon(Icons.error)
+                    const Text('로그인 실패',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    const Icon(Icons.error, color: Colors.white)
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red[400],
               ),
             );
           }
+          // 상태가 제출중일때
           if (state.isSubmitting) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
@@ -91,17 +96,58 @@ class _LoginPageState extends State<LoginPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Text('Logging In...'),
+                    const Text('로그인 진행 중..',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                     const CircularProgressIndicator(),
                   ],
                 ),
+                backgroundColor: Colors.orange[400],
               ),
             );
           }
-
+          // 상태값.성공 일때 BLocProvider Ancestor 문제로 context를 위젯트리에서 못찾는 문제가 발생되어.
+          // Builder로 감싸 호출 했습니다.
+          // Future.delayed 를 통해서 이후에 있을 데이터를 받아온다거나 할때 걸리는 시간을
           if (state.isSuccess) {
-            BlocProvider.of<AuthenticationBloc>(context)
-                .add(AuthenticationLoggedIn());
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Text('로그인 성공',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    const CircularProgressIndicator(),
+                  ],
+                ),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Builder(
+              builder: (BuildContext context) {
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .add(AuthenticationLoggedIn());
+                return const CircularProgressIndicator();
+              },
+            );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            Future.delayed(const Duration(seconds: 3), () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return BlocProvider<AuthenticationBloc>(
+                      create: (context) =>
+                          AuthenticationBloc(userRepository: _userRepository),
+                      child: TeachableMachine(
+                        userRepository: _userRepository,
+                      ),
+                    );
+                  },
+                ),
+              );
+            });
           }
         },
         child: BlocBuilder<LoginBloc, LoginState>(

@@ -70,9 +70,11 @@ class _TeamAppState extends State<TeamApp> {
           builder: (context, state) {
             if (state is AuthenticationInitial) {
               return const SplashScreen();
-            } else if (state is AuthenticationSuccess) {
+            }
+            if (state is AuthenticationSuccess) {
               return TeachableMachine(userRepository: _userRepository);
-            } else if (state is AuthenticationFailure) {
+            }
+            if (state is AuthenticationFailure) {
               return OnboardingScreenTest(userRepository: _userRepository);
             }
             return const SplashScreen();

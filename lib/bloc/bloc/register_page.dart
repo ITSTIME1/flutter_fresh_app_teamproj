@@ -94,11 +94,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Text('SignIn Failure'),
-                    const Icon(Icons.error)
+                    const Text('회원가입 실패',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    const Icon(Icons.error, color: Colors.white)
                   ],
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: Colors.red[400],
               ),
             );
           } else if (state.isSubmitting) {
@@ -108,31 +110,54 @@ class _SignUpPageState extends State<SignUpPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    const Text('Sign In...'),
+                    const Text('회원가입 진행 중..',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
                     const CircularProgressIndicator(),
                   ],
                 ),
+                backgroundColor: Colors.orange[400],
               ),
             );
           } else if (state.isSuccess) {
-            Future.delayed(
-              const Duration(seconds: 4),
-              () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return BlocProvider<AuthenticationBloc>(
-                        create: (context) =>
-                            AuthenticationBloc(userRepository: _userRepository),
-                        child: TeachableMachine(
-                          userRepository: _userRepository,
-                        ),
-                      );
-                    },
-                  ),
-                );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // ignore: prefer_const_literals_to_create_immutables
+                  children: [
+                    const Text('회원가입 성공',
+                        style: TextStyle(
+                            fontSize: 15, fontWeight: FontWeight.bold)),
+                    const CircularProgressIndicator(),
+                  ],
+                ),
+                backgroundColor: Colors.green,
+              ),
+            );
+            Builder(
+              builder: (BuildContext context) {
+                BlocProvider.of<AuthenticationBloc>(context)
+                    .add(AuthenticationLoggedIn());
+                return const CircularProgressIndicator();
               },
             );
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+            Future.delayed(const Duration(seconds: 3), () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (BuildContext context) {
+                    return BlocProvider<LoginBloc>(
+                      create: (context) =>
+                          LoginBloc(userRepository: _userRepository),
+                      child: LoginPage(
+                        userRepository: _userRepository,
+                      ),
+                    );
+                  },
+                ),
+              );
+            });
           }
         },
         // [BlocBuilder] => BlocProvider로 제공받고 Builder로 제작합니다.
