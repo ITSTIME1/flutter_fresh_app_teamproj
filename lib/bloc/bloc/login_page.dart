@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
@@ -12,6 +11,7 @@ import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
+
 // [Login Page]
 
 // 로그인 페이지 => [UserRepository] Class를 가지고 옵니다.
@@ -71,6 +71,7 @@ class _LoginPageState extends State<LoginPage> {
       body: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           // 상태가 실패했을때.
+          // 상태가 실패했을때는 로그인에 실패했을때는 FirebaseException (e)에 의해서 Failure가 발생됨.
           if (state.isFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
