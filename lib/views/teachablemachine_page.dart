@@ -1,11 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
@@ -22,35 +15,46 @@ class TeachableMachine extends StatefulWidget {
 }
 
 class _TeachableMachineState extends State<TeachableMachine> {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-
   @override
   void initState() {
     super.initState();
   }
 
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        actions: [
-          Builder(builder: (BuildContext context) {
-            return IconButton(
-              onPressed: () async {
-                try {
-                  await _firebaseAuth.signOut();
-                } catch (e) {
-                  if (kDebugMode) {
-                    print(e);
-                  }
-                }
-              },
-              icon: const Icon(Icons.backpack_rounded),
-            );
-          }),
-        ],
-        title: const Text('Teachable Machine'),
+      body: Container(
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 6,
+                ),
+                const Text(
+                  'Fresh',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const Text(
+                  '무엇을 원하시나요?',
+                  style: TextStyle(
+                    color: Colors.black38,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
