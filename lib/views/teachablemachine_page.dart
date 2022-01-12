@@ -41,6 +41,9 @@ class _TeachableMachineState extends State<TeachableMachine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // bottom NavigationBar code.
+      // 추가할지 없앨지 미정.
+      // Ui단 크게 수정 예정.
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         backgroundColor: Colors.white,
