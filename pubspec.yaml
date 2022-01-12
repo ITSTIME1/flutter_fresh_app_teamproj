@@ -93,6 +93,9 @@ flutter:
     - lib/images/kakaotalk.png
     - lib/images/google.png
     - lib/images/naver.png
+    - lib/images/vegetable.png
+    - lib/images/food.png
+    - lib/images/fruits.png
 
   
   #   - images/a_dot_ham.jpeg
