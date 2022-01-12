@@ -16,6 +16,10 @@ class TeachableMachine extends StatefulWidget {
 }
 
 class _TeachableMachineState extends State<TeachableMachine> {
+  // 현재 페이지.
+  int _seletedIndex = 0;
+  // SipwerController 값을 사용하기 위해서 지역변수 설정.
+  final SwiperController _swiperController = SwiperController();
   // Image의 List 값을 dynamic 값으로 받아 저장했습니다.
   // String
   final List<dynamic> imgList = [
@@ -31,12 +35,43 @@ class _TeachableMachineState extends State<TeachableMachine> {
   @override
   void dispose() {
     super.dispose();
+    _swiperController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        showSelectedLabels: true,
+        showUnselectedLabels: true,
+        unselectedFontSize: 13,
+        selectedFontSize: 15,
+        selectedItemColor: Colors.green,
+        unselectedItemColor: Colors.grey,
+        currentIndex: _seletedIndex,
+        onTap: (int index) {
+          setState(() {
+            _seletedIndex = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+            label: '메뉴',
+            icon: Icon(Icons.menu),
+          ),
+          BottomNavigationBarItem(
+            label: '리스트',
+            icon: Icon(Icons.list_alt),
+          ),
+          BottomNavigationBarItem(
+            label: '다크모드',
+            icon: Icon(Icons.brightness_2),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Center(
           child: Column(
@@ -49,11 +84,11 @@ class _TeachableMachineState extends State<TeachableMachine> {
               ),
               const SizedBox(height: 25),
               const Text('옆으로 드래그 하여 클릭!',
-                  style: TextStyle(color: Colors.grey, fontSize: 13)),
+                  style: TextStyle(color: Colors.grey, fontSize: 15)),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 2,
                 child: Swiper(
-                  controller: SwiperController(),
+                  controller: _swiperController,
                   pagination: const SwiperPagination(
                     margin: EdgeInsets.all(20.0),
                     builder: DotSwiperPaginationBuilder(
