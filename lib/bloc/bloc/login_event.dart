@@ -1,8 +1,5 @@
 import 'package:equatable/equatable.dart';
-
 // [Login Event]
-
-// 로그인 이벤트를 핸들링하는 곳입니다.
 // 여기서 email, password 값을 전달 받습니다.
 
 abstract class LoginEvent extends Equatable {
@@ -11,6 +8,7 @@ abstract class LoginEvent extends Equatable {
   List<Object> get props => [];
 }
 
+// 로그인 이벤트를 핸들링하는 곳입니다.
 class LoginEmailChanged extends LoginEvent {
   final String email;
   const LoginEmailChanged({required this.email});
