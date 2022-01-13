@@ -4,6 +4,13 @@ import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
 // Swiper_cards library를 활용해서 슬라이드 페이지를 적용했습니다.
+// 메인페이지는 야채, 과일, 랜덤음식추천 기능을 구현하고 있습니다.
+// 각각의 메인 페이지로 이동하여 TesnorFlow File을 연동합니다.
+// 그렇게 되면 각각 학습시킨 데이터 모델만 갖고 있게 되므로
+// 오차범위가 줄어들게 됩니다.
+// 추가 기능으로 [장바구니 기능]의 도입을 차후에 생각하고 있습니다.
+// [랜덤음식추천] 기능은 JSON을 이용해 음식리스트 중에서 한가지의 음식을 보여줍니다.
+// [랜덤음식추천] 기능의 대해서는 추가적인 알고리즘이 필요합니다.
 
 class TeachableMachine extends StatefulWidget {
   final UserRepository _userRepository;
@@ -17,7 +24,7 @@ class TeachableMachine extends StatefulWidget {
 
 class _TeachableMachineState extends State<TeachableMachine> {
   // 현재 페이지.
-  int _seletedIndex = 0;
+  final int _seletedIndex = 0;
   // SipwerController 값을 사용하기 위해서 지역변수 설정.
   final SwiperController _swiperController = SwiperController();
   // Image의 List 값을 dynamic 값으로 받아 저장했습니다.
@@ -41,39 +48,6 @@ class _TeachableMachineState extends State<TeachableMachine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottom NavigationBar code.
-      // 추가할지 없앨지 미정.
-      // Ui단 크게 수정 예정.
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: Colors.white,
-        showSelectedLabels: true,
-        showUnselectedLabels: true,
-        unselectedFontSize: 13,
-        selectedFontSize: 15,
-        selectedItemColor: Colors.green,
-        unselectedItemColor: Colors.grey,
-        currentIndex: _seletedIndex,
-        onTap: (int index) {
-          setState(() {
-            _seletedIndex = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            label: '메뉴',
-            icon: Icon(Icons.menu),
-          ),
-          BottomNavigationBarItem(
-            label: '리스트',
-            icon: Icon(Icons.list_alt),
-          ),
-          BottomNavigationBarItem(
-            label: '다크모드',
-            icon: Icon(Icons.brightness_2),
-          ),
-        ],
-      ),
       backgroundColor: Colors.grey[200],
       body: SafeArea(
         child: Center(
@@ -99,7 +73,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                   ),
                   curve: Curves.easeIn,
                   itemCount: imgList.length,
-                  itemWidth: MediaQuery.of(context).size.width / 1,
+                  itemWidth: MediaQuery.of(context).size.width / 1.2,
                   itemHeight: MediaQuery.of(context).size.width / 1,
                   layout: SwiperLayout.TINDER,
                   itemBuilder: (BuildContext context, int index) {
