@@ -45,6 +45,7 @@ dependencies:
   flutter_swiper: ^1.1.6
   shared_preferences: ^2.0.11
   logger: ^1.1.0
+  simple_shadow: ^0.3.0
 
 
 
@@ -67,21 +68,12 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-
-
   uses-material-design: true
   fonts:
-    - family: impact
+    - family: Sairafont
       fonts:
-        - asset: lib/fonts/impact.ttf
-        - asset: lib/fonts/Inter.ttf
-        - asset: lib/fonts/BebasNeue-Regular.ttf
-        - asset: lib/fonts/NotoSansKR-Black.otf
-        - asset: lib/fonts/NotoSansKR-Bold.otf
-        - asset: lib/fonts/NotoSansKR-Light.otf
-        - asset: lib/fonts/NotoSansKR-Medium.otf
-        - asset: lib/fonts/NotoSansKR-Regular.otf
-        - asset: lib/fonts/NotoSansKR-Thin.otf
+        - asset: lib/fonts/SairaStencilOne-Regular.ttf
+        - weight: 300
 
   # To add assets to your application, add an assets section, like this:
   assets:

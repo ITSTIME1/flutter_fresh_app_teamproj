@@ -40,6 +40,11 @@ class AuthenticationBloc
     }
   }
 
+  // ** 로그인 메서드
+  // 현재 정보를 가져오고 loginUser 변수에 저장한다.
+  // loginUser != null 값이 아니라면 AuthenticationSuccess(firebaseUser: loginUser) 값을 전달해준다.
+  // LoggedIn -> AuthenticationSuccess(loginUser) -> TeachableMachine(userRepository: _userRepository).
+
   Future<void> _onLoggedIn(
       AuthenticationLoggedIn event, Emitter<AuthenticationState> emit) async {
     final loginUser = await _userRepository.getUser();
@@ -51,6 +56,7 @@ class AuthenticationBloc
   // ** 로그아웃 메서드
   // 로그아웃시에 인증 실패 화면을 보여주면 회원가입 페이지를 보내기 때문에
   // 추가적으로 상태를 한개더 만들어서 LogOut시에 -> Teachablemachine 페이지로 갈 수 있게끔 한다.
+
   Future<void> _onLoggedOut(
       AuthenticationLoggedOut event, Emitter<AuthenticationState> emit) async {
     await _userRepository.logOut();
