@@ -1,3 +1,7 @@
+//** Swiper 모델의 필요한 컨포넌트를 클래스로 묶어 사용했습니다.
+// List로 Item을 참조하여 title, subtitle(description), image, position의 위치를 사용했습니다.
+// 후에 추가적으로 추가되어야 하는 컨포넌나 위젯이 있다면 이 파일에 추가해주면 됩니다.*/
+
 class Item {
   final int position;
   final dynamic image;
