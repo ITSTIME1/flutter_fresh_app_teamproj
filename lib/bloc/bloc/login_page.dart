@@ -358,10 +358,9 @@ class _LoginPageState extends State<LoginPage> {
                                         color: Colors.white,
                                         boxShadow: [
                                           BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 2.0,
-                                          ),
+                                              color: Colors.black26,
+                                              offset: Offset(0, 2),
+                                              blurRadius: 2.0),
                                         ],
                                         image: DecorationImage(
                                           image: AssetImage(

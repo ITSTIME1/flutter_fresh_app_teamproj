@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/foundation.dart';
 
 // ** 유저 정보 저장소입니다 회원가입 메서드, 로그인 메서드
 // 로그아웃, 사용자 정보 가져오기 등의 메서드가 있습니다.
