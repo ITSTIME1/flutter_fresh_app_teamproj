@@ -2,9 +2,10 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/data.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
+import 'package:fresh_app_teamproj/views/food.dart';
+import 'package:fresh_app_teamproj/views/fruits.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
 import 'package:simple_shadow/simple_shadow.dart';
-import 'package:fresh_app_teamproj/views/vegetable.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
 // Swiper_cards library를 활용해서 슬라이드 페이지를 적용했습니다.
@@ -18,6 +19,7 @@ import 'package:fresh_app_teamproj/views/vegetable.dart';
 
 class TeachableMachine extends StatefulWidget {
   final UserRepository _userRepository;
+
   // : 세미콜런의 의미는 외부에서 값을 새로 받겠다는 의미이다.
   // user의 정보를 가지고 있는 즉 Firebase 의 정보는 userRepository 클래스 안에 있으므로
   // 클래스 내부에서 데이터를 처리하는게 아니라 외부에서 데이터를 받아올때 : 세미콜론을 사용해서
@@ -72,105 +74,120 @@ class _TeachableMachineState extends State<TeachableMachine> {
             itemWidth: MediaQuery.of(context).size.width / 1 * 64,
             itemHeight: MediaQuery.of(context).size.height / 1 * 100,
             itemBuilder: (context, int index) {
-              return InkWell(
-                onTap: () {
-                  setState(() {
-                    if (items.length == 0) {
-                      Navigator.push(
-                        context,
-                        PageRouteBuilder(
-                          pageBuilder: (context, a, b) => Vegetable(
-                            items: items[index],
-                          ),
-                        ),
-                      );
-                    }
-                  });
-                },
-                child: Stack(
-                  children: [
-                    // ** Swiper position default => left
-                    Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 460,
-                            width: 340,
-                            child: Card(
-                              elevation: 10.0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              color: Colors.white,
-                              //** Title */
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 260),
-                                  Padding(
-                                    padding: const EdgeInsets.all(20.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        const SizedBox(
-                                          height: 60,
-                                        ),
-                                        Text(
-                                          items[index].title,
-                                          style: TextStyle(
-                                            color:
-                                                Colors.black.withOpacity(0.8),
-                                            fontSize: 40,
-                                            fontFamily: 'Sairafont',
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                          textAlign: TextAlign.left,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                      left: 20.0,
-                                    ),
-                                    child: Text(
-                                      items[index].subtitle,
-                                      style: const TextStyle(
-                                        color: Color.fromRGBO(75, 75, 75, 100),
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                      textAlign: TextAlign.left,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-
-                    //** Image  */
-
-                    Column(
+              return Stack(
+                children: [
+                  // ** Swiper position default => left
+                  Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(
-                          height: MediaQuery.of(context).size.width / 100,
+                          height: 460,
+                          width: 340,
+                          child: Card(
+                            elevation: 10.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                            color: Colors.white,
+                            //** Title */
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(height: 260),
+                                Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 60,
+                                      ),
+                                      Text(
+                                        items[index].title,
+                                        style: TextStyle(
+                                          color: Colors.black.withOpacity(0.8),
+                                          fontSize: 40,
+                                          fontFamily: 'Sairafont',
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        textAlign: TextAlign.left,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: 20.0,
+                                  ),
+                                  child: Text(
+                                    items[index].subtitle,
+                                    style: const TextStyle(
+                                      color: Color.fromRGBO(75, 75, 75, 100),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        SimpleShadow(
+                      ],
+                    ),
+                  ),
+
+                  //** Image  */
+
+                  Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width / 100,
+                      ),
+                      // 이미지를 클릭했을때 이동되는 페이지.
+                      InkWell(
+                        onTap: () {
+                          // 야채의 이미지를 Tap 했을때 => Vegetable()
+                          if (items[index].image ==
+                              'lib/images/vegetable.png') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Vegetable(),
+                              ),
+                            );
+                          }
+                          // 과일의 이미지를 Tap 했을때 => Fruits()
+                          if (items[index].image == 'lib/images/fruits.png') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Fruits(),
+                              ),
+                            );
+                          }
+                          // 음식의 이미지를 Tap 했을때 => Food()
+                          if (items[index].image == 'lib/images/food.png') {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Food(),
+                              ),
+                            );
+                          }
+                        },
+                        child: SimpleShadow(
                           child: Image.asset(items[index].image),
                           opacity: 0.6,
                           color: Colors.black,
                           offset: const Offset(10, 10),
                           sigma: 4,
                         ),
-                      ],
-                    ),
-                  ],
-                ),
+                      ),
+                    ],
+                  ),
+                ],
               );
             },
           ),

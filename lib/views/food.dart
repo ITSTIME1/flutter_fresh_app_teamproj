@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fresh_app_teamproj/data/model/data.dart';
 
-class Vegetable extends StatelessWidget {
-  const Vegetable({
-    Key? key,
-  }) : super(key: key);
+class Food extends StatelessWidget {
+  const Food({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +9,7 @@ class Vegetable extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text('야채'),
+          Center(child: const Text('음식')),
         ],
       ),
     );
