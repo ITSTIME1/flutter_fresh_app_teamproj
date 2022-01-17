@@ -5,9 +5,9 @@ import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/simple_bloc_observer.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/onboardingScreen.dart';
-import 'package:fresh_app_teamproj/views/splash_screen_page.dart';
-import 'package:fresh_app_teamproj/views/teachablemachine_page.dart';
+import 'package:fresh_app_teamproj/views/onboarding.dart';
+import 'package:fresh_app_teamproj/views/splash.dart';
+import 'package:fresh_app_teamproj/views/teachablemachine.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 
 // ** main 메소드는 건들지 않아도 됩니다.**

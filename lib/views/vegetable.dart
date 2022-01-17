@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:fresh_app_teamproj/data/model/data.dart';
+
+// [야채인식 페이지]
+// 야채 Tfile 만 loadModel()로 받아 온다.
 
 class Vegetable extends StatelessWidget {
   const Vegetable({
@@ -9,11 +11,33 @@ class Vegetable extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('야채'),
+      // AppBar 부분 디자인.
+      appBar: AppBar(
+        actions: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            // ignore: prefer_const_literals_to_create_immutables
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(right: 18.0),
+                child: Icon(
+                  Icons.menu,
+                  size: 25,
+                ),
+              ),
+            ],
+          ),
         ],
+        backgroundColor: const Color.fromRGBO(238, 238, 238, 50),
+        centerTitle: true,
+        title: const Text(
+          'VEGETABLE',
+          style: TextStyle(
+            fontFamily: 'Sairafont',
+            fontSize: 25,
+            color: Color.fromRGBO(0, 0, 0, 50),
+          ),
+        ),
       ),
     );
   }
