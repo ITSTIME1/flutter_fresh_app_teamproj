@@ -4,17 +4,23 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
-class OnboardingScreenTest extends StatefulWidget {
+// [OnboardingScreen] =>  어플리케이션 소개화면
+
+// PageView를 활용해서 컨트롤 이전 if문을 사용했을때 리스트에 담겨있는
+// 인덱스 값이 오버플로우가 되면 어플 자체가 멈췄기 때문에
+// if문을 삭제하고 PageView 만을 사용했습니다.
+
+class OnboardingScreen extends StatefulWidget {
   final UserRepository _userRepository;
-  const OnboardingScreenTest({Key? key, required UserRepository userRepository})
+  const OnboardingScreen({Key? key, required UserRepository userRepository})
       : _userRepository = userRepository,
         super(key: key);
 
   @override
-  State<OnboardingScreenTest> createState() => _OnboardingScreenTestState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _OnboardingScreenTestState extends State<OnboardingScreenTest> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   UserRepository get _userRepository => widget._userRepository;
 
   final PageController _pageController = PageController(initialPage: 0);

@@ -75,7 +75,7 @@ class _TeamAppState extends State<TeamApp> {
               return TeachableMachine(userRepository: _userRepository);
             }
             if (state is AuthenticationFailure) {
-              return OnboardingScreenTest(userRepository: _userRepository);
+              return OnboardingScreen(userRepository: _userRepository);
             }
             return const SplashScreen();
           },

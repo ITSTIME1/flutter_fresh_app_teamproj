@@ -12,6 +12,7 @@ class Vegetable extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // AppBar 부분 디자인.
+      // AppBar 디자인 부분은 미팅 이후 변경.
       appBar: AppBar(
         actions: [
           Column(
