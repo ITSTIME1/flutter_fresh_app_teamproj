@@ -4,6 +4,7 @@ import 'package:fresh_app_teamproj/data/model/data.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/food.dart';
 import 'package:fresh_app_teamproj/views/fruits.dart';
+import 'package:fresh_app_teamproj/views/testing.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -23,7 +24,7 @@ class TeachableMachine extends StatefulWidget {
   // : 세미콜런의 의미는 외부에서 값을 새로 받겠다는 의미이다.
   // user의 정보를 가지고 있는 즉 Firebase 의 정보는 userRepository 클래스 안에 있으므로
   // 클래스 내부에서 데이터를 처리하는게 아니라 외부에서 데이터를 받아올때 : 세미콜론을 사용해서
-  // 값을 받아온다.s
+  // 값을 받아온다.
   const TeachableMachine({Key? key, required UserRepository userRepository})
       : _userRepository = userRepository,
         super(key: key);
@@ -154,7 +155,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const Vegetable(),
+                                builder: (context) => const Teach(),
                               ),
                             );
                           }
