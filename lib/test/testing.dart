@@ -62,7 +62,11 @@ class _TeachState extends State<Teach> {
         return;
       }
       setState(() {});
-
+      // 이미지를 값으로 받고
+      // 이미지가 들어왔을때
+      // 만약 설정했던 isDetecting 값이 false 라면 => !isDetecting
+      // 트루로 바꿔주고
+      // Frame 단위로 image 를 받는다.
       _cameraController.startImageStream((image) {
         if (!isDetecting) {
           isDetecting = true;
