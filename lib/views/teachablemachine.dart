@@ -2,10 +2,8 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/data.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/test/mainpage.dart';
 import 'package:fresh_app_teamproj/views/food.dart';
 import 'package:fresh_app_teamproj/views/fruits.dart';
-import 'package:fresh_app_teamproj/test/testing.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -156,7 +154,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const LoadModel()),
+                                  builder: (context) => const Vegetable()),
                             );
                           }
                           // 과일의 이미지를 Tap 했을때 => Fruits()
