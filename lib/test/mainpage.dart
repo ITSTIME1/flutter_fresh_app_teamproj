@@ -17,6 +17,8 @@ class _LoadModelState extends State<LoadModel> {
   double confidence = 0;
   double index = 0;
 
+  List<CameraDescription>? get cameras => widget.cameras;
+
   @override
   void initState() {
     super.initState();
@@ -35,7 +37,7 @@ class _LoadModelState extends State<LoadModel> {
   }
 
   // recognition
-  setRecognition(outputs) {
+  setRecognitions(outputs) {
     // checking outputs
     if (kDebugMode) {
       print(outputs);
@@ -50,6 +52,7 @@ class _LoadModelState extends State<LoadModel> {
     confidence = outputs[0]['confidence'];
 
     setState(() {
+      // lable 을 계속해서 업데이트 해줌.
       predOne = outputs[0]['label'];
     });
   }
@@ -64,12 +67,13 @@ class _LoadModelState extends State<LoadModel> {
         title: const Text('TensorFlow app Testing'),
         backgroundColor: Colors.blueAccent,
       ),
+
       // Stack 을 활용해서 카메라 기능을 가장 위에 올려둔다.
       body: Stack(
         children: [
-          Teach(
-            cameras: widget.cameras,
-            setRecognitions: setRecognition,
+          Camera(
+            widget.cameras,
+            setRecognitions,
           ),
         ],
       ),
