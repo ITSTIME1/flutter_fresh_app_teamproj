@@ -17,6 +17,7 @@ class _CameraUIState extends State<CameraUI> {
   String predOne = '';
   double confidence = 0;
   double index = 0;
+
   @override
   void initState() {
     super.initState();
@@ -29,13 +30,9 @@ class _CameraUIState extends State<CameraUI> {
     res = await Tflite.loadModel(
         model: "lib/data/model/model_unquant.tflite",
         labels: "lib/data/model/labels.txt");
-    // checking Res
-    print(res);
   }
 
   setRecognitions(outputs) {
-    print(outputs);
-
     if (outputs[0]['index'] == 0) {
       index = 0;
     } else {
@@ -62,9 +59,8 @@ class _CameraUIState extends State<CameraUI> {
       ),
       body: Stack(
         children: [
-          // Camera 를 보여줌.
           Camera(
-            cameras: widget.cameras!,
+            cameras: widget.cameras,
             setRecognitions: setRecognitions,
           ),
         ],

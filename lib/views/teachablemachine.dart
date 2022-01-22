@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/data.dart';
@@ -24,8 +25,10 @@ class TeachableMachine extends StatefulWidget {
   // user의 정보를 가지고 있는 즉 Firebase 의 정보는 userRepository 클래스 안에 있으므로
   // 클래스 내부에서 데이터를 처리하는게 아니라 외부에서 데이터를 받아올때 : 세미콜론을 사용해서
   // 값을 받아온다.
-  const TeachableMachine({Key? key, required UserRepository userRepository})
-      : _userRepository = userRepository,
+  const TeachableMachine({
+    Key? key,
+    required UserRepository userRepository,
+  })  : _userRepository = userRepository,
         super(key: key);
 
   @override

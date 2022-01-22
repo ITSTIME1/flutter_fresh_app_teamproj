@@ -1,12 +1,50 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_app_teamproj/testing%20code/camera.dart';
+import 'package:tflite/tflite.dart';
 
 // [야채인식 페이지]
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
-class Vegetable extends StatelessWidget {
-  const Vegetable({
-    Key? key,
-  }) : super(key: key);
+class Vegetable extends StatefulWidget {
+  final List<CameraDescription>? cameras;
+  const Vegetable({Key? key, this.cameras}) : super(key: key);
+
+  @override
+  State<Vegetable> createState() => _VegetableState();
+}
+
+class _VegetableState extends State<Vegetable> {
+  String predOne = '';
+  double confidence = 0;
+  double index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    loadTfliteModel();
+  }
+
+  Future<void> loadTfliteModel() async {
+    String? res;
+    res = await Tflite.loadModel(
+        model: 'lib/data/model/model_unquant.tflite',
+        labels: "lib/data/mode/labels.txt");
+  }
+
+  setRecognitions(outputs) {
+    if (outputs[0]['index'] == 0) {
+      index = 0;
+    } else {
+      index = 1;
+    }
+
+    confidence = outputs[0]['confidence'];
+
+    setState(() {
+      predOne = outputs[0]['label'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +77,14 @@ class Vegetable extends StatelessWidget {
             color: Color.fromRGBO(0, 0, 0, 50),
           ),
         ),
+      ),
+      body: Stack(
+        children: [
+          Camera(
+            cameras: widget.cameras,
+            setRecognitions: setRecognitions,
+          ),
+        ],
       ),
     );
   }

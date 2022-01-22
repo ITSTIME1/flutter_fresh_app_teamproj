@@ -2,13 +2,21 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tflite/tflite.dart';
 
+// [Camera Function]
+// 카메라를 핸들링 하는 페이지 입니다.
+// 카메라를 보여주는것, 카메라의 이미지 저장, 갤러리, 화면 바꾸기, 갤러에서 이미지 가져오기 등
+// 전반적으로 카메라의 기능을 대표하는 페이지입니다.
+
+// 추가적으로 Tflite TensorFlow 파일들을 frame 단위로 가지고와서 인식을 시작합니다.
+// 코드리뷰는 추후에 완벽하게 정리가된 후에 작성하도록 하겠습니다.
+
 // setRecognition function callback
 typedef Callback = void Function(List<dynamic> list);
 
 class Camera extends StatefulWidget {
-  final List<CameraDescription> cameras;
+  final List<CameraDescription>? cameras;
   final Callback? setRecognitions;
-  const Camera({Key? key, required this.cameras, this.setRecognitions})
+  const Camera({Key? key, this.cameras, this.setRecognitions})
       : super(key: key);
 
   @override
@@ -17,70 +25,52 @@ class Camera extends StatefulWidget {
 
 // CameraState
 class _CameraState extends State<Camera> {
-  List<CameraDescription>? cameras;
+  late final List<CameraDescription>? cameras;
   CameraController? _cameraController;
   bool isReady = false;
 
   @override
   void initState() {
     super.initState();
-    setupCameras();
-  }
+    _cameraController = CameraController(cameras![0], ResolutionPreset.high);
+    _cameraController!.initialize().then((value) {
+      if (!mounted) {
+        return;
+      }
+      setState(() {});
 
-  Future<void> setupCameras() async {
-    try {
-      // 사용가능한 카메라를 가져온다
-      cameras = await availableCameras();
-      _cameraController =
-          CameraController(cameras![0], ResolutionPreset.medium);
-      _cameraController!.initialize().then((value) {
-        if (!mounted) {
-          return;
+      _cameraController!.startImageStream((image) {
+        if (!isReady) {
+          isReady = true;
+          Tflite.runModelOnFrame(
+            bytesList: image.planes.map((plane) {
+              return plane.bytes;
+            }).toList(),
+            imageHeight: image.height,
+            imageWidth: image.width,
+            numResults: 1,
+          ).then((value) {
+            if (value!.isNotEmpty) {
+              widget.setRecognitions!(value);
+              isReady = false;
+            }
+          });
         }
-        setState(() {});
-
-        _cameraController!.startImageStream((image) {
-          if (!isReady) {
-            isReady = true;
-            Tflite.runModelOnFrame(
-              bytesList: image.planes.map((plane) {
-                return plane.bytes;
-              }).toList(),
-              imageHeight: image.height,
-              imageWidth: image.width,
-              numResults: 1,
-            ).then((value) {
-              if (value!.isNotEmpty) {
-                widget.setRecognitions!(value);
-                isReady = false;
-              }
-            });
-          }
-        });
       });
-    } on CameraException catch (_) {
-      setState(() {
-        isReady = false;
-      });
-    }
-    setState(() {
-      isReady = true;
     });
-    // 앱이 종료될때 같이 종료 될 수 있도록 한다.
-    @override
-    void dispose() {
-      _cameraController?.dispose();
-      super.dispose();
-    }
   }
 
-  // 만약 controller 가 초기화 되지 않았다면 CirclularIndicator만 그려줍니다.
+  @override
+  void dispose() {
+    _cameraController?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (_cameraController!.value.isInitialized) {
       return const CircularProgressIndicator();
     }
-    // 카메라 비율을 조정할 수 있는 AspectRatio 내부에서 카메라 프리뷰를 보여준다.
     return AspectRatio(
       aspectRatio: _cameraController!.value.aspectRatio,
       child: CameraPreview(_cameraController!),

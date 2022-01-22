@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,15 +16,16 @@ import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 // Firebase.initializeApp(); -> Firebase를 사용하기 위해서 명시해주어야 합니다.
 // blocObserver: AuthenticationBlocObserver() -> 인증 절차를 밟을때 이벤트에 의해서 오류를 핸들링 하는 부분입니다.
 
-void main() async {
+List<CameraDescription>? cameras;
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  cameras = await availableCameras();
   BlocOverrides.runZoned(
     () => runApp(const TeamApp()),
     blocObserver: AuthenticationBlocObserver(),
   );
 }
-
 // ** TeamApp 은 BlocProvder 를 이용하여 AuthenticationBloc, AuthenticationState 참조한다음
 // 상태에 따른 State 값을 변경하는 로직입니다.
 
@@ -77,7 +79,7 @@ class _TeamAppState extends State<TeamApp> {
             if (state is AuthenticationFailure) {
               return OnboardingScreen(userRepository: _userRepository);
             }
-            return const SplashScreen();
+            return const CircularProgressIndicator();
           },
         ),
       ),
