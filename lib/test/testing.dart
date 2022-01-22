@@ -34,18 +34,18 @@ import 'package:tflite/tflite.dart';
 typedef Callback = void Function(List<dynamic> list);
 
 class Teach extends StatefulWidget {
-  final List<CameraDescription> cameras;
-  final Callback setRecognitions;
-  const Teach({Key? key, required this.cameras, required this.setRecognitions})
-      : super(key: key);
+  final List<CameraDescription>? cameras;
+  final Callback? setRecognitions;
+  const Teach({Key? key, this.cameras, this.setRecognitions}) : super(key: key);
 
   @override
   _TeachState createState() => _TeachState();
 }
 
 class _TeachState extends State<Teach> {
-  late final CameraController _cameraController;
-  // 카메라 감지 온 오프
+  // CameraController 를 사용하여 디바이스의 카메라와 연결한다.
+  late CameraController _cameraController;
+
   bool isDetecting = false;
 
   // 카메라가 실행이 될때 생명주기.
@@ -56,7 +56,7 @@ class _TeachState extends State<Teach> {
 
     // Camera 를 생성하여 _cameracontroller에 저장.
     _cameraController =
-        CameraController(widget.cameras.first, ResolutionPreset.high);
+        CameraController(widget.cameras!.first, ResolutionPreset.high);
     _cameraController.initialize().then((value) {
       if (!mounted) {
         return;
@@ -68,18 +68,20 @@ class _TeachState extends State<Teach> {
       // 트루로 바꿔주고
       // Frame 단위로 image 를 받는다.
       _cameraController.startImageStream((image) {
+        // null에 대해서 안전해 즉 isDetecting 값은 null 이 아닐경우.
         if (!isDetecting) {
           isDetecting = true;
           Tflite.runModelOnFrame(
             bytesList: image.planes.map((plane) {
               return plane.bytes;
             }).toList(),
+            // bytesList list array 변형.
             imageHeight: image.height,
             imageWidth: image.width,
             numResults: 1,
           ).then((value) {
             if (value!.isNotEmpty) {
-              widget.setRecognitions(value);
+              widget.setRecognitions!(value);
               isDetecting = false;
             }
           });

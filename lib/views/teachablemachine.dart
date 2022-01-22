@@ -156,8 +156,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const CameraUI(),
-                              ),
+                                  builder: (context) => const LoadModel()),
                             );
                           }
                           // 과일의 이미지를 Tap 했을때 => Fruits()
