@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:tflite/tflite.dart';
 
+// setRecognition function callback
 typedef Callback = void Function(List<dynamic> list);
 
 class Camera extends StatefulWidget {
@@ -14,6 +15,7 @@ class Camera extends StatefulWidget {
   _CameraState createState() => _CameraState();
 }
 
+// CameraState
 class _CameraState extends State<Camera> {
   List<CameraDescription>? cameras;
   CameraController? _cameraController;
@@ -78,6 +80,7 @@ class _CameraState extends State<Camera> {
     if (!isReady && !_cameraController!.value.isInitialized) {
       return const CircularProgressIndicator();
     }
+    // 카메라 비율을 조정할 수 있는 AspectRatio 내부에서 카메라 프리뷰를 보여준다.
     return AspectRatio(
       aspectRatio: _cameraController!.value.aspectRatio,
       child: CameraPreview(_cameraController!),
