@@ -77,7 +77,7 @@ class _CameraState extends State<Camera> {
   // 만약 controller 가 초기화 되지 않았다면 CirclularIndicator만 그려줍니다.
   @override
   Widget build(BuildContext context) {
-    if (!isReady && !_cameraController!.value.isInitialized) {
+    if (_cameraController!.value.isInitialized) {
       return const CircularProgressIndicator();
     }
     // 카메라 비율을 조정할 수 있는 AspectRatio 내부에서 카메라 프리뷰를 보여준다.
