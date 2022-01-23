@@ -90,6 +90,10 @@ flutter:
     - lib/images/vegetable.png
     - lib/images/food.png
     - lib/images/fruits.png
+    - lib/assets/labels.txt
+    - lib/assets/model_unquant.tflite
+    
+
 
   
   #   - images/a_dot_ham.jpeg

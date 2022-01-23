@@ -150,16 +150,24 @@ class _TeachableMachineState extends State<TeachableMachine> {
                       ),
                       // 이미지를 클릭했을때 이동되는 페이지.
                       InkWell(
-                        onTap: () {
-                          // 야채의 이미지를 Tap 했을때 => Vegetable()
-                          if (items[index].image ==
-                              'lib/images/vegetable.png') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const Vegetable()),
-                            );
-                          }
+                        onTap: () async {
+                          // 이용가능한 카메라를 가져온 뒤에
+                          // 이미지를 눌렀을때 조건이 맞으면 Vegetable() 페이지로 이동.
+                          await availableCameras().then(
+                            (value) {
+                              if (items[index].image ==
+                                  'lib/images/vegetable.png') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Vegetable(
+                                      cameras: value,
+                                    ),
+                                  ),
+                                );
+                              }
+                            },
+                          );
                           // 과일의 이미지를 Tap 했을때 => Fruits()
                           if (items[index].image == 'lib/images/fruits.png') {
                             Navigator.push(

@@ -9,7 +9,9 @@ class Food extends StatelessWidget {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: const Text('음식')),
+          const Center(
+            child: Text('음식'),
+          ),
         ],
       ),
     );

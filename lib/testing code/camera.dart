@@ -14,9 +14,9 @@ import 'package:tflite/tflite.dart';
 typedef Callback = void Function(List<dynamic> list);
 
 class Camera extends StatefulWidget {
-  final List<CameraDescription>? cameras;
+  final List<CameraDescription> cameras;
   final Callback? setRecognitions;
-  const Camera({Key? key, this.setRecognitions, this.cameras})
+  const Camera({Key? key, required this.cameras, this.setRecognitions})
       : super(key: key);
 
   @override
@@ -32,7 +32,7 @@ class _CameraState extends State<Camera> {
   void initState() {
     super.initState();
     _cameraController =
-        CameraController(widget.cameras![0], ResolutionPreset.high);
+        CameraController(widget.cameras.first, ResolutionPreset.high);
     _cameraController.initialize().then((value) {
       if (!mounted) {
         return;
@@ -69,13 +69,12 @@ class _CameraState extends State<Camera> {
   @override
   Widget build(BuildContext context) {
     // Camera 초기화 되지 않았을때 보여줄 UI.
-    if (_cameraController.value.isInitialized) {
+    if (!_cameraController.value.isInitialized) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
-    return AspectRatio(
-      aspectRatio: _cameraController.value.aspectRatio,
+    return Center(
       child: CameraPreview(_cameraController),
     );
   }

@@ -1,3 +1,4 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:tflite/tflite.dart';
@@ -5,10 +6,10 @@ import 'package:tflite/tflite.dart';
 // [야채인식 페이지]
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
+// ignore: must_be_immutable
 class Vegetable extends StatefulWidget {
-  const Vegetable({
-    Key? key,
-  }) : super(key: key);
+  final List<CameraDescription> cameras;
+  const Vegetable({Key? key, required this.cameras}) : super(key: key);
 
   @override
   State<Vegetable> createState() => _VegetableState();
@@ -25,13 +26,16 @@ class _VegetableState extends State<Vegetable> {
     loadTfliteModel();
   }
 
-  Future<void> loadTfliteModel() async {
+  // TensorfliteModel Function
+  loadTfliteModel() async {
     String? res;
     res = await Tflite.loadModel(
-        model: 'lib/data/model/model_unquant.tflite',
-        labels: "lib/data/mode/labels.txt");
+      model: 'lib/assets/model_unquant.tflite',
+      labels: "lib/assets/labels.txt",
+    );
   }
 
+  // Recognitions Function
   setRecognitions(outputs) {
     if (outputs[0]['index'] == 0) {
       index = 0;
@@ -80,7 +84,10 @@ class _VegetableState extends State<Vegetable> {
       ),
       body: Stack(
         children: [
-          Camera(),
+          Camera(
+            setRecognitions: setRecognitions,
+            cameras: widget.cameras,
+          ),
         ],
       ),
     );
