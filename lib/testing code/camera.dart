@@ -16,7 +16,7 @@ typedef Callback = void Function(List<dynamic> list);
 class Camera extends StatefulWidget {
   final List<CameraDescription>? cameras;
   final Callback? setRecognitions;
-  const Camera({Key? key, this.cameras, this.setRecognitions})
+  const Camera({Key? key, this.setRecognitions, this.cameras})
       : super(key: key);
 
   @override
@@ -25,21 +25,21 @@ class Camera extends StatefulWidget {
 
 // CameraState
 class _CameraState extends State<Camera> {
-  late final List<CameraDescription>? cameras;
-  CameraController? _cameraController;
+  late CameraController _cameraController;
   bool isReady = false;
 
   @override
   void initState() {
     super.initState();
-    _cameraController = CameraController(cameras![0], ResolutionPreset.high);
-    _cameraController!.initialize().then((value) {
+    _cameraController =
+        CameraController(widget.cameras![0], ResolutionPreset.high);
+    _cameraController.initialize().then((value) {
       if (!mounted) {
         return;
       }
       setState(() {});
 
-      _cameraController!.startImageStream((image) {
+      _cameraController.startImageStream((image) {
         if (!isReady) {
           isReady = true;
           Tflite.runModelOnFrame(
@@ -62,18 +62,21 @@ class _CameraState extends State<Camera> {
 
   @override
   void dispose() {
-    _cameraController?.dispose();
+    _cameraController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_cameraController!.value.isInitialized) {
-      return const CircularProgressIndicator();
+    // Camera 초기화 되지 않았을때 보여줄 UI.
+    if (_cameraController.value.isInitialized) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
     }
     return AspectRatio(
-      aspectRatio: _cameraController!.value.aspectRatio,
-      child: CameraPreview(_cameraController!),
+      aspectRatio: _cameraController.value.aspectRatio,
+      child: CameraPreview(_cameraController),
     );
   }
 }

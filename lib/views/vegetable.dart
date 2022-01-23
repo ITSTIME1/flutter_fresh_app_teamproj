@@ -1,4 +1,3 @@
-import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:tflite/tflite.dart';
@@ -7,8 +6,9 @@ import 'package:tflite/tflite.dart';
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
 class Vegetable extends StatefulWidget {
-  final List<CameraDescription>? cameras;
-  const Vegetable({Key? key, this.cameras}) : super(key: key);
+  const Vegetable({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<Vegetable> createState() => _VegetableState();
@@ -80,10 +80,7 @@ class _VegetableState extends State<Vegetable> {
       ),
       body: Stack(
         children: [
-          Camera(
-            cameras: widget.cameras,
-            setRecognitions: setRecognitions,
-          ),
+          Camera(),
         ],
       ),
     );
