@@ -23,18 +23,20 @@ Future<void> main() async {
     blocObserver: AuthenticationBlocObserver(),
   );
 }
-// ** TeamApp 은 BlocProvder 를 이용하여 AuthenticationBloc, AuthenticationState 참조한다음
-// 상태에 따른 State 값을 변경하는 로직입니다.
 
-// AuthenticationInitial -> 초기 화면은 미리 구현해둔 SplashScreen() 으로 시작됩니다.
+// [TeamApp Bloc Logic]
 
-// AuthenticationSuccess -> 만약 Firebase Store에 정보가 있다면 그 정보를 가져오는 로직을
-// AuthenticationBloc 에서 로직을 돌립니다. 후에 그 정보값을 getUser() 값으로 불러와 State 값으로 전달합니다.
-// 하여 만약 유저의 정보가 올바른 정보라면 TeachableMachine() 페이지로 반환합니다.
+// [AuthenticationInitial] => 앱이 빌드 되었을때 AuthenticationStarted가 실행되게 됩니다.
+// AuthenticationStarted Event가 실행되면서 로그인 정보를 찾는 Logic 과정을 거치게 됩니다.
+// 자세한 로직 정보는 [AuthenticationStarted] 확인할 수 있습니다.
 
-// AuthenticationFailure -> 인증의 실패한 경우입니다. 인증의 실패했다는건 isSignedIn 로직에서 로그인된 사용자 정보가 틀리거나
-// 혹은 정보가 없을때 Failure 상태를 가져옵니다.
+// [AuthenticationSuccess] => AuthenticationStarted 로직을 수행한 후 로그인 정보를 가져왔을때 회원 정보가 Firebase Authentication 상에 있다면
+// AuthenticationSuccess 클래스 내부에 있는 user 정보를 받고 [TeachableMachine] 페이지로 이동 되게 됩니다.
 
+// [AuthenticationFailure] => AuthenticationStarted 로직을 수행한 후 로그인 정보가 없을때 [OnboardingScreen] 페이지로 이동 되게 됩니다.
+// 이유는 로그인 정보가 없다는 의미는 '앱을 처음 시작한다.' 혹은 '앱을 런치하고 나서 로그인을 하지 않았다' 입니다.
+//
+//
 class TeamApp extends StatefulWidget {
   const TeamApp({Key? key}) : super(key: key);
 

@@ -32,10 +32,10 @@ class AuthenticationBloc
     // User information
     if (isSignedIn) {
       final firebaseUser = await _userRepository.getUser();
-      await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 5));
       emit(AuthenticationSuccess(firebaseUser: firebaseUser!));
     } else {
-      await Future.delayed(const Duration(seconds: 10));
+      await Future.delayed(const Duration(seconds: 5));
       emit(AuthenticationFailure());
     }
   }

@@ -66,6 +66,7 @@ class _CameraState extends State<Camera> {
     super.dispose();
   }
 
+  // 카메라의 UI부분을 그리는 build Method 입니다.
   @override
   Widget build(BuildContext context) {
     // Camera 초기화 되지 않았을때 보여줄 UI.

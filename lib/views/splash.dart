@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-// ** 앱이 시작되면 처음에 표시될 화면입니다.
-// 수정사항 => 폰트, 색상, 사이즈 등은 수정이 꼭 필요합니다.
+// [SplashScreen]
+
+// SplashScreen 페이지는 앱이 처음 시작되었을때 나타나는 페이지입니다.
+// 결정사항 ['폰트', '로고', '색상']
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -45,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
               Text(
                 'Fresh',
                 style: TextStyle(
-                  fontSize: 100,
+                  fontSize: MediaQuery.of(context).size.width,
                   fontFamily: 'impact', // free font 'Impact'
                   shadows: [
                     Shadow(

@@ -4,11 +4,13 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_page.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 
-// [OnboardingScreen] =>  어플리케이션 소개화면
+// [OnboardingScreen]
 
+// OnboardingScreen은 앱의 소개 화면 입니다.
 // PageView를 활용해서 컨트롤 이전 if문을 사용했을때 리스트에 담겨있는
 // 인덱스 값이 오버플로우가 되면 어플 자체가 멈췄기 때문에
 // if문을 삭제하고 PageView 만을 사용했습니다.
+// 각각의 페이지가 구분이 되어 있어 수정으로는 각각의 PageViewModel() 내에서만 수정해주면 됩니다.
 
 class OnboardingScreen extends StatefulWidget {
   final UserRepository _userRepository;
