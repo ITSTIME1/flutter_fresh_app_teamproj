@@ -24,13 +24,15 @@ class Camera extends StatefulWidget {
 }
 
 // CameraState
-class _CameraState extends State<Camera> {
+class _CameraState extends State<Camera> with TickerProviderStateMixin {
   late CameraController _cameraController;
+  late AnimationController _animationController;
   bool isReady = false;
 
   @override
   void initState() {
     super.initState();
+    _animationController = AnimationController(vsync: this);
     // CameraController => ResolutionPreset.low high 등 카메라의 화질을 나타냄.
     _cameraController =
         CameraController(widget.cameras.first, ResolutionPreset.low);
@@ -64,6 +66,7 @@ class _CameraState extends State<Camera> {
   @override
   void dispose() {
     _cameraController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -76,8 +79,17 @@ class _CameraState extends State<Camera> {
     // Camera UI 가 보여지는 부분은 각각의 페이지에서 확인하면 됩니다.
 
     if (!_cameraController.value.isInitialized) {
-      return const Center(
-        child: CircularProgressIndicator(),
+      return Center(
+        // camera가 초기화 되기까지 CircleIndicatior를 보여줌.
+        // animation을 사용하여 indicator의 색상을 다이나믹 하게 변경함.
+        child: CircularProgressIndicator(
+          valueColor: _animationController.drive(
+            ColorTween(
+              begin: Colors.greenAccent,
+              end: Colors.white,
+            ),
+          ),
+        ),
       );
     }
     return Center(

@@ -61,19 +61,14 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             ],
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(
-                width: 30.0,
-                height: 30.0,
-                child: CircularProgressIndicator(
-                  valueColor: animationController.drive(
-                    ColorTween(begin: Colors.greenAccent, end: Colors.white),
-                  ),
-                ),
+          SizedBox(
+            width: 30.0,
+            height: 30.0,
+            child: CircularProgressIndicator(
+              valueColor: animationController.drive(
+                ColorTween(begin: Colors.greenAccent, end: Colors.white),
               ),
-            ],
+            ),
           ),
         ],
       ),
