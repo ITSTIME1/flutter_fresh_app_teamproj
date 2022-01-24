@@ -31,8 +31,9 @@ class _CameraState extends State<Camera> {
   @override
   void initState() {
     super.initState();
+    // CameraController => ResolutionPreset.low high 등 카메라의 화질을 나타냄.
     _cameraController =
-        CameraController(widget.cameras.first, ResolutionPreset.high);
+        CameraController(widget.cameras.first, ResolutionPreset.low);
     _cameraController.initialize().then((value) {
       if (!mounted) {
         return;
@@ -70,13 +71,29 @@ class _CameraState extends State<Camera> {
   @override
   Widget build(BuildContext context) {
     // Camera 초기화 되지 않았을때 보여줄 UI.
+    // Camera 부분만 빌드되는 것이기 때문에
+    // Camera '사이즈' 부분만 수정 요구 됩니다.
+    // Camera UI 가 보여지는 부분은 각각의 페이지에서 확인하면 됩니다.
+
     if (!_cameraController.value.isInitialized) {
       return const Center(
         child: CircularProgressIndicator(),
       );
     }
     return Center(
-      child: CameraPreview(_cameraController),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: SizedBox(
+              height: 300,
+              width: 600,
+              child: CameraPreview(_cameraController),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

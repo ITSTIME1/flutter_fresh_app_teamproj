@@ -15,7 +15,7 @@ import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 // Firebase.initializeApp(); -> Firebase를 사용하기 위해서 명시해주어야 합니다.
 // blocObserver: AuthenticationBlocObserver() -> 인증 절차를 밟을때 이벤트에 의해서 오류를 핸들링 하는 부분입니다.
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   BlocOverrides.runZoned(

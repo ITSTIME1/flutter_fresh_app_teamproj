@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
               Text(
                 'Fresh',
                 style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width,
+                  fontSize: MediaQuery.of(context).size.width / 6,
                   fontFamily: 'impact', // free font 'Impact'
                   shadows: [
                     Shadow(

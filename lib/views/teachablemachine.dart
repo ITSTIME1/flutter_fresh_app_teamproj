@@ -54,7 +54,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
       body: SafeArea(
         // ** All Swiper Size position change widget
         child: SizedBox(
-          height: 600,
+          height: 560,
           child: Swiper(
             //** Control 추가 여부는 상의해서. */
 
