@@ -142,7 +142,10 @@ class _TeachableMachineState extends State<TeachableMachine> {
                     ),
                   ),
 
-                  //** Image  */
+                  // [Image]
+                  // Image 를 클릭했을 때 availableCameras()를 실행 한다음에
+                  // 사용자에게 Camera 권한과 Voice 권한을 획득 후
+                  // 화면을 이동시키고 그 이후에 카메라 Preview를 보여줌.
 
                   Column(
                     children: [

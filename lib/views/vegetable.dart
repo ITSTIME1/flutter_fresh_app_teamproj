@@ -29,7 +29,6 @@ class _VegetableState extends State<Vegetable> {
   @override
   void dispose() {
     super.dispose();
-    loadTfliteModel();
   }
 
   // TensorfliteModel Function
@@ -46,7 +45,7 @@ class _VegetableState extends State<Vegetable> {
     if (outputs[0]['index'] == 0) {
       index = 0;
     } else {
-      index = 1;
+      index = 3;
     }
 
     confidence = outputs[0]['confidence'];
@@ -59,66 +58,64 @@ class _VegetableState extends State<Vegetable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // AppBar 부분 디자인.
+      // [AppBar]
+
       // AppBar 디자인 부분은 미팅 이후 변경.
-      appBar: AppBar(
-        elevation: 0.0,
-        actions: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(right: 18.0),
-                child: Icon(
-                  Icons.menu,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ],
-        backgroundColor: Colors.teal[200],
-        centerTitle: true,
-        title: const Text(
-          'TESTING',
-          style: TextStyle(
-            fontFamily: 'Sairafont',
-            fontSize: 25,
-            color: Colors.white,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   actions: [
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       // ignore: prefer_const_literals_to_create_immutables
+      //       children: [
+      //         const Padding(
+      //           padding: EdgeInsets.only(right: 18.0),
+      //           child: Icon(
+      //             Icons.menu,
+      //             size: 25,
+      //             color: Colors.white,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      //   backgroundColor: Colors.teal[200],
+      //   centerTitle: true,
+      //   title: const Text(
+      //     'TESTING',
+      //     style: TextStyle(
+      //       fontFamily: 'Sairafont',
+      //       fontSize: 25,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      // ),
       // body 부분은 가장 위에 카메라가 올려지고 그 이후에 다른 UI적 요소가 올라갑니다.
+
       body: Stack(
         children: [
           // 화면 상단 부분 카메라가 들어갈 박스.
-          Stack(
-            children: [
-              Container(
-                height: 300,
-                width: 700,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: const BorderRadius.only(
-                    bottomLeft: Radius.circular(20.0),
-                    bottomRight: Radius.circular(20.0),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.3),
-                      blurRadius: 20,
-                      offset: const Offset(2, 3),
-                    ),
-                  ],
-                ),
+          Container(
+            child: Camera(
+              cameras: widget.cameras,
+              setRecognitions: setRecognitions,
+            ),
+            height: 380,
+            width: 700,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(20.0),
+                bottomRight: Radius.circular(20.0),
               ),
-              // Camera(
-              //   setRecognitions: setRecognitions,
-              //   cameras: widget.cameras,
-              // ),
-            ],
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.3),
+                  blurRadius: 20,
+                  offset: const Offset(2, 3),
+                ),
+              ],
+            ),
           ),
 
           // TensorFlow Model UI

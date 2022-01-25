@@ -100,7 +100,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
             padding: const EdgeInsets.all(20.0),
             child: SizedBox(
               height: 300,
-              width: 600,
+              width: 500,
               child: CameraPreview(_cameraController),
             ),
           ),

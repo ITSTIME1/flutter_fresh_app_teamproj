@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:tflite/tflite.dart';
 
 // [과일인식 페이지]
@@ -23,6 +24,8 @@ class _FruitsState extends State<Fruits> {
     super.initState();
   }
 
+  // laodModel => About Fruits
+
   Future<void> loadTfliteModel() async {
     String? res;
     res = await Tflite.loadModel(
@@ -32,6 +35,7 @@ class _FruitsState extends State<Fruits> {
   }
 
   // Recognitions Function
+  // outputs을 값으로 받고
   setRecognitions(outputs) {
     if (outputs[0]['index'] == 0) {
       index = 0;
@@ -50,42 +54,46 @@ class _FruitsState extends State<Fruits> {
   Widget build(BuildContext context) {
     return Scaffold(
       // AppBar 부분 디자인.
-      appBar: AppBar(
-        elevation: 0.0,
-        actions: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            // ignore: prefer_const_literals_to_create_immutables
-            children: [
-              const Padding(
-                padding: EdgeInsets.only(right: 18.0),
-                child: Icon(
-                  Icons.menu,
-                  size: 25,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ],
-        backgroundColor: Colors.orange[200],
-        centerTitle: true,
-        title: const Text(
-          'FRUITS',
-          style: TextStyle(
-            fontFamily: 'Sairafont',
-            fontSize: 25,
-            color: Colors.white,
-          ),
-        ),
-      ),
+      // appBar: AppBar(
+      //   elevation: 0.0,
+      //   actions: [
+      //     Column(
+      //       mainAxisAlignment: MainAxisAlignment.center,
+      //       // ignore: prefer_const_literals_to_create_immutables
+      //       children: [
+      //         const Padding(
+      //           padding: EdgeInsets.only(right: 18.0),
+      //           child: Icon(
+      //             Icons.menu,
+      //             size: 25,
+      //             color: Colors.white,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ],
+      //   backgroundColor: Colors.orange[200],
+      //   centerTitle: true,
+      //   title: const Text(
+      //     'FRUITS',
+      //     style: TextStyle(
+      //       fontFamily: 'Sairafont',
+      //       fontSize: 25,
+      //       color: Colors.white,
+      //     ),
+      //   ),
+      // ),
       body: Stack(
         children: [
           // 화면 상단 부분 카메라가 들어갈 박스.
           Stack(
             children: [
               Container(
-                height: 300,
+                child: Camera(
+                  cameras: widget.cameras,
+                  setRecognitions: setRecognitions,
+                ),
+                height: 380,
                 width: 700,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -102,10 +110,6 @@ class _FruitsState extends State<Fruits> {
                   ],
                 ),
               ),
-              // Camera(
-              //   setRecognitions: setRecognitions,
-              //   cameras: widget.cameras,
-              // ),
             ],
           ),
 
