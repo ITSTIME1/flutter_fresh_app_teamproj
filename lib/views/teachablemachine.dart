@@ -64,7 +64,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
             // ),
 
             // Indicator need to change
-
+            curve: Curves.ease,
             pagination: SwiperPagination(
                 builder: DotSwiperPaginationBuilder(
               color: Colors.grey[350],
@@ -73,6 +73,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
               space: 4,
             )),
             layout: SwiperLayout.TINDER,
+
             itemCount: items.length,
             itemWidth: MediaQuery.of(context).size.width / 1 * 64,
             itemHeight: MediaQuery.of(context).size.height / 1 * 100,
@@ -187,13 +188,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             );
                           }
                         },
-                        child: SimpleShadow(
-                          child: Image.asset(items[index].image),
-                          opacity: 0.6,
-                          color: Colors.black,
-                          offset: const Offset(10, 10),
-                          sigma: 4,
-                        ),
+                        child: Image.asset(items[index].image),
                       ),
                     ],
                   ),

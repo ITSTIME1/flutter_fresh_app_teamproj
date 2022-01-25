@@ -35,7 +35,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
     _animationController = AnimationController(vsync: this);
     // CameraController => ResolutionPreset.low high 등 카메라의 화질을 나타냄.
     _cameraController =
-        CameraController(widget.cameras.first, ResolutionPreset.low);
+        CameraController(widget.cameras.first, ResolutionPreset.medium);
     _cameraController.initialize().then((value) {
       if (!mounted) {
         return;
