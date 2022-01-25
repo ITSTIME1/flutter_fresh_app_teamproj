@@ -170,14 +170,18 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             },
                           );
                           // 과일의 이미지를 Tap 했을때 => Fruits()
-                          if (items[index].image == 'lib/images/fruits.png') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Fruits(),
-                              ),
-                            );
-                          }
+                          await availableCameras().then((value) {
+                            if (items[index].image == 'lib/images/fruits.png') {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Fruits(
+                                    cameras: value,
+                                  ),
+                                ),
+                              );
+                            }
+                          });
                           // 음식의 이미지를 Tap 했을때 => Food()
                           if (items[index].image == 'lib/images/food.png') {
                             Navigator.push(

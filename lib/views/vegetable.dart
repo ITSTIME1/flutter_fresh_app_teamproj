@@ -33,7 +33,7 @@ class _VegetableState extends State<Vegetable> {
   }
 
   // TensorfliteModel Function
-  loadTfliteModel() async {
+  Future<void> loadTfliteModel() async {
     String? res;
     res = await Tflite.loadModel(
       model: 'lib/assets/model_unquant.tflite',
