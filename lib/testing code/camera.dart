@@ -42,29 +42,29 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
     _cameraController =
         CameraController(widget.cameras.first, ResolutionPreset.medium);
     _cameraController.initialize().then((value) {
+      // 마운트가 되지 않았다면 즉 카메라가 연결이 되지 않았다면
       if (!mounted) {
-        return;
+        return const CircularProgressIndicator();
       }
-      setState(() {});
-
-      //카메라 컨트롤러를 사용하여 각 프레임을 캡쳐한 다음 인식을 합니다.
-      _cameraController.startImageStream((image) {
-        if (!isReady) {
-          isReady = true;
-          Tflite.runModelOnFrame(
-            bytesList: image.planes.map((plane) {
-              return plane.bytes;
-            }).toList(),
-            imageHeight: image.height,
-            imageWidth: image.width,
-            numResults: 1,
-          ).then((value) {
-            if (value!.isNotEmpty) {
-              widget.setRecognitions!(value);
-              isReady = false;
-            }
-          });
-        }
+      setState(() {
+        _cameraController.startImageStream((image) {
+          if (!isReady) {
+            isReady = true;
+            Tflite.runModelOnFrame(
+              bytesList: image.planes.map((plane) {
+                return plane.bytes;
+              }).toList(),
+              imageHeight: image.height,
+              imageWidth: image.width,
+              numResults: 4,
+            ).then((value) {
+              if (value!.isNotEmpty) {
+                widget.setRecognitions!(value);
+                isReady = false;
+              }
+            });
+          }
+        });
       });
     });
   }

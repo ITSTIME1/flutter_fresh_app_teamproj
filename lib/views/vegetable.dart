@@ -4,6 +4,7 @@ import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:tflite/tflite.dart';
 
 // [야채인식 페이지]
+
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
 // ignore: must_be_immutable
@@ -16,19 +17,17 @@ class Vegetable extends StatefulWidget {
 }
 
 class _VegetableState extends State<Vegetable> {
+  // 결과값
   String predOne = '';
+  // 예측값
   double confidence = 0;
+
   double index = 0;
 
   @override
   void initState() {
     super.initState();
     loadTfliteModel();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   // TensorfliteModel Function
@@ -40,19 +39,26 @@ class _VegetableState extends State<Vegetable> {
     );
   }
 
-  // Recognitions Function
+  // recognition function
+
+  // setstate
   setRecognitions(outputs) {
     if (outputs[0]['index'] == 0) {
       index = 0;
-    } else {
-      index = 3;
+      index = 1;
     }
-
+    // 예측값저장.
     confidence = outputs[0]['confidence'];
 
     setState(() {
       predOne = outputs[0]['label'];
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    loadTfliteModel();
   }
 
   @override
@@ -94,256 +100,127 @@ class _VegetableState extends State<Vegetable> {
 
       body: Stack(
         children: [
-          // 화면 상단 부분 카메라가 들어갈 박스.
-          Container(
-            child: Camera(
-              cameras: widget.cameras,
-              setRecognitions: setRecognitions,
-            ),
-            height: 380,
-            width: 700,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: const BorderRadius.only(
-                bottomLeft: Radius.circular(20.0),
-                bottomRight: Radius.circular(20.0),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.3),
-                  blurRadius: 20,
-                  offset: const Offset(2, 3),
-                ),
-              ],
-            ),
+          Camera(
+            cameras: widget.cameras,
+            setRecognitions: setRecognitions,
           ),
-
-          // TensorFlow Model UI
           Align(
             alignment: Alignment.bottomCenter,
             child: Padding(
-              padding: const EdgeInsets.all(6.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      children: [
-                        // First Value UI
-                        Row(
-                          children: [
-                            // Text 부분
-                            const Expanded(
-                              flex: 2,
-                              child: Text(
-                                '테스트',
-                                style: TextStyle(
-                                    color: Colors.redAccent,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.0),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 15.0,
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: SizedBox(
-                                height: 32.0,
-                                child: Stack(
-                                  children: [
-                                    // TensorFlow Model 값에 의해서 변경되는 부분.
-                                    LinearProgressIndicator(
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                              Colors.redAccent),
-                                      value: index == 0 ? confidence : 0.0,
-                                      backgroundColor:
-                                          Colors.redAccent.withOpacity(0.3),
-                                      minHeight: 50.0,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
-                                      ),
-                                    ),
-                                  ],
+              padding: const EdgeInsets.all(16.0),
+              child: Card(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const Expanded(
+                                flex: 2,
+                                child: Text(
+                                  'Apple',
+                                  style: TextStyle(
+                                      color: Colors.redAccent,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.0),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-
-                        // Second Value UI
-                        Row(
-                          children: [
-                            const Expanded(
-                              flex: 2,
-                              child: Text(
-                                '테스트',
-                                style: TextStyle(
-                                    color: Colors.orangeAccent,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.0),
+                              const SizedBox(
+                                width: 16.0,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: SizedBox(
-                                height: 32.0,
-                                child: Stack(
-                                  children: [
-                                    LinearProgressIndicator(
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                              Colors.orangeAccent),
-                                      value: index == 1 ? confidence : 0.0,
-                                      backgroundColor:
-                                          Colors.orangeAccent.withOpacity(0.2),
-                                      minHeight: 50.0,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 1 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
+                              Expanded(
+                                flex: 8,
+                                child: SizedBox(
+                                  height: 32.0,
+                                  child: Stack(
+                                    children: [
+                                      LinearProgressIndicator(
+                                        valueColor:
+                                            const AlwaysStoppedAnimation<Color>(
+                                                Colors.redAccent),
+                                        value:
+                                            index == 0 & 1 ? confidence : 0.0,
+                                        backgroundColor:
+                                            Colors.redAccent.withOpacity(0.2),
+                                        minHeight: 50.0,
                                       ),
-                                    ),
-                                  ],
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0} %',
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20.0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Row(
+                            children: [
+                              const Expanded(
+                                flex: 2,
+                                child: Text(
+                                  'Orange',
+                                  style: TextStyle(
+                                      color: Colors.orangeAccent,
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 20.0),
                                 ),
                               ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-
-                        // Third Value UI
-                        Row(
-                          children: [
-                            const Expanded(
-                              flex: 2,
-                              child: Text(
-                                '테스트',
-                                style: TextStyle(
-                                    color: Colors.blueAccent,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.0),
+                              const SizedBox(
+                                width: 16.0,
                               ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: SizedBox(
-                                height: 32.0,
-                                child: Stack(
-                                  children: [
-                                    LinearProgressIndicator(
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                              Colors.blueAccent),
-                                      value: index == 1 ? confidence : 0.0,
-                                      backgroundColor:
-                                          Colors.blueAccent.withOpacity(0.2),
-                                      minHeight: 50.0,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 2 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
+                              Expanded(
+                                flex: 8,
+                                child: SizedBox(
+                                  height: 32.0,
+                                  child: Stack(
+                                    children: [
+                                      LinearProgressIndicator(
+                                        valueColor:
+                                            const AlwaysStoppedAnimation<Color>(
+                                                Colors.orangeAccent),
+                                        value: index == 1 ? confidence : 0.0,
+                                        backgroundColor: Colors.orangeAccent
+                                            .withOpacity(0.2),
+                                        minHeight: 50.0,
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-
-                        const SizedBox(
-                          height: 16.0,
-                        ),
-
-                        // Fourth Value UI
-                        Row(
-                          children: [
-                            const Expanded(
-                              flex: 2,
-                              child: Text(
-                                '테스트',
-                                style: TextStyle(
-                                    color: Colors.greenAccent,
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15.0),
-                              ),
-                            ),
-                            const SizedBox(
-                              width: 16.0,
-                            ),
-                            Expanded(
-                              flex: 8,
-                              child: SizedBox(
-                                height: 32.0,
-                                child: Stack(
-                                  children: [
-                                    LinearProgressIndicator(
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                              Colors.greenAccent),
-                                      value: index == 1 ? confidence : 0.0,
-                                      backgroundColor:
-                                          Colors.greenAccent.withOpacity(0.2),
-                                      minHeight: 50.0,
-                                    ),
-                                    Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 2 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
+                                      Align(
+                                        alignment: Alignment.centerRight,
+                                        child: Text(
+                                          '${index == 1 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: 20.0),
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 25.0,
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                              )
+                            ],
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
+          )
         ],
       ),
     );

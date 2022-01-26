@@ -35,8 +35,7 @@ void main() async {
 
 // [AuthenticationFailure] => AuthenticationStarted 로직을 수행한 후 로그인 정보가 없을때 [OnboardingScreen] 페이지로 이동 되게 됩니다.
 // 이유는 로그인 정보가 없다는 의미는 '앱을 처음 시작한다.' 혹은 '앱을 런치하고 나서 로그인을 하지 않았다' 입니다.
-//
-//
+
 class TeamApp extends StatefulWidget {
   const TeamApp({Key? key}) : super(key: key);
 
