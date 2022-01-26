@@ -44,8 +44,15 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
     _cameraController.initialize().then((value) {
       // 마운트가 되지 않았다면 즉 카메라가 연결이 되지 않았다면
       if (!mounted) {
-        return const CircularProgressIndicator();
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          // ignore: prefer_const_literals_to_create_immutables
+          children: [
+            const CircularProgressIndicator(),
+          ],
+        );
       }
+      // 화면이 연결 되었다면 화면에 나오는 image를 프레임단위로 받음.
       setState(() {
         _cameraController.startImageStream((image) {
           if (!isReady) {
@@ -100,15 +107,12 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
     } else {
       return Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: SizedBox(
-                height: 300,
-                width: 500,
-                child: CameraPreview(_cameraController),
-              ),
+            SizedBox(
+              height: 450,
+              width: 500,
+              child: CameraPreview(_cameraController),
             ),
           ],
         ),

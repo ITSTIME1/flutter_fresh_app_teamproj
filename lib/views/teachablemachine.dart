@@ -19,8 +19,6 @@ import 'package:simple_shadow/simple_shadow.dart';
 // [랜덤음식추천] 기능의 대해서는 추가적인 알고리즘이 필요합니다.
 
 class TeachableMachine extends StatefulWidget {
-  final UserRepository _userRepository;
-
   // : 세미콜런의 의미는 외부에서 값을 새로 받겠다는 의미이다.
   // user의 정보를 가지고 있는 즉 Firebase 의 정보는 userRepository 클래스 안에 있으므로
   // 클래스 내부에서 데이터를 처리하는게 아니라 외부에서 데이터를 받아올때 : 세미콜론을 사용해서
@@ -28,8 +26,7 @@ class TeachableMachine extends StatefulWidget {
   const TeachableMachine({
     Key? key,
     required UserRepository userRepository,
-  })  : _userRepository = userRepository,
-        super(key: key);
+  }) : super(key: key);
 
   @override
   _TeachableMachineState createState() => _TeachableMachineState();
@@ -195,7 +192,13 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             );
                           }
                         },
-                        child: Image.asset(items[index].image),
+                        child: Center(
+                          child: Image.asset(
+                            items[index].image,
+                            height: 300,
+                            width: 300,
+                          ),
+                        ),
                       ),
                     ],
                   ),

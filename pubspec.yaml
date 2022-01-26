@@ -48,6 +48,7 @@ dependencies:
   simple_shadow: ^0.3.0
   camera: ^0.9.4+5
   tflite: ^1.1.2
+  sliding_up_panel: ^2.0.0+1
 
 
 

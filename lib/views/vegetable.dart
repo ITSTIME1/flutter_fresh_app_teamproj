@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tflite/tflite.dart';
 
 // [야채인식 페이지]
@@ -26,17 +27,25 @@ class _VegetableState extends State<Vegetable> {
 
   @override
   void initState() {
+    if (mounted) {
+      setState(() {
+        loadTfliteModel();
+      });
+    } else {
+      dispose();
+    }
     super.initState();
-    loadTfliteModel();
   }
 
   // TensorfliteModel Function
   Future<void> loadTfliteModel() async {
     String? res;
-    res = await Tflite.loadModel(
-      model: 'lib/assets/model_unquant.tflite',
-      labels: "lib/assets/labels.txt",
-    );
+    if (mounted) {
+      res = await Tflite.loadModel(
+        model: 'lib/assets/model_unquant.tflite',
+        labels: "lib/assets/labels.txt",
+      );
+    }
   }
 
   // recognition function
@@ -45,7 +54,6 @@ class _VegetableState extends State<Vegetable> {
   setRecognitions(outputs) {
     if (outputs[0]['index'] == 0) {
       index = 0;
-      index = 1;
     }
     // 예측값저장.
     confidence = outputs[0]['confidence'];
@@ -100,125 +108,288 @@ class _VegetableState extends State<Vegetable> {
 
       body: Stack(
         children: [
-          Camera(
-            cameras: widget.cameras,
-            setRecognitions: setRecognitions,
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Card(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
+          // Camera(
+          //   cameras: widget.cameras,
+          //   setRecognitions: setRecognitions,
+          // ),
+          SlidingUpPanel(
+            maxHeight: 260,
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(20),
+              topRight: Radius.circular(20),
+            ),
+            panel: Stack(
+              children: [
+                // First Data UI
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  // ignore: prefer_const_literals_to_create_immutables
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
+                    const Icon(
+                      Icons.drag_handle_rounded,
+                      color: Colors.grey,
+                      size: 25,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 40.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // First value
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
                         children: [
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: Text(
-                                  'Apple',
-                                  style: TextStyle(
-                                      color: Colors.redAccent,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.0),
+                          const Expanded(
+                            flex: 3,
+                            // Need Padding
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                '추천해요',
+                                style: TextStyle(
+                                  fontSize: 18.0,
                                 ),
                               ),
-                              const SizedBox(
-                                width: 16.0,
-                              ),
-                              Expanded(
-                                flex: 8,
-                                child: SizedBox(
-                                  height: 32.0,
-                                  child: Stack(
-                                    children: [
-                                      LinearProgressIndicator(
-                                        valueColor:
-                                            const AlwaysStoppedAnimation<Color>(
-                                                Colors.redAccent),
-                                        value:
-                                            index == 0 & 1 ? confidence : 0.0,
-                                        backgroundColor:
-                                            Colors.redAccent.withOpacity(0.2),
-                                        minHeight: 50.0,
-                                      ),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0} %',
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20.0),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              )
-                            ],
+                            ),
                           ),
                           const SizedBox(
                             height: 16.0,
                           ),
-                          Row(
-                            children: [
-                              const Expanded(
-                                flex: 2,
-                                child: Text(
-                                  'Orange',
-                                  style: TextStyle(
-                                      color: Colors.orangeAccent,
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 20.0),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 16.0,
-                              ),
-                              Expanded(
-                                flex: 8,
-                                child: SizedBox(
-                                  height: 32.0,
-                                  child: Stack(
-                                    children: [
-                                      LinearProgressIndicator(
-                                        valueColor:
-                                            const AlwaysStoppedAnimation<Color>(
-                                                Colors.orangeAccent),
-                                        value: index == 1 ? confidence : 0.0,
-                                        backgroundColor: Colors.orangeAccent
-                                            .withOpacity(0.2),
-                                        minHeight: 50.0,
+                          Expanded(
+                            flex: 7,
+                            child: SizedBox(
+                              height: 32.0,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: LinearProgressIndicator(
+                                      // 실제 프로그래스 색상.
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreen,
                                       ),
-                                      Align(
-                                        alignment: Alignment.centerRight,
-                                        child: Text(
-                                          '${index == 1 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                          style: const TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.w600,
-                                              fontSize: 20.0),
-                                        ),
-                                      ),
-                                    ],
+                                      value: index == 0 ? confidence : 0.0,
+                                      backgroundColor: Colors.grey[200],
+                                      minHeight: 50.0,
+                                    ),
                                   ),
-                                ),
-                              )
-                            ],
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
                       ),
-                    )
-                  ],
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // Second Data UI
+
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Expanded(
+                            flex: 3,
+                            // Need Padding
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                '괜찮아요',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: SizedBox(
+                              height: 32.0,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: LinearProgressIndicator(
+                                      // 실제 프로그래스 색상.
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreen,
+                                      ),
+                                      value: index == 0 ? confidence : 0.0,
+                                      backgroundColor: Colors.grey[200],
+                                      minHeight: 50.0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+                      // Third Data UI
+
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Expanded(
+                            flex: 3,
+                            // Need Padding
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                '좋지않아요',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: SizedBox(
+                              height: 32.0,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: LinearProgressIndicator(
+                                      // 실제 프로그래스 색상.
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreen,
+                                      ),
+                                      value: index == 0 ? confidence : 0.0,
+                                      backgroundColor: Colors.grey[200],
+                                      minHeight: 50.0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
+
+                      // Last Data UI
+
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Expanded(
+                            flex: 3,
+                            // Need Padding
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                '인식이..',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: SizedBox(
+                              height: 32.0,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: LinearProgressIndicator(
+                                      // 실제 프로그래스 색상.
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                        Colors.lightGreen,
+                                      ),
+                                      value: index == 0 ? confidence : 0.0,
+                                      backgroundColor: Colors.grey[200],
+                                      minHeight: 50.0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
           )
         ],
