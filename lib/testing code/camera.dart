@@ -34,6 +34,11 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
     super.initState();
     _animationController = AnimationController(vsync: this);
     // CameraController => ResolutionPreset.low high 등 카메라의 화질을 나타냄.
+    initCamera();
+  }
+
+  // Camera Initialize and StreamImage
+  initCamera() {
     _cameraController =
         CameraController(widget.cameras.first, ResolutionPreset.medium);
     _cameraController.initialize().then((value) {
@@ -42,6 +47,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
       }
       setState(() {});
 
+      //카메라 컨트롤러를 사용하여 각 프레임을 캡쳐한 다음 인식을 합니다.
       _cameraController.startImageStream((image) {
         if (!isReady) {
           isReady = true;
@@ -91,21 +97,22 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
           ),
         ),
       );
-    }
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: SizedBox(
-              height: 300,
-              width: 500,
-              child: CameraPreview(_cameraController),
+    } else {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: SizedBox(
+                height: 300,
+                width: 500,
+                child: CameraPreview(_cameraController),
+              ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    }
   }
 }
