@@ -152,8 +152,8 @@ class _TeachableMachineState extends State<TeachableMachine> {
                       // 이미지를 클릭했을때 이동되는 페이지.
                       InkWell(
                         onTap: () async {
-                          // 이용가능한 카메라를 가져온 뒤에
-                          // 이미지를 눌렀을때 조건이 맞으면 Vegetable() 페이지로 이동.
+                          // 각 이미지에 해당하는 버튼을 눌렀을때 사용가능한 카메라를 가져오고
+                          // 그 이미지를 눌렀을때 if문 조건대로 페이지 이동.
                           await availableCameras().then(
                             (value) {
                               if (items[index].image ==
@@ -166,23 +166,21 @@ class _TeachableMachineState extends State<TeachableMachine> {
                                     ),
                                   ),
                                 );
+                              } else if (items[index].image ==
+                                  'lib/images/food.png') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Fruits(
+                                      cameras: value,
+                                    ),
+                                  ),
+                                );
                               }
                             },
                           );
-                          // 과일의 이미지를 Tap 했을때 => Fruits()
-                          await availableCameras().then((value) {
-                            if (items[index].image == 'lib/images/fruits.png') {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Fruits(
-                                    cameras: value,
-                                  ),
-                                ),
-                              );
-                            }
-                          });
-                          // 음식의 이미지를 Tap 했을때 => Food()
+                          // Food 페이지는 랜덤으로 음식을 받는 거기 때문에
+                          // 추가적인 사용가능한 카메라는 없어도 됨.
                           if (items[index].image == 'lib/images/food.png') {
                             Navigator.push(
                               context,
