@@ -199,9 +199,10 @@ class _VegetableState extends State<Vegetable> {
                                       child: Text(
                                         '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0} %',
                                         style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20.0,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -261,9 +262,10 @@ class _VegetableState extends State<Vegetable> {
                                       child: Text(
                                         '${index == 1 ? (confidence * 100).toStringAsFixed(2) : 0} %',
                                         style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 20.0,
+                                        ),
                                       ),
                                     ),
                                   ),
