@@ -43,6 +43,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
         CameraController(widget.cameras.first, ResolutionPreset.medium);
     _cameraController.initialize().then((value) {
       // 마운트가 되지 않았다면 즉 카메라가 연결이 되지 않았다면
+      // CircleIndicator를 UI에 보여줌.
       if (!mounted) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -57,6 +58,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
         _cameraController.startImageStream((image) {
           if (!isReady) {
             isReady = true;
+            // Run on image stream (video frame)
             Tflite.runModelOnFrame(
               bytesList: image.planes.map((plane) {
                 return plane.bytes;
@@ -110,7 +112,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
-              height: 450,
+              height: 560,
               width: 500,
               child: CameraPreview(_cameraController),
             ),

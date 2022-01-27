@@ -1,4 +1,5 @@
 import 'package:camera/camera.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -20,6 +21,9 @@ class Vegetable extends StatefulWidget {
 class _VegetableState extends State<Vegetable> {
   // 결과값
   String predOne = '';
+  // loadModel Value
+  String? res;
+
   // 예측값
   double confidence = 0;
 
@@ -31,40 +35,47 @@ class _VegetableState extends State<Vegetable> {
       setState(() {
         loadTfliteModel();
       });
-    } else {
-      dispose();
     }
     super.initState();
   }
 
-  // TensorfliteModel Function
+  // [TensorfliteModel Function]
+
   Future<void> loadTfliteModel() async {
-    String? res;
     if (mounted) {
       res = await Tflite.loadModel(
         model: 'lib/assets/model_unquant.tflite',
         labels: "lib/assets/labels.txt",
       );
+    } else {
+      const CircularProgressIndicator();
     }
   }
 
-  // recognition function
+  // [Recognition Function]
 
-  // setstate
-  setRecognitions(outputs) {
-    if (outputs[0]['index'] == 0) {
-      index = 0;
+  Future<dynamic> setRecognitions(outputs) async {
+    // Outputs index == 0 이라면 index = 0
+    // index 별로 if문 실행.
+    if (mounted) {
+      if (outputs[0]['index'] == 0) {
+        index = 0;
+        confidence = outputs[0]['confidence'];
+      } else if (outputs[0]['index'] == 1) {
+        index = 1;
+        confidence = outputs[0]['confidence'];
+      }
+
+      setState(() {
+        predOne = outputs[0]['label'];
+      });
+    } else {
+      const CircularProgressIndicator();
     }
-    // 예측값저장.
-    confidence = outputs[0]['confidence'];
-
-    setState(() {
-      predOne = outputs[0]['label'];
-    });
   }
 
   @override
-  void dispose() {
+  void dispose() async {
     super.dispose();
     loadTfliteModel();
   }
@@ -108,10 +119,10 @@ class _VegetableState extends State<Vegetable> {
 
       body: Stack(
         children: [
-          // Camera(
-          //   cameras: widget.cameras,
-          //   setRecognitions: setRecognitions,
-          // ),
+          Camera(
+            cameras: widget.cameras,
+            setRecognitions: setRecognitions,
+          ),
           SlidingUpPanel(
             maxHeight: 260,
             borderRadius: const BorderRadius.only(
@@ -184,8 +195,9 @@ class _VegetableState extends State<Vegetable> {
                                     padding: const EdgeInsets.only(right: 12.0),
                                     child: Align(
                                       alignment: Alignment.centerRight,
+                                      // % 숫자
                                       child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0} %',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
@@ -237,7 +249,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.lightGreen,
                                       ),
-                                      value: index == 0 ? confidence : 0.0,
+                                      value: index == 1 ? confidence : 0.0,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
@@ -247,7 +259,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                                        '${index == 1 ? (confidence * 100).toStringAsFixed(2) : 0} %',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
@@ -266,126 +278,126 @@ class _VegetableState extends State<Vegetable> {
                       ),
                       // Third Data UI
 
-                      Row(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          const Expanded(
-                            flex: 3,
-                            // Need Padding
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15.0),
-                              child: Text(
-                                '좋지않아요',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          Expanded(
-                            flex: 7,
-                            child: SizedBox(
-                              height: 32.0,
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: LinearProgressIndicator(
-                                      // 실제 프로그래스 색상.
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                        Colors.lightGreen,
-                                      ),
-                                      value: index == 0 ? confidence : 0.0,
-                                      backgroundColor: Colors.grey[200],
-                                      minHeight: 50.0,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 12.0),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 16.0,
-                      ),
+                      // Row(
+                      //   // ignore: prefer_const_literals_to_create_immutables
+                      //   children: [
+                      //     const Expanded(
+                      //       flex: 3,
+                      //       // Need Padding
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 15.0),
+                      //         child: Text(
+                      //           '좋지않아요',
+                      //           style: TextStyle(
+                      //             fontSize: 18.0,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     const SizedBox(
+                      //       height: 16.0,
+                      //     ),
+                      //     Expanded(
+                      //       flex: 7,
+                      //       child: SizedBox(
+                      //         height: 32.0,
+                      //         child: Stack(
+                      //           children: [
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(right: 10.0),
+                      //               child: LinearProgressIndicator(
+                      //                 // 실제 프로그래스 색상.
+                      //                 valueColor:
+                      //                     const AlwaysStoppedAnimation<Color>(
+                      //                   Colors.lightGreen,
+                      //                 ),
+                      //                 value: index == 0 ? confidence : 0.0,
+                      //                 backgroundColor: Colors.grey[200],
+                      //                 minHeight: 50.0,
+                      //               ),
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(right: 12.0),
+                      //               child: Align(
+                      //                 alignment: Alignment.centerRight,
+                      //                 child: Text(
+                      //                   '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                      //                   style: const TextStyle(
+                      //                       color: Colors.white,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 20.0),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
+                      // const SizedBox(
+                      //   height: 16.0,
+                      // ),
 
-                      // Last Data UI
+                      // // Last Data UI
 
-                      Row(
-                        // ignore: prefer_const_literals_to_create_immutables
-                        children: [
-                          const Expanded(
-                            flex: 3,
-                            // Need Padding
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 15.0),
-                              child: Text(
-                                '인식이..',
-                                style: TextStyle(
-                                  fontSize: 18.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 16.0,
-                          ),
-                          Expanded(
-                            flex: 7,
-                            child: SizedBox(
-                              height: 32.0,
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
-                                    child: LinearProgressIndicator(
-                                      // 실제 프로그래스 색상.
-                                      valueColor:
-                                          const AlwaysStoppedAnimation<Color>(
-                                        Colors.lightGreen,
-                                      ),
-                                      value: index == 0 ? confidence : 0.0,
-                                      backgroundColor: Colors.grey[200],
-                                      minHeight: 50.0,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(right: 12.0),
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                                        style: const TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 20.0),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      // Row(
+                      //   // ignore: prefer_const_literals_to_create_immutables
+                      //   children: [
+                      //     const Expanded(
+                      //       flex: 3,
+                      //       // Need Padding
+                      //       child: Padding(
+                      //         padding: EdgeInsets.only(left: 15.0),
+                      //         child: Text(
+                      //           '인식이..',
+                      //           style: TextStyle(
+                      //             fontSize: 18.0,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //     ),
+                      //     const SizedBox(
+                      //       height: 16.0,
+                      //     ),
+                      //     Expanded(
+                      //       flex: 7,
+                      //       child: SizedBox(
+                      //         height: 32.0,
+                      //         child: Stack(
+                      //           children: [
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(right: 10.0),
+                      //               child: LinearProgressIndicator(
+                      //                 // 실제 프로그래스 색상.
+                      //                 valueColor:
+                      //                     const AlwaysStoppedAnimation<Color>(
+                      //                   Colors.lightGreen,
+                      //                 ),
+                      //                 value: index == 0 ? confidence : 0.0,
+                      //                 backgroundColor: Colors.grey[200],
+                      //                 minHeight: 50.0,
+                      //               ),
+                      //             ),
+                      //             Padding(
+                      //               padding: const EdgeInsets.only(right: 12.0),
+                      //               child: Align(
+                      //                 alignment: Alignment.centerRight,
+                      //                 child: Text(
+                      //                   '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
+                      //                   style: const TextStyle(
+                      //                       color: Colors.white,
+                      //                       fontWeight: FontWeight.w600,
+                      //                       fontSize: 20.0),
+                      //                 ),
+                      //               ),
+                      //             ),
+                      //           ],
+                      //         ),
+                      //       ),
+                      //     ),
+                      //   ],
+                      // ),
                     ],
                   ),
                 ),

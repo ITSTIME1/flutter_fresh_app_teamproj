@@ -180,7 +180,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             },
                           );
                           // Food 페이지는 랜덤으로 음식을 받는 거기 때문에
-                          // 추가적인 사용가능한 카메라는 없어도 됨.
+                          // 추가적인 카메라 기능은 사용하지 않음.
                           if (items[index].image == 'lib/images/food.png') {
                             Navigator.push(
                               context,

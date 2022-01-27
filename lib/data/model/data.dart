@@ -3,7 +3,7 @@
 // 후에 추가적으로 추가되어야 하는 컨포넌나 위젯이 있다면 이 파일에 추가해주면 됩니다.*/
 class Item {
   final int position;
-  final dynamic image;
+  late final dynamic image;
   final String title;
   final String subtitle;
 
