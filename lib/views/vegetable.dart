@@ -1,11 +1,10 @@
 import 'package:camera/camera.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:tflite/tflite.dart';
 
-// [야채인식 페이지]
+// [Vegetable]
 
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
@@ -248,7 +247,7 @@ class _VegetableState extends State<Vegetable> {
                                       // 실제 프로그래스 색상.
                                       valueColor:
                                           const AlwaysStoppedAnimation<Color>(
-                                        Colors.lightGreen,
+                                        Colors.orangeAccent,
                                       ),
                                       value: index == 1 ? confidence : 0.0,
                                       backgroundColor: Colors.grey[200],
