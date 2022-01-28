@@ -29,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
+  // 기존 background color 167, 248, 154, 0.82
+  // new background color 194, 255, 147, 70
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen>
           Container(
             decoration: const BoxDecoration(
               color: Color.fromRGBO(
-                  167, 248, 154, 0.82), // main color hex -> rgba value
+                  194, 255, 147, 70), // main color hex -> rgba value
             ),
           ),
           Column(
@@ -48,22 +50,15 @@ class _SplashScreenState extends State<SplashScreen>
                 'Fresh',
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width / 6,
-                  fontFamily: 'impact', // free font 'Impact'
-                  shadows: [
-                    Shadow(
-                      color: Colors.black.withOpacity(0.2),
-                      offset: const Offset(10, 10),
-                      blurRadius: 4,
-                    ),
-                  ],
+                  fontFamily: 'Sairafont', // free font 'Impact'
                   color: Colors.white,
                 ),
               ),
             ],
           ),
           SizedBox(
-            width: 30.0,
-            height: 30.0,
+            width: MediaQuery.of(context).size.width / 6,
+            height: MediaQuery.of(context).size.height / 6,
             child: CircularProgressIndicator(
               valueColor: animationController.drive(
                 ColorTween(begin: Colors.greenAccent, end: Colors.white),

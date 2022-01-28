@@ -20,13 +20,13 @@ class Vegetable extends StatefulWidget {
 class _VegetableState extends State<Vegetable> {
   // 결과값
   String predOne = '';
-  // loadModel Value
+  // 텐서플로 모델 받는 변수
   String? res;
 
   // 예측값
   double confidence = 0;
-
-  double index = 0;
+  // 해당 인덱스
+  int index = 0;
 
   @override
   void initState() {
@@ -62,6 +62,9 @@ class _VegetableState extends State<Vegetable> {
         confidence = outputs[0]['confidence'];
       } else if (outputs[0]['index'] == 1) {
         index = 1;
+        confidence = outputs[0]['confidence'];
+      } else if (outputs[0]['index'] == 2) {
+        index = 2;
         confidence = outputs[0]['confidence'];
       }
 
@@ -225,7 +228,7 @@ class _VegetableState extends State<Vegetable> {
                             child: Padding(
                               padding: EdgeInsets.only(left: 15.0),
                               child: Text(
-                                '괜찮아요',
+                                '추천하지않아요',
                                 style: TextStyle(
                                   fontSize: 18.0,
                                 ),
@@ -279,68 +282,68 @@ class _VegetableState extends State<Vegetable> {
                       ),
                       // Third Data UI
 
-                      // Row(
-                      //   // ignore: prefer_const_literals_to_create_immutables
-                      //   children: [
-                      //     const Expanded(
-                      //       flex: 3,
-                      //       // Need Padding
-                      //       child: Padding(
-                      //         padding: EdgeInsets.only(left: 15.0),
-                      //         child: Text(
-                      //           '좋지않아요',
-                      //           style: TextStyle(
-                      //             fontSize: 18.0,
-                      //           ),
-                      //         ),
-                      //       ),
-                      //     ),
-                      //     const SizedBox(
-                      //       height: 16.0,
-                      //     ),
-                      //     Expanded(
-                      //       flex: 7,
-                      //       child: SizedBox(
-                      //         height: 32.0,
-                      //         child: Stack(
-                      //           children: [
-                      //             Padding(
-                      //               padding: const EdgeInsets.only(right: 10.0),
-                      //               child: LinearProgressIndicator(
-                      //                 // 실제 프로그래스 색상.
-                      //                 valueColor:
-                      //                     const AlwaysStoppedAnimation<Color>(
-                      //                   Colors.lightGreen,
-                      //                 ),
-                      //                 value: index == 0 ? confidence : 0.0,
-                      //                 backgroundColor: Colors.grey[200],
-                      //                 minHeight: 50.0,
-                      //               ),
-                      //             ),
-                      //             Padding(
-                      //               padding: const EdgeInsets.only(right: 12.0),
-                      //               child: Align(
-                      //                 alignment: Alignment.centerRight,
-                      //                 child: Text(
-                      //                   '${index == 0 ? (confidence * 100).toStringAsFixed(0) : 0} %',
-                      //                   style: const TextStyle(
-                      //                       color: Colors.white,
-                      //                       fontWeight: FontWeight.w600,
-                      //                       fontSize: 20.0),
-                      //                 ),
-                      //               ),
-                      //             ),
-                      //           ],
-                      //         ),
-                      //       ),
-                      //     ),
-                      //   ],
-                      // ),
-                      // const SizedBox(
-                      //   height: 16.0,
-                      // ),
+                      Row(
+                        // ignore: prefer_const_literals_to_create_immutables
+                        children: [
+                          const Expanded(
+                            flex: 3,
+                            // Need Padding
+                            child: Padding(
+                              padding: EdgeInsets.only(left: 15.0),
+                              child: Text(
+                                '다른샘플..?',
+                                style: TextStyle(
+                                  fontSize: 18.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 16.0,
+                          ),
+                          Expanded(
+                            flex: 7,
+                            child: SizedBox(
+                              height: 32.0,
+                              child: Stack(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 10.0),
+                                    child: LinearProgressIndicator(
+                                      // 실제 프로그래스 색상.
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                        Colors.purple,
+                                      ),
+                                      value: index == 2 ? confidence : 0.0,
+                                      backgroundColor: Colors.grey[200],
+                                      minHeight: 50.0,
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 12.0),
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Text(
+                                        '${index == 2 ? (confidence * 100).toStringAsFixed(2) : 0} %',
+                                        style: const TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 20.0),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 16.0,
+                      ),
 
-                      // // Last Data UI
+                      // Last Data UI
 
                       // Row(
                       //   // ignore: prefer_const_literals_to_create_immutables

@@ -6,7 +6,6 @@ import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/food.dart';
 import 'package:fresh_app_teamproj/views/fruits.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
-import 'package:simple_shadow/simple_shadow.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
 // Swiper_cards library를 활용해서 슬라이드 페이지를 적용했습니다.
@@ -66,7 +65,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                 builder: DotSwiperPaginationBuilder(
               color: Colors.grey[350],
               activeColor: Colors.white,
-              activeSize: 12,
+              activeSize: 10,
               space: 4,
             )),
             layout: SwiperLayout.TINDER,
@@ -150,7 +149,7 @@ class _TeachableMachineState extends State<TeachableMachine> {
                         height: MediaQuery.of(context).size.width / 100,
                       ),
                       // 이미지를 클릭했을때 이동되는 페이지.
-                      InkWell(
+                      GestureDetector(
                         onTap: () async {
                           // 각 이미지에 해당하는 버튼을 눌렀을때 사용가능한 카메라를 가져오고
                           // 그 이미지를 눌렀을때 if문 조건대로 페이지 이동.
