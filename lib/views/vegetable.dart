@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
@@ -18,15 +19,10 @@ class Vegetable extends StatefulWidget {
 }
 
 class _VegetableState extends State<Vegetable> {
-  // 결과값
-  String predOne = '';
-  // 텐서플로 모델 받는 변수
   String? res;
-
-  // 예측값
+  String? predOne;
+  int? index;
   double confidence = 0;
-  // 해당 인덱스
-  int index = 0;
 
   @override
   void initState() {
@@ -51,20 +47,24 @@ class _VegetableState extends State<Vegetable> {
     }
   }
 
-  // [Recognition Function]
+  //  [Recognition Function]
 
-  Future<dynamic> setRecognitions(outputs) async {
-    // Outputs index == 0 이라면 index = 0
-    // index 별로 if문 실행.
+  // setRecognitions(outputs) {
+  //   if (_currentRecognitions.isNotEmpty) {
+  //     setState(() {
+  //       _currentRecognitions = outputs;
+  //     });
+  //   } else {
+  //     const CircularProgressIndicator();
+  //   }
+  // }
+  setRecognitions(outputs) async {
+    print(outputs);
     if (mounted) {
-      if (outputs[0]['index'] == 0) {
-        index = 0;
-        confidence = outputs[0]['confidence'];
-      } else if (outputs[0]['index'] == 1) {
-        index = 1;
-        confidence = outputs[0]['confidence'];
-      } else if (outputs[0]['index'] == 2) {
-        index = 2;
+      if (outputs[0]['index'] == 0 ||
+          outputs[0]['index'] == 1 ||
+          outputs[0]['index'] == 2) {
+        index = outputs[0]['index'];
         confidence = outputs[0]['confidence'];
       }
 
@@ -253,6 +253,7 @@ class _VegetableState extends State<Vegetable> {
                                         Colors.orangeAccent,
                                       ),
                                       value: index == 1 ? confidence : 0.0,
+
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
