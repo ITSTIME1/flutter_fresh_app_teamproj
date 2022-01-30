@@ -7,8 +7,7 @@ import 'package:tflite/tflite.dart';
 
 // [Vegetable]
 
-// 야채 Tfile 만 loadModel()로 받아 온다.
-
+// 야채에 관련된 dataSet 만 loadModel()로 받아 온다.
 // ignore: must_be_immutable
 class Vegetable extends StatefulWidget {
   final List<CameraDescription> cameras;
@@ -20,9 +19,8 @@ class Vegetable extends StatefulWidget {
 
 class _VegetableState extends State<Vegetable> {
   String? res;
-  String? predOne;
   int? index;
-  double confidence = 0;
+  double? confidence;
 
   @override
   void initState() {
@@ -58,18 +56,28 @@ class _VegetableState extends State<Vegetable> {
   //     const CircularProgressIndicator();
   //   }
   // }
-  setRecognitions(outputs) async {
+  setRecognitions(outputs) {
     print(outputs);
     if (mounted) {
+      // if (outputs[0]['index'] == 0 ||
+      //     outputs[0]['index'] == 1 ||
+      //     outputs[0]['index'] == 2) {
+      //   index = outputs[0]['index'];
+      //   confidence = outputs[0]['confidence'];
+      // }
+
+      // [로직 해석]
+      // 만약 아웃풋에서 첫번째로 들어온 값의 index 가 0일경우
+      // index 변수에 현재 outputs에서 출력되고 있는 outputs의 index 를 저장시키고 (후에 index 값이 참인지 거짓인지에 따라 인디케이터를 보여줄거임)
+      // outputs에 있는 confidence는 frist, second, third 변수에 각각 따로 저장시켜 둔다.
       if (outputs[0]['index'] == 0 ||
           outputs[0]['index'] == 1 ||
           outputs[0]['index'] == 2) {
-        index = outputs[0]['index'];
         confidence = outputs[0]['confidence'];
       }
 
       setState(() {
-        predOne = outputs[0]['label'];
+        confidence;
       });
     } else {
       const CircularProgressIndicator();
@@ -85,40 +93,6 @@ class _VegetableState extends State<Vegetable> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // [AppBar]
-
-      // AppBar 디자인 부분은 미팅 이후 변경.
-      // appBar: AppBar(
-      //   elevation: 0.0,
-      //   actions: [
-      //     Column(
-      //       mainAxisAlignment: MainAxisAlignment.center,
-      //       // ignore: prefer_const_literals_to_create_immutables
-      //       children: [
-      //         const Padding(
-      //           padding: EdgeInsets.only(right: 18.0),
-      //           child: Icon(
-      //             Icons.menu,
-      //             size: 25,
-      //             color: Colors.white,
-      //           ),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      //   backgroundColor: Colors.teal[200],
-      //   centerTitle: true,
-      //   title: const Text(
-      //     'TESTING',
-      //     style: TextStyle(
-      //       fontFamily: 'Sairafont',
-      //       fontSize: 25,
-      //       color: Colors.white,
-      //     ),
-      //   ),
-      // ),
-      // body 부분은 가장 위에 카메라가 올려지고 그 이후에 다른 UI적 요소가 올라갑니다.
-
       body: Stack(
         children: [
           Camera(
@@ -188,6 +162,9 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.lightGreen,
                                       ),
+                                      // value 값이 index 의 첫번째 값이라면 즉 추천해요 라는 값이 맞다면
+                                      // confidence 값을 반환하고
+                                      // 그렇지 않다면 0.0을 보여준다.
                                       value: index == 0 ? confidence : 0.0,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
@@ -199,7 +176,7 @@ class _VegetableState extends State<Vegetable> {
                                       alignment: Alignment.centerRight,
                                       // % 숫자
                                       child: Text(
-                                        '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0} %',
+                                        '${index == 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -263,7 +240,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 1 ? (confidence * 100).toStringAsFixed(2) : 0} %',
+                                        '${index == 1 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -326,7 +303,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 2 ? (confidence * 100).toStringAsFixed(2) : 0} %',
+                                        '${index == 2 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
