@@ -49,6 +49,7 @@ dependencies:
   camera: ^0.9.4+5
   tflite: ^1.1.2
   sliding_up_panel: ^2.0.0+1
+  shimmer: ^2.0.0
 
 
 

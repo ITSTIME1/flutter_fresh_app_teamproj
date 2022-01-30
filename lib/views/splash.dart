@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shimmer/shimmer.dart';
 
 // [SplashScreen]
 
@@ -12,20 +13,14 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
-  late AnimationController animationController;
+class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    animationController.repeat();
   }
 
   @override
   void dispose() {
-    animationController.dispose();
     super.dispose();
   }
 
@@ -46,24 +41,19 @@ class _SplashScreenState extends State<SplashScreen>
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(
-                'Fresh',
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).size.width / 6,
-                  fontFamily: 'Sairafont', // free font 'Impact'
-                  color: Colors.white,
+              Shimmer.fromColors(
+                baseColor: (Colors.grey[200])!,
+                highlightColor: (Colors.grey[100])!,
+                child: Text(
+                  'Fresh',
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width / 6,
+                    fontFamily: 'Sairafont', // free font 'Impact'
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ],
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width / 6,
-            height: MediaQuery.of(context).size.height / 6,
-            child: CircularProgressIndicator(
-              valueColor: animationController.drive(
-                ColorTween(begin: Colors.greenAccent, end: Colors.white),
-              ),
-            ),
           ),
         ],
       ),

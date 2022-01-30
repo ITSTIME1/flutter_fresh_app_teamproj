@@ -19,7 +19,7 @@ class Vegetable extends StatefulWidget {
 
 class _VegetableState extends State<Vegetable> {
   String? res;
-  int? index;
+  List<int>? index = [];
   double? confidence;
 
   @override
@@ -73,9 +73,11 @@ class _VegetableState extends State<Vegetable> {
       if (outputs[0]['index'] == 0 ||
           outputs[0]['index'] == 1 ||
           outputs[0]['index'] == 2) {
+        index!.add(outputs[0]['index']);
+        print(index);
+        // [2,.2,2,2,2,2,]
         confidence = outputs[0]['confidence'];
       }
-
       setState(() {
         confidence;
       });
@@ -165,7 +167,7 @@ class _VegetableState extends State<Vegetable> {
                                       // value 값이 index 의 첫번째 값이라면 즉 추천해요 라는 값이 맞다면
                                       // confidence 값을 반환하고
                                       // 그렇지 않다면 0.0을 보여준다.
-                                      value: index == 0 ? confidence : 0.0,
+                                      value: confidence,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
@@ -176,7 +178,7 @@ class _VegetableState extends State<Vegetable> {
                                       alignment: Alignment.centerRight,
                                       // % 숫자
                                       child: Text(
-                                        '${index == 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -229,7 +231,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.orangeAccent,
                                       ),
-                                      value: index == 1 ? confidence : 0.0,
+                                      value: confidence,
 
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
@@ -240,7 +242,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 1 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -293,7 +295,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.purple,
                                       ),
-                                      value: index == 2 ? confidence : 0.0,
+                                      value: confidence,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
@@ -303,7 +305,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 2 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
