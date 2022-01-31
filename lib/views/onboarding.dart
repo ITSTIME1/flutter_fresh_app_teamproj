@@ -30,14 +30,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
+    return Scaffold(
+      body: Stack(
         children: [
           // [BackGround Color Value]
           Container(
             color: Colors.white,
           ),
-          Container(
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: PageView(
               physics: const ClampingScrollPhysics(),
               controller: _pageController,
@@ -51,7 +52,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      SkipButton(context),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: TextButton(
+                              onPressed: () {
+                                _pageController.jumpToPage(2);
+                              },
+                              child: const Text(
+                                'Skip',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Center(
                         child: Image(
                           image: const AssetImage('lib/images/img1.png'),
@@ -61,17 +81,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       ),
                       const SizedBox(height: 10),
                       const Text(
-                        '우리는',
-                        style: TextStyle(color: Colors.black, fontSize: 20.0),
+                        '단순한 디자인',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w300,
+                        ),
                       ),
                       const SizedBox(height: 20),
-                      const Text(
-                        '복잡한 인터페이스는 이젠 그만..\n오직 "카메라" 기능만을 사용하여 \n AI 데이터 수집과 함께 "실시간"으로\n 채소, 과일의 상태를 파악해주고\n 여러분들께 "빠른 선택"을 도와드립니다.',
-                        style: TextStyle(
-                          color: Color.fromRGBO(89, 89, 89, 100),
-                          fontSize: 15.0,
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          '복잡한 디자인은 그만!\n잘 사용하지 않는 기능도 그만!\n오로지 보기 편하고 사용하는 것만!\n',
+                          style: TextStyle(
+                            color: Color.fromRGBO(89, 89, 89, 100),
+                            fontSize: 15.0,
+                            letterSpacing: 0.5,
+                            fontWeight: FontWeight.w300,
+                          ),
+                          textAlign: TextAlign.center,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 20),
                     ],
@@ -81,7 +110,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      SkipButton(context),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: TextButton(
+                              onPressed: () {
+                                _pageController.jumpToPage(2);
+                              },
+                              child: const Text(
+                                'Skip',
+                                style: TextStyle(
+                                  color: Colors.green,
+                                  fontSize: 20.0,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                       Center(
                         child: Image(
                           image: const AssetImage('lib/images/img2.png'),
@@ -90,16 +138,23 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text('단순해도',
-                          style:
-                              TextStyle(color: Colors.black, fontSize: 20.0)),
+                      const Text('카메라 기능',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                          )),
                       const SizedBox(height: 20),
-                      const Text(
-                        '"카메라"\n 혹은 갤러리에서 찍은 이미지를 \n보여주세요\n그러면 자동적으로 인공지능 알고리즘을 통해 \n 화면상에 수치로 보여드립니다.',
-                        style: TextStyle(
+                      const Padding(
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          '오직 기본적인 카메라만 사용\n추가적인 기능 없이\n기본기능만 충분히 활용해보세요!',
+                          style: TextStyle(
                             color: Color.fromRGBO(89, 89, 89, 100),
-                            fontSize: 15.0),
-                        textAlign: TextAlign.center,
+                            fontSize: 15.0,
+                            letterSpacing: 0.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ],
                   ),
@@ -117,18 +172,22 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      const Text('정확해',
-                          style:
-                              TextStyle(color: Colors.black, fontSize: 20.0)),
+                      const Text('선택',
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20.0,
+                          )),
                       const SizedBox(height: 20),
                       const Text(
-                        '"똑똑하게"\n 선택해보세요\n 신선한 재료는 항상 \n 가까이에 있습니다.\n ',
+                        '누구보다 먼저\n품질 좋은 야채와, 과일을 선별해보세요\n아래의 버튼을 클릭해보세요!',
                         style: TextStyle(
                             color: Color.fromRGBO(89, 89, 89, 100),
                             fontSize: 15.0),
                         textAlign: TextAlign.center,
                       ),
-                      const SizedBox(height: 10),
+                      const SizedBox(
+                        height: 30,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -157,7 +216,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                               child: const Text(
                                 '시작해보세요',
                                 style: TextStyle(
-                                    fontSize: 20, fontWeight: FontWeight.bold),
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           )
@@ -170,20 +231,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Container SkipButton(BuildContext context) {
-    return Container(
-      alignment: Alignment.centerRight,
-      child: FlatButton(
-        // when clicking the button, go to the [Login Page]
-        onPressed: () {
-          _pageController.jumpToPage(2);
-        },
-        child: const Text('Skip',
-            style: TextStyle(color: Colors.green, fontSize: 20.0)),
       ),
     );
   }

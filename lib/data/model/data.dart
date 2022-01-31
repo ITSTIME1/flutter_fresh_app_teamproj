@@ -19,14 +19,14 @@ class Item {
 List<Item> items = [
   Item(1,
       title: 'Vegetable',
-      subtitle: '각종 신선한 야채의 선별을 도와 드립니다.\n양배추, 시금치, 상추, 피망 등\n오늘의 신선한 야채는..?',
+      subtitle: '오늘도 신선한 야채가 필요하세요?\n양배추, 피망, 상추 등\n이미지를 클릭해보세요!',
       image: 'lib/images/vegetable.png'),
   Item(2,
       title: 'Fruits',
-      subtitle: '과일의 신선도를 도와 드립니다!\n사과, 딸기, 복숭아, 참외 등\n오늘의 신선한 과일은..?',
+      subtitle: '오늘도 신선한 과일이 필요하세요?\n사과, 딸기, 복숭아 등\n이미지를 클릭해보세요!',
       image: 'lib/images/fruits.png'),
   Item(3,
       title: 'Food',
-      subtitle: '무슨 요리를 할지 생각이 안나나요?\n그럴땐 랜덤으로 추천받아보세요!',
+      subtitle: '오늘은 무슨 요리를 할까요?\n랜덤으로 요리를 추천받아보세요!\n이미지를 클릭해보세요!',
       image: 'lib/images/food.png')
 ];

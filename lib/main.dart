@@ -71,10 +71,9 @@ class _TeamAppState extends State<TeamApp> {
             if (state is AuthenticationInitial) {
               return const SplashScreen();
             }
+            // TeachableMachine으로 이동.
             if (state is AuthenticationSuccess) {
-              return TeachableMachine(
-                userRepository: _userRepository,
-              );
+              return TeachableMachine(userRepository: _userRepository);
             }
             if (state is AuthenticationFailure) {
               return OnboardingScreen(userRepository: _userRepository);

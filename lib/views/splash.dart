@@ -34,15 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
         children: [
           Container(
             decoration: const BoxDecoration(
-              color: Color.fromRGBO(
-                  194, 255, 147, 70), // main color hex -> rgba value
+              color: Color.fromRGBO(194, 255, 147, 70),
             ),
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Shimmer.fromColors(
-                baseColor: (Colors.grey[200])!,
+                baseColor: Colors.white,
                 highlightColor: (Colors.grey[100])!,
                 child: Text(
                   'Fresh',
