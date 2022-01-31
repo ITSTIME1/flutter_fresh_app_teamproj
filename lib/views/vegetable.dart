@@ -19,9 +19,13 @@ class Vegetable extends StatefulWidget {
 
 class _VegetableState extends State<Vegetable> {
   String? res;
-  List<int>? index = [];
-  double? confidence;
-
+  double index = 0;
+  // 추천해요 confidence 값
+  double confidence = 0;
+  // 추천하지 않아요 confidence 값
+  double confidenceSecond = 0;
+  // 다른샘플 confidence 값
+  double confidenceThird = 0;
   @override
   void initState() {
     if (mounted) {
@@ -47,39 +51,30 @@ class _VegetableState extends State<Vegetable> {
 
   //  [Recognition Function]
 
-  // setRecognitions(outputs) {
-  //   if (_currentRecognitions.isNotEmpty) {
-  //     setState(() {
-  //       _currentRecognitions = outputs;
-  //     });
-  //   } else {
-  //     const CircularProgressIndicator();
-  //   }
-  // }
+  // outputs = List value
+  // outputs 처음으로 들어온 값 기준으로.
   setRecognitions(outputs) {
-    print(outputs);
     if (mounted) {
-      // if (outputs[0]['index'] == 0 ||
-      //     outputs[0]['index'] == 1 ||
-      //     outputs[0]['index'] == 2) {
-      //   index = outputs[0]['index'];
-      //   confidence = outputs[0]['confidence'];
-      // }
-
-      // [로직 해석]
-      // 만약 아웃풋에서 첫번째로 들어온 값의 index 가 0일경우
-      // index 변수에 현재 outputs에서 출력되고 있는 outputs의 index 를 저장시키고 (후에 index 값이 참인지 거짓인지에 따라 인디케이터를 보여줄거임)
-      // outputs에 있는 confidence는 frist, second, third 변수에 각각 따로 저장시켜 둔다.
-      if (outputs[0]['index'] == 0 ||
-          outputs[0]['index'] == 1 ||
-          outputs[0]['index'] == 2) {
-        index!.add(outputs[0]['index']);
-        print(index);
-        // [2,.2,2,2,2,2,]
+      // outputs에 처음들어온 index 값이 0이라면
+      if (outputs[0]['index'] == 0) {
+        index = 0;
         confidence = outputs[0]['confidence'];
+      } else if (outputs[0]['index'] == 1) {
+        index = 1;
+        confidenceSecond = outputs[0]['confidence'];
+      } else if (outputs[0]['index'] == 2) {
+        index = 2;
+        confidenceThird = outputs[0]['confidence'];
       }
+      print(index);
+      print(outputs);
+      print(confidence);
+      print(confidenceSecond);
+      print(confidenceThird);
       setState(() {
         confidence;
+        confidenceSecond;
+        confidenceThird;
       });
     } else {
       const CircularProgressIndicator();
@@ -164,9 +159,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.lightGreen,
                                       ),
-                                      // value 값이 index 의 첫번째 값이라면 즉 추천해요 라는 값이 맞다면
-                                      // confidence 값을 반환하고
-                                      // 그렇지 않다면 0.0을 보여준다.
+                                      // 해당 하는 confidence 값을 받아서 표현함.
                                       value: confidence,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
@@ -178,7 +171,7 @@ class _VegetableState extends State<Vegetable> {
                                       alignment: Alignment.centerRight,
                                       // % 숫자
                                       child: Text(
-                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${(confidence * 100).toStringAsFixed(2)} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -231,7 +224,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.orangeAccent,
                                       ),
-                                      value: confidence,
+                                      value: confidenceSecond,
 
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
@@ -242,7 +235,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${(confidenceSecond * 100).toStringAsFixed(2)} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -295,7 +288,7 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.purple,
                                       ),
-                                      value: confidence,
+                                      value: index == 2 ? confidenceThird : 0.0,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
@@ -305,7 +298,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index!.length > 0 ? (confidence! * 100).toStringAsFixed(2) : 0.0} %',
+                                        '${index == 2 ? (confidenceThird * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                             color: Colors.white,
                                             fontWeight: FontWeight.w600,
