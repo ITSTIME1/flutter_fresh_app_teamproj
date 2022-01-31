@@ -6,6 +6,7 @@ import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/food.dart';
 import 'package:fresh_app_teamproj/views/fruits.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
+import 'package:shimmer/shimmer.dart';
 
 //** TeachableMachine 위젯은 메인기능 페이지입니다.
 // Swiper_cards library를 활용해서 슬라이드 페이지를 적용했습니다.

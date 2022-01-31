@@ -18,8 +18,8 @@ class Vegetable extends StatefulWidget {
 }
 
 class _VegetableState extends State<Vegetable> {
-  String? res;
-  double index = 0;
+  String? resource;
+  double index = 2;
   // 추천해요 confidence 값
   double confidence = 0;
   // 추천하지 않아요 confidence 값
@@ -40,7 +40,7 @@ class _VegetableState extends State<Vegetable> {
 
   Future<void> loadTfliteModel() async {
     if (mounted) {
-      res = await Tflite.loadModel(
+      resource = await Tflite.loadModel(
         model: 'lib/assets/model_unquant.tflite',
         labels: "lib/assets/labels.txt",
       );
@@ -55,13 +55,16 @@ class _VegetableState extends State<Vegetable> {
   // outputs 처음으로 들어온 값 기준으로.
   setRecognitions(outputs) {
     if (mounted) {
-      // outputs에 처음들어온 index 값이 0이라면
+      // outputs에 처음 들어온 index 값이 0이라면
+      // 각각 confidence 에 예측값 대입.
       if (outputs[0]['index'] == 0) {
         index = 0;
         confidence = outputs[0]['confidence'];
+        // outputs에 처음 들어온 index 값이 1 이라면
       } else if (outputs[0]['index'] == 1) {
         index = 1;
         confidenceSecond = outputs[0]['confidence'];
+        // outputs에 처음 들어온 index 값이 2 이라면
       } else if (outputs[0]['index'] == 2) {
         index = 2;
         confidenceThird = outputs[0]['confidence'];
@@ -71,6 +74,7 @@ class _VegetableState extends State<Vegetable> {
       print(confidence);
       print(confidenceSecond);
       print(confidenceThird);
+
       setState(() {
         confidence;
         confidenceSecond;
@@ -160,7 +164,7 @@ class _VegetableState extends State<Vegetable> {
                                         Colors.lightGreen,
                                       ),
                                       // 해당 하는 confidence 값을 받아서 표현함.
-                                      value: confidence,
+                                      value: index == 0 ? confidence : 0.0,
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
                                     ),
@@ -171,7 +175,7 @@ class _VegetableState extends State<Vegetable> {
                                       alignment: Alignment.centerRight,
                                       // % 숫자
                                       child: Text(
-                                        '${(confidence * 100).toStringAsFixed(2)} %',
+                                        '${index == 0 ? (confidence * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
@@ -224,7 +228,8 @@ class _VegetableState extends State<Vegetable> {
                                           const AlwaysStoppedAnimation<Color>(
                                         Colors.orangeAccent,
                                       ),
-                                      value: confidenceSecond,
+                                      value:
+                                          index == 1 ? confidenceSecond : 0.0,
 
                                       backgroundColor: Colors.grey[200],
                                       minHeight: 50.0,
@@ -235,7 +240,7 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${(confidenceSecond * 100).toStringAsFixed(2)} %',
+                                        '${index == 1 ? (confidenceSecond * 100).toStringAsFixed(2) : 0.0} %',
                                         style: const TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.w600,
