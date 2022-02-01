@@ -276,6 +276,9 @@ class _LoginPageState extends State<LoginPage> {
                                   ),
                                 ),
                               ),
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 15,
+                              ),
                               Container(
                                 padding: const EdgeInsets.all(8.0),
                                 width: double.infinity,
@@ -285,8 +288,8 @@ class _LoginPageState extends State<LoginPage> {
                                       : null,
                                 ),
                               ),
-                              const SizedBox(
-                                height: 30.0,
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 15,
                               ),
                               Row(
                                 children: [

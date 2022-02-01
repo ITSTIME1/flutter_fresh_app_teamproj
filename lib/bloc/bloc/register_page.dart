@@ -287,7 +287,9 @@ class _SignUpPageState extends State<SignUpPage> {
                               ),
 
                               // [Register Button]
-
+                              SizedBox(
+                                height: MediaQuery.of(context).size.height / 15,
+                              ),
                               Container(
                                 padding: const EdgeInsets.all(8.0),
                                 width: double.infinity,

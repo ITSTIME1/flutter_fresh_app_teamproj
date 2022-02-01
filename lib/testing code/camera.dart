@@ -40,7 +40,7 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
   // Camera Initialize and StreamImage
   initCamera() {
     _cameraController =
-        CameraController(widget.cameras.first, ResolutionPreset.medium);
+        CameraController(widget.cameras.first, ResolutionPreset.ultraHigh);
     _cameraController.initialize().then((value) {
       // 마운트가 되지 않았다면 즉 카메라가 연결이 되지 않았다면
       // CircleIndicator를 UI에 보여줌.
@@ -59,14 +59,22 @@ class _CameraState extends State<Camera> with TickerProviderStateMixin {
           if (!isReady) {
             isReady = true;
             // Run on image stream (video frame)
+            // toList 를 해주기 전까지 planes 리스트 값을 element 요소로 받아오면
+            // Iterable 형태라 현재 필요한거 List 형태.
             Tflite.runModelOnFrame(
-              bytesList: image.planes.map((plane) {
-                return plane.bytes;
+              bytesList: image.planes.map((element) {
+                return element.bytes;
               }).toList(),
               imageHeight: image.height,
               imageWidth: image.width,
               numResults: 4,
             ).then((value) {
+              // List로 만든 Frame 단위를 value로 가져오는데
+              // 이때 List 값의 Null 체크를 위해서 비어 있지 않다면 이라는 if문을 가정한다.
+              // 후에 반복문에서는 setRecognitions 라는 함수가 실행되게 되며 setRecognition(value) => 값은 List로 받은
+              // 값을 value로 리턴한다. 그럼후에 outputs 값에 value 값이 들어가게 되는데
+              // list [{}] maping 되어 있는 형태로 들어간다.
+
               if (value!.isNotEmpty) {
                 widget.setRecognitions!(value);
                 isReady = false;

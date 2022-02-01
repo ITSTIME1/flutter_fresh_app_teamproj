@@ -156,7 +156,7 @@ class _VegetableState extends State<Vegetable> {
                               child: Stack(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.only(right: 10.0),
+                                    padding: const EdgeInsets.only(right: 8.0),
                                     child: LinearProgressIndicator(
                                       // 실제 프로그래스 색상.
                                       valueColor:
