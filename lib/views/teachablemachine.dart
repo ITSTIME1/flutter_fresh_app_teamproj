@@ -16,6 +16,7 @@ import 'package:fresh_app_teamproj/views/vegetable.dart';
 // 추가 기능으로 [장바구니 기능]의 도입을 차후에 생각하고 있습니다.
 // [랜덤음식추천] 기능은 JSON을 이용해 음식리스트 중에서 한가지의 음식을 보여줍니다.
 // [랜덤음식추천] 기능의 대해서는 추가적인 알고리즘이 필요합니다.
+// 리팩토릭 필요
 
 class TeachableMachine extends StatefulWidget {
   // : 세미콜런의 의미는 외부에서 값을 새로 받겠다는 의미이다.
