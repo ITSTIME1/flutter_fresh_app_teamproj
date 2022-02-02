@@ -11,7 +11,7 @@ import 'package:tflite/tflite.dart';
 // 코드리뷰는 추후에 완벽하게 정리가된 후에 작성하도록 하겠습니다.
 
 // setRecognition function callback
-typedef Callback = void Function(List<dynamic> list);
+typedef Callback = void Function(List<dynamic>);
 
 class Camera extends StatefulWidget {
   final List<CameraDescription> cameras;

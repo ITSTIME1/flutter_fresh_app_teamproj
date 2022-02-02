@@ -69,13 +69,15 @@ class _TeamAppState extends State<TeamApp> {
           ..add(AuthenticationStarted()),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
+            // 기본 화면은 SplashScreen
             if (state is AuthenticationInitial) {
               return const SplashScreen();
             }
             // TeachableMachine으로 이동.
             if (state is AuthenticationSuccess) {
-              return OnboardingScreen(userRepository: _userRepository);
+              return TeachableMachine(userRepository: _userRepository);
             }
+            // 인증에 실패했을시 OnboardingScreen 으로 이동.
             if (state is AuthenticationFailure) {
               return OnboardingScreen(userRepository: _userRepository);
             }
