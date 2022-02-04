@@ -7,7 +7,6 @@ import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_state.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_page.dart';
-import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/teachablemachine.dart';
@@ -164,8 +163,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Image.asset(
                         'lib/images/Loginimg.png',
-                        width: SizeConfig.screenWidth,
-                        height: SizeConfig.screenHeight,
+                        width: MediaQuery.of(context).size.width / 1,
+                        height: MediaQuery.of(context).size.height / 1,
                         fit: BoxFit.cover,
                       ),
                       const SizedBox(

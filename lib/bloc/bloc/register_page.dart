@@ -7,7 +7,6 @@ import 'package:fresh_app_teamproj/bloc/bloc/register_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_event.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/register_state.dart';
-import 'package:fresh_app_teamproj/data/model/sizeconfigs_page.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'register_bloc.dart';
@@ -75,7 +74,6 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Colors.white,
 
@@ -171,8 +169,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ),
                       Image.asset(
                         'lib/images/Loginimg.png',
-                        width: SizeConfig.screenWidth,
-                        height: SizeConfig.screenHeight,
+                        width: MediaQuery.of(context).size.width / 1,
+                        height: MediaQuery.of(context).size.height / 1,
                         fit: BoxFit.cover,
                       ),
                       const SizedBox(

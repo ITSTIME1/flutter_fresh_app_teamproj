@@ -8,8 +8,8 @@ import 'package:tflite/tflite.dart';
 // 야채 Tfile 만 loadModel()로 받아 온다.
 
 class Fruits extends StatefulWidget {
-  final List<CameraDescription> cameras;
-  const Fruits({Key? key, required this.cameras}) : super(key: key);
+  final List<CameraDescription> camera;
+  const Fruits({Key? key, required this.camera}) : super(key: key);
 
   @override
   State<Fruits> createState() => _FruitsState();
@@ -91,10 +91,6 @@ class _FruitsState extends State<Fruits> {
     return Scaffold(
       body: Stack(
         children: [
-          Camera(
-            cameras: widget.cameras,
-            setRecognitions: setRecognitions,
-          ),
           SlidingUpPanel(
             maxHeight: 260,
             borderRadius: const BorderRadius.only(

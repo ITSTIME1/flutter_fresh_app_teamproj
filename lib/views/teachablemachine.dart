@@ -49,19 +49,10 @@ class _TeachableMachineState extends State<TeachableMachine> {
       // Need to Change color
       backgroundColor: Colors.grey[200],
       body: SafeArea(
-        // ** All Swiper Size position change widget
         child: SizedBox(
           height: 560,
           child: Swiper(
-            //** Control 추가 여부는 상의해서. */
-
-            // control: const SwiperControl(
-            //   size: 30,
-            //   color: Colors.white,
-            // ),
-
-            // Indicator need to change
-            curve: Curves.ease,
+            layout: SwiperLayout.DEFAULT,
             pagination: SwiperPagination(
                 builder: DotSwiperPaginationBuilder(
               color: Colors.grey[350],
@@ -69,144 +60,100 @@ class _TeachableMachineState extends State<TeachableMachine> {
               activeSize: 10,
               space: 4,
             )),
-            layout: SwiperLayout.TINDER,
-
             itemCount: items.length,
             itemWidth: MediaQuery.of(context).size.width / 1 * 64,
-            itemHeight: MediaQuery.of(context).size.height / 1 * 100,
-            itemBuilder: (context, int index) {
+            itemHeight: MediaQuery.of(context).size.height / 1 * 64,
+            itemBuilder: (context, index) {
               return Stack(
                 children: [
-                  // ** Swiper position default => left
                   Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          height: 460,
-                          width: 340,
-                          child: Card(
-                            elevation: 10.0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            color: Colors.white,
-                            //** Title */
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                    child: SizedBox(
+                      height: 460,
+                      width: 340,
+                      child: Card(
+                        elevation: 9.0,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            // [Image]
+
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                const SizedBox(height: 260),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 60,
-                                      ),
-                                      Text(
-                                        items[index].title,
-                                        style: TextStyle(
-                                          color: Colors.black.withOpacity(0.8),
-                                          fontSize: 40,
-                                          fontFamily: 'Sairafont',
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                        textAlign: TextAlign.left,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20.0,
-                                  ),
-                                  child: Text(
-                                    items[index].subtitle,
-                                    style: const TextStyle(
-                                      color: Color.fromRGBO(75, 75, 75, 100),
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                    textAlign: TextAlign.left,
+                                GestureDetector(
+                                  onTap: () async {
+                                    await availableCameras().then(
+                                      (value) {
+                                        if (items[index].image ==
+                                            'lib/images/vegetable.png') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Vegetable(
+                                                camera: value,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (items[index].image ==
+                                            'lib/images/fruits.png') {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => Fruits(
+                                                camera: value,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (items[index].image ==
+                                            'libe/images/food.png') {
+                                          print('준비중');
+                                        }
+                                      },
+                                    );
+                                  },
+                                  child: Image.asset(
+                                    items[index].image,
+                                    width: 250,
+                                    height: 250,
                                   ),
                                 ),
                               ],
                             ),
-                          ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            // [Text]
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  items[index].title,
+                                  style: const TextStyle(
+                                    fontSize: 40,
+                                    fontFamily: 'Sairafont',
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.left,
+                                ),
+                                const SizedBox(
+                                  height: 15,
+                                ),
+                                Text(
+                                  items[index].subtitle,
+                                  style: const TextStyle(
+                                    fontSize: 14,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-
-                  // [Image]
-                  // Image 를 클릭했을 때 사용가능한 카메라르 가지고 오는 availableCameras()를 실행
-                  // 사용자에게 Camera 권한과 Voice 권한을 획득 만약 획득하지 못한다면 카메라와 음성 기능은 사용하지 못함
-                  // 화면을 이동시키고 그 이후에 카메라 CameraPreview 보여줌.
-
-                  Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width / 100,
-                      ),
-                      // 이미지를 클릭했을때 이동되는 페이지.
-                      GestureDetector(
-                        onTap: () async {
-                          // 각 이미지에 해당하는 버튼을 눌렀을때 사용가능한 카메라를 가져오고
-                          // 그 이미지를 눌렀을때 if문 조건대로 페이지 이동.
-                          await availableCameras().then(
-                            (value) {
-                              if (items[index].image ==
-                                  'lib/images/vegetable.png') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Vegetable(
-                                      cameras: value,
-                                    ),
-                                  ),
-                                );
-                              } else if (items[index].image ==
-                                  'lib/images/food.png') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => const Food(),
-                                  ),
-                                );
-                              } else if (items[index].image ==
-                                  'lib/images/fruits.png') {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => Fruits(
-                                      cameras: value,
-                                    ),
-                                  ),
-                                );
-                              }
-                            },
-                          );
-                          // Food 페이지는 랜덤으로 음식을 받는 거기 때문에
-                          // 추가적인 카메라 기능은 사용하지 않음.
-                          if (items[index].image == 'lib/images/food.png') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const Food(),
-                              ),
-                            );
-                          }
-                        },
-                        child: Center(
-                          child: Image.asset(
-                            items[index].image,
-                            height: 300,
-                            width: 300,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
                 ],
               );
