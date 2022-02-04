@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/loadTflite.dart';
 import 'package:fresh_app_teamproj/testing%20code/camera.dart';
+import 'package:fresh_app_teamproj/views/paint.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // [Vegetable]
@@ -20,9 +21,9 @@ class _VegetableState extends State<Vegetable> {
   final LoadModel loadModel = LoadModel();
 
   int? index;
-  double confidence = 0.0;
-  double confidenceSecond = 0.0;
-  double confidenceThird = 0.0;
+  double confidence = 0;
+  double confidenceSecond = 0;
+  double confidenceThird = 0;
 
   @override
   void initState() {
@@ -76,7 +77,8 @@ class _VegetableState extends State<Vegetable> {
             setRecognition: setRecognitions,
           ),
           SlidingUpPanel(
-            maxHeight: 260,
+            maxHeight: 250,
+            minHeight: 200,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -109,14 +111,14 @@ class _VegetableState extends State<Vegetable> {
                         // ignore: prefer_const_literals_to_create_immutables
                         children: [
                           const Expanded(
-                            flex: 3,
+                            flex: 4,
                             // Need Padding
                             child: Padding(
                               padding: EdgeInsets.only(left: 15.0),
                               child: Text(
                                 'Recommend',
                                 style: TextStyle(
-                                  fontSize: 15.0,
+                                  fontSize: 20.0,
                                 ),
                               ),
                             ),
@@ -125,7 +127,7 @@ class _VegetableState extends State<Vegetable> {
                             height: 16.0,
                           ),
                           Expanded(
-                            flex: 7,
+                            flex: 6,
                             child: SizedBox(
                               height: 32.0,
                               child: Stack(
@@ -136,12 +138,13 @@ class _VegetableState extends State<Vegetable> {
                                       alignment: Alignment.centerRight,
                                       // % 숫자
                                       child: Text(
-                                        '${(confidence * 100).toStringAsFixed(2)} %',
+                                        '${(confidence * 100).toStringAsFixed(1)} %',
                                         style: const TextStyle(
-                                          color: Colors.black,
+                                          color: Colors.green,
                                           fontWeight: FontWeight.w600,
-                                          fontSize: 17,
+                                          fontSize: 20,
                                         ),
+                                        textAlign: TextAlign.center,
                                       ),
                                     ),
                                   ),
@@ -167,8 +170,9 @@ class _VegetableState extends State<Vegetable> {
                               child: Text(
                                 'NotRecommend',
                                 style: TextStyle(
-                                  fontSize: 15.0,
+                                  fontSize: 17.0,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -186,9 +190,9 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${(confidenceSecond * 100).toStringAsFixed(2)} %',
-                                        style: const TextStyle(
-                                          color: Colors.black,
+                                        '${(confidenceSecond * 100).toStringAsFixed(1)} %',
+                                        style: TextStyle(
+                                          color: Colors.green[200],
                                           fontWeight: FontWeight.w600,
                                           fontSize: 17.0,
                                         ),
@@ -215,10 +219,11 @@ class _VegetableState extends State<Vegetable> {
                             child: Padding(
                               padding: EdgeInsets.only(left: 15.0),
                               child: Text(
-                                'Other',
+                                'Another',
                                 style: TextStyle(
                                   fontSize: 15.0,
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ),
@@ -236,11 +241,11 @@ class _VegetableState extends State<Vegetable> {
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Text(
-                                        '${index == 2 ? (confidenceThird * 100).toStringAsFixed(2) : 0.0} %',
-                                        style: const TextStyle(
-                                            color: Colors.black,
+                                        '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
+                                        style: TextStyle(
+                                            color: Colors.green[100],
                                             fontWeight: FontWeight.w600,
-                                            fontSize: 17.0),
+                                            fontSize: 14.0),
                                       ),
                                     ),
                                   ),

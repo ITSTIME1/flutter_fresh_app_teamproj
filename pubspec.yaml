@@ -75,6 +75,9 @@ flutter:
       fonts:
         - asset: lib/fonts/SairaStencilOne-Regular.ttf
         - weight: 300
+    - family: NatoThin
+      fonts:
+        - asset: lib/fonts/NotoSansKR-Light.otf
 
   # To add assets to your application, add an assets section, like this:
   assets:
