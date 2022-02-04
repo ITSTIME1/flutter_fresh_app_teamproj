@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/views/paint.dart';
 import 'package:tflite/tflite.dart';
 
+// [Camera]
+// 카메라를 초기화하고 이미지를 Frame 단위로 불러옵니다.
+// setRecognition 값으로 넘겨주고 인식을 처리하는 부분은 각 페이지에서 담당합니다.
+
 typedef Callback = void Function(List<dynamic> list);
 
 class Cameras extends StatefulWidget {
