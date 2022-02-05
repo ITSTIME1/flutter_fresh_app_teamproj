@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 // ** 유저 정보 저장소입니다 회원가입 메서드, 로그인 메서드
 // 로그아웃, 사용자 정보 가져오기 등의 메서드가 있습니다.
@@ -7,9 +9,33 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class UserRepository {
   final FirebaseAuth _firebaseAuth;
+  final GoogleSignIn _googleSignIn;
 
-  UserRepository({FirebaseAuth? firebaseAuth})
-      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance;
+  UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
+      : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
+        _googleSignIn = googleSignin ?? GoogleSignIn();
+
+  // Google 회원가입 메서드
+  Future<void> signInWithGoogle() async {
+    try {
+      // 1. 로그인 과정을 GoogleUser 에 담습니다.
+      // 2. googleAuth 에다 로그인과정정보를 담습니다.
+      // 3. credential 에는 로그인된 정보의 인증토큰과, id토큰을 넘겨줍니다.
+      // 4. 마지막으로 firebase에 로그인된 정보를 전달해줍니다.
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser!.authentication;
+      final AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      await _firebaseAuth.signInWithCredential(credential);
+    } catch (e) {
+      if (kDebugMode) {
+        print(e);
+      }
+    }
+  }
 
   //* 회원가입 메서드.
   Future<void> signUp({required String email, required String password}) async {
