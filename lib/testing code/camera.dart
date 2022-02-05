@@ -83,6 +83,7 @@ class _CamerasState extends State<Cameras> {
 
   @override
   Widget build(BuildContext context) {
+    // cameraController 가 초기화 되지 않았을때
     if (!_cameraController.value.isInitialized) {
       return const Center(
         child: CircularProgressIndicator(),
@@ -90,6 +91,7 @@ class _CamerasState extends State<Cameras> {
     }
     return Stack(
       children: [
+        // customPaint 를 통해서 CameraPreview 를 보여줌.
         CustomPaint(
           foregroundPainter: Painter(),
           child: CameraPreview(
