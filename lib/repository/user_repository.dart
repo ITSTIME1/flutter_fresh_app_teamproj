@@ -61,9 +61,15 @@ class UserRepository {
     }
   }
 
-//* 로그아웃 메서드
-  Future<void> logOut() async {
-    return await _firebaseAuth.signOut();
+  //* 로그아웃 메서드
+  // firebase Email LogOut
+  // google LogOut
+
+  Future<List<void>> logOut() async {
+    return Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
+    ]);
   }
 
 //* 로그인완료된 사용자 정보 가져오기

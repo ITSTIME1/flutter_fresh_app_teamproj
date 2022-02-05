@@ -21,6 +21,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
     on<LoginWithCredentialsPressed>(_onLoginSubmitChanged);
+    on<LoginWithGooglePressed>(_onLoginWithGoogle);
   }
 
   Future<void> _onEmailChanged(
@@ -46,4 +47,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       emit(LoginState.failure());
     }
   }
+
+  Future<void> _onLoginWithGoogle(
+      LoginWithGooglePressed event, Emitter<LoginState> emit) async {}
 }
