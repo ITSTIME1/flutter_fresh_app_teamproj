@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
+import 'package:fresh_app_teamproj/bloc/bloc/google_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
@@ -322,76 +323,17 @@ class _LoginPageState extends State<LoginPage> {
                                 ],
                               ),
                               const SizedBox(
-                                height: 30.0,
+                                height: 30,
                               ),
                               Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 2.0,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/kakaotalk.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                              color: Colors.black26,
-                                              offset: Offset(0, 2),
-                                              blurRadius: 2.0),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/google.png'),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      height: 60.0,
-                                      width: 60.0,
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.white,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            offset: Offset(0, 2),
-                                            blurRadius: 1.0,
-                                          ),
-                                        ],
-                                        image: DecorationImage(
-                                          image: AssetImage(
-                                              'lib/images/naver.png'),
-                                        ),
-                                      ),
-                                    ),
+                                  SizedBox(
+                                    height:
+                                        MediaQuery.of(context).size.height / 15,
+                                    width:
+                                        MediaQuery.of(context).size.width / 1.2,
+                                    child: const GoogleLoginButton(),
                                   ),
                                 ],
                               ),

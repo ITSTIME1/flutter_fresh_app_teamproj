@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:fresh_app_teamproj/data/model/loadTflite.dart';
-import 'package:fresh_app_teamproj/testing%20code/camera.dart';
+import 'package:fresh_app_teamproj/views/camera.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 // [Vegetable]

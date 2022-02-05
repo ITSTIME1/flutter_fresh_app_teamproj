@@ -1,4 +1,4 @@
-# fresh_app_teamproj
+fresh_app_teamproj
 
 A new Flutter project.
 

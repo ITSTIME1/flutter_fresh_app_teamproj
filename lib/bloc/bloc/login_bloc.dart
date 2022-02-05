@@ -24,12 +24,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     on<LoginWithGooglePressed>(_onLoginWithGoogle);
   }
 
+  // 이메일 유효성 검사
   Future<void> _onEmailChanged(
       LoginEmailChanged event, Emitter<LoginState> emit,
       {String? email}) async {
     emit(state.update(isEmailValid: Validators.isValidEmail(event.email)));
   }
 
+  // 패스워드 유효성 검사
   Future<void> _onPasswordChanged(
       LoginPasswordChanged event, Emitter<LoginState> emit,
       {String? password}) async {
@@ -37,6 +39,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         isPasswordValid: Validators.isValidPassword(event.password)));
   }
 
+  // 이메일 버튼을 눌렀을때
   Future<void> _onLoginSubmitChanged(
       LoginWithCredentialsPressed event, Emitter<LoginState> emit) async {
     emit(LoginState.loading());
@@ -48,6 +51,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     }
   }
 
+  // 구글로그인 버튼을 눌렀을때
   Future<void> _onLoginWithGoogle(
-      LoginWithGooglePressed event, Emitter<LoginState> emit) async {}
+      LoginWithGooglePressed event, Emitter<LoginState> emit) async {
+    try {
+      await _userRepository.signInWithGoogle();
+      emit(LoginState.success());
+    } catch (e) {
+      emit(LoginState.failure());
+    }
+  }
 }

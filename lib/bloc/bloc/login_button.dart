@@ -19,7 +19,7 @@ class LoginButton extends StatelessWidget {
     return RaisedButton(
       color: Colors.green,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15),
+        borderRadius: BorderRadius.circular(10),
       ),
       padding: const EdgeInsets.all(15),
       // 눌렀을때 조건에 맞는 validate 값을 상태변환 시켜줌.
