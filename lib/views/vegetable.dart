@@ -137,162 +137,211 @@ class SlidingMainWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // First value
               const SizedBox(
                 height: 10,
               ),
-              Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Expanded(
-                    flex: 4,
-                    // Need Padding
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15.0),
-                      child: Text(
-                        'Recommend',
-                        style: TextStyle(
-                          fontSize: 20.0,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Expanded(
-                    flex: 6,
-                    child: SizedBox(
-                      height: 32.0,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              // % 숫자
-                              child: Text(
-                                '${(confidence * 100).toStringAsFixed(1)} %',
-                                style: const TextStyle(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 20,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+
+              // Recommend 인식 클래스
+              Recommend(confidence: confidence),
               const SizedBox(
                 height: 16.0,
               ),
-              // Second Data UI
 
-              Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Expanded(
-                    flex: 3,
-                    // Need Padding
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15.0),
-                      child: Text(
-                        'NotRecommend',
-                        style: TextStyle(
-                          fontSize: 17.0,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: SizedBox(
-                      height: 32.0,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                '${(confidenceSecond * 100).toStringAsFixed(1)} %',
-                                style: TextStyle(
-                                  color: Colors.green[200],
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 17.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // NotRecommend 인식 클래스
+              NotRecommend(confidenceSecond: confidenceSecond),
               const SizedBox(
                 height: 16.0,
               ),
               // Third Data UI
 
-              Row(
-                // ignore: prefer_const_literals_to_create_immutables
-                children: [
-                  const Expanded(
-                    flex: 3,
-                    // Need Padding
-                    child: Padding(
-                      padding: EdgeInsets.only(left: 15.0),
-                      child: Text(
-                        'Another',
-                        style: TextStyle(
-                          fontSize: 15.0,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 16.0,
-                  ),
-                  Expanded(
-                    flex: 7,
-                    child: SizedBox(
-                      height: 32.0,
-                      child: Stack(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(right: 12.0),
-                            child: Align(
-                              alignment: Alignment.centerRight,
-                              child: Text(
-                                '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
-                                style: TextStyle(
-                                    color: Colors.green[100],
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14.0),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              // Another 인식 클래스
+              Another(index: index, confidenceThird: confidenceThird),
               const SizedBox(
                 height: 16.0,
               ),
             ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// [Another Class]
+class Another extends StatelessWidget {
+  const Another({
+    Key? key,
+    required this.index,
+    required this.confidenceThird,
+  }) : super(key: key);
+
+  final int? index;
+  final double confidenceThird;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        const Expanded(
+          flex: 3,
+          // Need Padding
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Text(
+              'Another',
+              style: TextStyle(
+                fontSize: 15.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Expanded(
+          flex: 7,
+          child: SizedBox(
+            height: 32.0,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
+                      style: TextStyle(
+                          color: Colors.green[100],
+                          fontWeight: FontWeight.w600,
+                          fontSize: 14.0),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// [NotRecommend Class]
+class NotRecommend extends StatelessWidget {
+  const NotRecommend({
+    Key? key,
+    required this.confidenceSecond,
+  }) : super(key: key);
+
+  final double confidenceSecond;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        const Expanded(
+          flex: 3,
+          // Need Padding
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Text(
+              'NotRecommend',
+              style: TextStyle(
+                fontSize: 17.0,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Expanded(
+          flex: 7,
+          child: SizedBox(
+            height: 32.0,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${(confidenceSecond * 100).toStringAsFixed(1)} %',
+                      style: TextStyle(
+                        color: Colors.green[200],
+                        fontWeight: FontWeight.w600,
+                        fontSize: 17.0,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// [Recommend Class]
+class Recommend extends StatelessWidget {
+  const Recommend({
+    Key? key,
+    required this.confidence,
+  }) : super(key: key);
+
+  final double confidence;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      // ignore: prefer_const_literals_to_create_immutables
+      children: [
+        const Expanded(
+          flex: 4,
+          // Need Padding
+          child: Padding(
+            padding: EdgeInsets.only(left: 15.0),
+            child: Text(
+              'Recommend',
+              style: TextStyle(
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 16.0,
+        ),
+        Expanded(
+          flex: 6,
+          child: SizedBox(
+            height: 32.0,
+            child: Stack(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 12.0),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    // % 숫자
+                    child: Text(
+                      '${(confidence * 100).toStringAsFixed(1)} %',
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
