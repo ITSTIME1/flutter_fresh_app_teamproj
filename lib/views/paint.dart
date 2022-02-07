@@ -26,7 +26,7 @@ class Clip extends CustomClipper<Path> {
     Path path = Path()
       ..addRRect(
         RRect.fromRectAndRadius(
-          Rect.fromLTWH(10, size.height / 2 - 120, size.width - 20, 260),
+          Rect.fromLTWH(10, size.height / 2 - 200, size.width - 20, 250),
           const Radius.circular(20),
         ),
       );

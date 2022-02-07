@@ -50,188 +50,241 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               children: [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: TextButton(
-                              onPressed: () {
-                                _pageController.jumpToPage(2);
-                              },
-                              child: const Text(
-                                'Skip',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: Image(
-                          image: const AssetImage('lib/images/img1.png'),
-                          width: MediaQuery.of(context).size.width / 1,
-                          height: MediaQuery.of(context).size.height / 2,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text(
-                        '단순한 디자인',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w300,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          '복잡한 디자인은 그만!\n잘 사용하지 않는 기능도 그만!\n오로지 보기 편하고 사용하는 것만!\n',
-                          style: TextStyle(
-                            color: Color.fromRGBO(89, 89, 89, 100),
-                            fontSize: 15.0,
-                            letterSpacing: 0.5,
-                            fontWeight: FontWeight.w300,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      const SizedBox(height: 20),
-                    ],
-                  ),
+                  child: OnePageView(pageController: _pageController),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: TextButton(
-                              onPressed: () {
-                                _pageController.jumpToPage(2);
-                              },
-                              child: const Text(
-                                'Skip',
-                                style: TextStyle(
-                                  color: Colors.green,
-                                  fontSize: 20.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Center(
-                        child: Image(
-                          image: const AssetImage('lib/images/img2.png'),
-                          width: MediaQuery.of(context).size.width / 1,
-                          height: MediaQuery.of(context).size.height / 2,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text('카메라 기능',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                          )),
-                      const SizedBox(height: 20),
-                      const Padding(
-                        padding: EdgeInsets.all(20.0),
-                        child: Text(
-                          '오직 기본적인 카메라만 사용\n추가적인 기능 없이\n기본기능만 충분히 활용해보세요!',
-                          style: TextStyle(
-                            color: Color.fromRGBO(89, 89, 89, 100),
-                            fontSize: 15.0,
-                            letterSpacing: 0.5,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ],
-                  ),
+                  child: SecondPageView(pageController: _pageController),
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 45),
-                      Center(
-                        child: Image(
-                          image: const AssetImage('lib/images/img3.png'),
-                          width: MediaQuery.of(context).size.width / 1,
-                          height: MediaQuery.of(context).size.height / 2,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      const Text('선택',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 20.0,
-                          )),
-                      const SizedBox(height: 20),
-                      const Text(
-                        '누구보다 먼저\n품질 좋은 야채와, 과일을 선별해보세요\n아래의 버튼을 클릭해보세요!',
-                        style: TextStyle(
-                            color: Color.fromRGBO(89, 89, 89, 100),
-                            fontSize: 15.0),
-                        textAlign: TextAlign.center,
-                      ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: 50,
-                            width: 200,
-                            child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return BlocProvider<LoginBloc>(
-                                        create: (context) => LoginBloc(
-                                            userRepository: _userRepository),
-                                        child: LoginPage(
-                                          userRepository: _userRepository,
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.green,
-                              ),
-                              child: const Text(
-                                '시작해보세요',
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                  child: ThirdPageView(userRepository: _userRepository),
                 ),
               ],
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+// [OnePage Class]
+
+class OnePageView extends StatelessWidget {
+  const OnePageView({
+    Key? key,
+    required PageController pageController,
+  })  : _pageController = pageController,
+        super(key: key);
+
+  final PageController _pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        // SkipButton
+
+        SkipButton(pageController: _pageController),
+        Center(
+          child: Image(
+            image: const AssetImage('lib/images/img1.png'),
+            width: MediaQuery.of(context).size.width / 1,
+            height: MediaQuery.of(context).size.height / 2,
+          ),
+        ),
+        const SizedBox(height: 10),
+        const Text(
+          '단순한 디자인',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 20.0,
+            fontWeight: FontWeight.w300,
+            fontFamily: 'NatoBold',
+          ),
+        ),
+        const SizedBox(height: 20),
+        const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text(
+            '복잡한 디자인은 그만!\n잘 사용하지 않는 기능도 그만!\n오로지 보기 편하고 사용하는 것만!\n',
+            style: TextStyle(
+              color: Color.fromRGBO(89, 89, 89, 100),
+              fontSize: 15.0,
+              letterSpacing: 0.5,
+              fontWeight: FontWeight.w300,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+}
+
+// [SecondPage Class]
+
+class SecondPageView extends StatelessWidget {
+  const SecondPageView({
+    Key? key,
+    required PageController pageController,
+  })  : _pageController = pageController,
+        super(key: key);
+
+  final PageController _pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SkipButton(pageController: _pageController),
+        Center(
+          child: Image(
+            image: const AssetImage('lib/images/img2.png'),
+            width: MediaQuery.of(context).size.width / 1,
+            height: MediaQuery.of(context).size.height / 2,
+          ),
+        ),
+        const SizedBox(height: 10),
+        const Text('카메라 기능',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'NatoBold',
+            )),
+        const SizedBox(height: 20),
+        const Padding(
+          padding: EdgeInsets.all(20.0),
+          child: Text(
+            '오직 기본적인 카메라만 사용\n추가적인 기능 없이\n기본기능만 충분히 활용해보세요!',
+            style: TextStyle(
+              color: Color.fromRGBO(89, 89, 89, 100),
+              fontSize: 15.0,
+              letterSpacing: 0.5,
+            ),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+// [ThirdPage Class]
+
+class ThirdPageView extends StatelessWidget {
+  const ThirdPageView({
+    Key? key,
+    required UserRepository userRepository,
+  })  : _userRepository = userRepository,
+        super(key: key);
+
+  final UserRepository _userRepository;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const SizedBox(height: 45),
+        Center(
+          child: Image(
+            image: const AssetImage('lib/images/img3.png'),
+            width: MediaQuery.of(context).size.width / 1,
+            height: MediaQuery.of(context).size.height / 2,
+          ),
+        ),
+        const SizedBox(height: 25),
+        const Text('선택',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20.0,
+              fontFamily: 'NatoBold',
+            )),
+        const SizedBox(height: 30),
+        const Text(
+          '누구보다 먼저\n품질 좋은 야채와, 과일을 선별해보세요\n아래의 버튼을 클릭해보세요!',
+          style:
+              TextStyle(color: Color.fromRGBO(89, 89, 89, 100), fontSize: 15.0),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(
+          height: 30,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 50,
+              width: 200,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return BlocProvider<LoginBloc>(
+                          create: (context) =>
+                              LoginBloc(userRepository: _userRepository),
+                          child: LoginPage(
+                            userRepository: _userRepository,
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                ),
+                child: const Text(
+                  '시작해보세요',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            )
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+// [SkipButton Class]
+
+class SkipButton extends StatelessWidget {
+  const SkipButton({
+    Key? key,
+    required PageController pageController,
+  })  : _pageController = pageController,
+        super(key: key);
+
+  final PageController _pageController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10.0),
+          child: TextButton(
+            onPressed: () {
+              _pageController.jumpToPage(2);
+            },
+            child: const Text(
+              'Skip',
+              style: TextStyle(
+                color: Colors.green,
+                fontSize: 20.0,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

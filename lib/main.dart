@@ -64,8 +64,7 @@ class _TeamAppState extends State<TeamApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: BlocProvider(
-        create: (context) => AuthenticationBloc(userRepository: _userRepository)
-          ..add(AuthenticationStarted()),
+        create: (context) => _authenticationBloc..add(AuthenticationStarted()),
         child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state) {
             // 기본 화면은 SplashScreen

@@ -98,14 +98,9 @@ class _CamerasState extends State<Cameras> {
             _cameraController,
           ),
         ),
-        Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ClipPath(
-              clipper: Clip(),
-              child: CameraPreview(_cameraController),
-            ),
-          ],
+        ClipPath(
+          clipper: Clip(),
+          child: CameraPreview(_cameraController),
         ),
       ],
     );

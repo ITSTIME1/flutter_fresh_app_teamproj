@@ -167,33 +167,29 @@ class SlidingMainWidget extends StatelessWidget {
   }
 }
 
-// [Another Class]
-class Another extends StatelessWidget {
-  const Another({
+// [Recommend Class]
+class Recommend extends StatelessWidget {
+  const Recommend({
     Key? key,
-    required this.index,
-    required this.confidenceThird,
+    required this.confidence,
   }) : super(key: key);
 
-  final int? index;
-  final double confidenceThird;
+  final double confidence;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       // ignore: prefer_const_literals_to_create_immutables
       children: [
-        const Expanded(
+        Expanded(
           flex: 3,
           // Need Padding
           child: Padding(
-            padding: EdgeInsets.only(left: 15.0),
-            child: Text(
-              'Another',
-              style: TextStyle(
-                fontSize: 15.0,
-              ),
-              textAlign: TextAlign.center,
+            padding: const EdgeInsets.only(left: 15.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 13,
+              height: MediaQuery.of(context).size.height / 13,
+              child: Image.asset('lib/images/salad.png'),
             ),
           ),
         ),
@@ -203,19 +199,38 @@ class Another extends StatelessWidget {
         Expanded(
           flex: 7,
           child: SizedBox(
-            height: 32.0,
+            height: 25.0,
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    child: LinearProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.green,
+                      ),
+                      value: confidence,
+                      backgroundColor: Colors.green.withOpacity(0.2),
+                      minHeight: 50.0,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
                   child: Align(
                     alignment: Alignment.centerRight,
+                    // % 숫자
                     child: Text(
-                      '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
-                      style: TextStyle(
-                          color: Colors.green[100],
-                          fontWeight: FontWeight.w600,
-                          fontSize: 14.0),
+                      '${(confidence * 100).toStringAsFixed(1)} %',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 20,
+                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -242,17 +257,15 @@ class NotRecommend extends StatelessWidget {
     return Row(
       // ignore: prefer_const_literals_to_create_immutables
       children: [
-        const Expanded(
+        Expanded(
           flex: 3,
           // Need Padding
           child: Padding(
-            padding: EdgeInsets.only(left: 15.0),
-            child: Text(
-              'NotRecommend',
-              style: TextStyle(
-                fontSize: 17.0,
-              ),
-              textAlign: TextAlign.center,
+            padding: const EdgeInsets.only(left: 15.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 13,
+              height: MediaQuery.of(context).size.height / 13,
+              child: Image.asset('lib/images/RottenSalad.png'),
             ),
           ),
         ),
@@ -262,19 +275,35 @@ class NotRecommend extends StatelessWidget {
         Expanded(
           flex: 7,
           child: SizedBox(
-            height: 32.0,
+            height: 25.0,
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    child: LinearProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        (Colors.green[200])!,
+                      ),
+                      value: confidenceSecond,
+                      backgroundColor: Colors.green.withOpacity(0.2),
+                      minHeight: 50.0,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
                   child: Align(
                     alignment: Alignment.centerRight,
                     child: Text(
                       '${(confidenceSecond * 100).toStringAsFixed(1)} %',
-                      style: TextStyle(
-                        color: Colors.green[200],
+                      style: const TextStyle(
+                        color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 17.0,
+                        fontSize: 20,
                       ),
                     ),
                   ),
@@ -288,30 +317,31 @@ class NotRecommend extends StatelessWidget {
   }
 }
 
-// [Recommend Class]
-class Recommend extends StatelessWidget {
-  const Recommend({
+// [Another Class]
+class Another extends StatelessWidget {
+  const Another({
     Key? key,
-    required this.confidence,
+    required this.index,
+    required this.confidenceThird,
   }) : super(key: key);
 
-  final double confidence;
+  final int? index;
+  final double confidenceThird;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       // ignore: prefer_const_literals_to_create_immutables
       children: [
-        const Expanded(
-          flex: 4,
+        Expanded(
+          flex: 3,
           // Need Padding
           child: Padding(
-            padding: EdgeInsets.only(left: 15.0),
-            child: Text(
-              'Recommend',
-              style: TextStyle(
-                fontSize: 20.0,
-              ),
+            padding: const EdgeInsets.only(left: 15.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 20,
+              height: MediaQuery.of(context).size.height / 20,
+              child: Image.asset('lib/images/sad.png'),
             ),
           ),
         ),
@@ -319,24 +349,38 @@ class Recommend extends StatelessWidget {
           height: 16.0,
         ),
         Expanded(
-          flex: 6,
+          flex: 7,
           child: SizedBox(
-            height: 32.0,
+            height: 25.0,
             child: Stack(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 12.0),
+                  padding: const EdgeInsets.only(right: 15.0),
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(10),
+                    ),
+                    child: LinearProgressIndicator(
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.green,
+                      ),
+                      value: confidenceThird,
+                      backgroundColor: Colors.green.withOpacity(0.2),
+                      minHeight: 50.0,
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20.0),
                   child: Align(
                     alignment: Alignment.centerRight,
-                    // % 숫자
                     child: Text(
-                      '${(confidence * 100).toStringAsFixed(1)} %',
-                      style: const TextStyle(
-                        color: Colors.green,
+                      '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
+                      style: TextStyle(
+                        color: Colors.green[100],
                         fontWeight: FontWeight.w600,
                         fontSize: 20,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),

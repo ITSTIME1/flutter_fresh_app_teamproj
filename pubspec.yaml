@@ -79,6 +79,9 @@ flutter:
     - family: NatoThin
       fonts:
         - asset: lib/fonts/NotoSansKR-Light.otf
+    - family: NatoBold
+      fonts:
+        - asset: lib/fonts/NotoSansKR-Bold.otf
 
   # To add assets to your application, add an assets section, like this:
   assets:
@@ -95,6 +98,9 @@ flutter:
     - lib/images/fruits.png
     - lib/assets/labels.txt
     - lib/assets/model_unquant.tflite
+    - lib/images/salad.png
+    - lib/images/RottenSalad.png
+    - lib/images/sad.png
     
 
 
