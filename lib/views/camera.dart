@@ -33,7 +33,7 @@ class _CamerasState extends State<Cameras> {
   initCamera() {
     try {
       _cameraController =
-          CameraController(widget.camera.first, ResolutionPreset.veryHigh);
+          CameraController(widget.camera.first, ResolutionPreset.high);
       _cameraController.initialize().then(
         (value) {
           // 만약 마운트가 되지 않았다면
