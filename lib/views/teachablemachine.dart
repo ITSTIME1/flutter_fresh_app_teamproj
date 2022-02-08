@@ -1,7 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slider_drawer/flutter_slider_drawer.dart';
 import 'package:fresh_app_teamproj/data/model/data.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
 import 'package:fresh_app_teamproj/views/food.dart';
@@ -47,111 +46,106 @@ class _TeachableMachineState extends State<TeachableMachine> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // Need to Change color
-      body: SliderDrawer(
-        slideDirection: SlideDirection.RIGHT_TO_LEFT,
-        slider: Container(color: Colors.blue),
-        child: Swiper(
-          layout: SwiperLayout.DEFAULT,
-          itemCount: items.length,
-          itemWidth: MediaQuery.of(context).size.width / 1 * 64,
-          itemHeight: MediaQuery.of(context).size.height / 1 * 64,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Center(
-                  child: SizedBox(
-                    height: 450,
-                    width: 340,
-                    child: Card(
-                      elevation: 9.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // [Image]
+      body: Swiper(
+        layout: SwiperLayout.DEFAULT,
+        itemCount: items.length,
+        itemWidth: MediaQuery.of(context).size.width / 1 * 64,
+        itemHeight: MediaQuery.of(context).size.height / 1 * 64,
+        itemBuilder: (context, index) {
+          return Stack(
+            children: [
+              Center(
+                child: SizedBox(
+                  height: 450,
+                  width: 340,
+                  child: Card(
+                    elevation: 9.0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        // [Image]
 
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  await availableCameras().then(
-                                    (value) {
-                                      if (items[index].image ==
-                                          'lib/images/vegetable.png') {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Vegetable(
-                                              camera: value,
-                                            ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                await availableCameras().then(
+                                  (value) {
+                                    if (items[index].image ==
+                                        'lib/images/vegetable.png') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Vegetable(
+                                            camera: value,
                                           ),
-                                        );
-                                      } else if (items[index].image ==
-                                          'lib/images/fruits.png') {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Fruits(
-                                              camera: value,
-                                            ),
+                                        ),
+                                      );
+                                    } else if (items[index].image ==
+                                        'lib/images/fruits.png') {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Fruits(
+                                            camera: value,
                                           ),
-                                        );
-                                      } else if (items[index].image ==
-                                          'libe/images/food.png') {
-                                        print('준비중');
-                                      }
-                                    },
-                                  );
-                                },
-                                child: Image.asset(
-                                  items[index].image,
-                                  width: 250,
-                                  height: 250,
-                                ),
+                                        ),
+                                      );
+                                    } else if (items[index].image ==
+                                        'libe/images/food.png') {
+                                      print('준비중');
+                                    }
+                                  },
+                                );
+                              },
+                              child: Image.asset(
+                                items[index].image,
+                                width: 250,
+                                height: 250,
                               ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          // [Text]
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                items[index].title,
-                                style: const TextStyle(
-                                  fontSize: 40,
-                                  fontFamily: 'Sairafont',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.left,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        // [Text]
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              items[index].title,
+                              style: const TextStyle(
+                                fontSize: 40,
+                                fontFamily: 'Sairafont',
+                                fontWeight: FontWeight.bold,
                               ),
-                              const SizedBox(
-                                height: 15,
+                              textAlign: TextAlign.left,
+                            ),
+                            const SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              items[index].subtitle,
+                              style: const TextStyle(
+                                fontSize: 14,
                               ),
-                              Text(
-                                items[index].subtitle,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
-              ],
-            );
-          },
-        ),
+              ),
+            ],
+          );
+        },
       ),
     );
   }

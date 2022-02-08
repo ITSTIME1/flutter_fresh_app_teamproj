@@ -32,8 +32,12 @@ class _CamerasState extends State<Cameras> {
   // 카메라 초기화
   initCamera() {
     try {
-      _cameraController =
-          CameraController(widget.camera.first, ResolutionPreset.high);
+      _cameraController = CameraController(
+        widget.camera.first,
+        ResolutionPreset.medium,
+        // Image format
+        imageFormatGroup: ImageFormatGroup.yuv420,
+      );
       _cameraController.initialize().then(
         (value) {
           // 만약 마운트가 되지 않았다면
@@ -47,15 +51,16 @@ class _CamerasState extends State<Cameras> {
               (image) {
                 if (!isDetecting) {
                   isDetecting = true;
+                  Future.delayed(const Duration(milliseconds: 1000));
                   Tflite.runModelOnFrame(
                     bytesList: image.planes.map((e) {
                       return e.bytes;
                     }).toList(),
                     imageHeight: image.height,
                     imageWidth: image.width,
-                    numResults: 20,
+                    numResults: 5,
+                    threshold: 0.5,
                   ).then((value) {
-                    // 인식을 시작하는 부분
                     if (value!.isNotEmpty) {
                       // value 값이 비어있지 않다면 인식시작
                       // value 값을 넘겨줌 setRecognition
@@ -70,9 +75,7 @@ class _CamerasState extends State<Cameras> {
           }
         },
       );
-    } catch (e) {
-      print(e);
-    }
+    } catch (e) {}
   }
 
   @override
