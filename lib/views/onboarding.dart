@@ -96,7 +96,7 @@ class OnePageView extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         const Text(
-          '단순한 디자인',
+          '심플한 디자인',
           style: TextStyle(
             color: Colors.black,
             fontSize: 20.0,
@@ -216,8 +216,8 @@ class ThirdPageView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SizedBox(
-              height: 50,
-              width: 200,
+              height: MediaQuery.of(context).size.height / 10,
+              width: MediaQuery.of(context).size.width / 1.5,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.of(context).push(

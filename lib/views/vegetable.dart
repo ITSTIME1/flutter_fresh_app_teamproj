@@ -30,8 +30,6 @@ class _VegetableState extends State<Vegetable> {
   double confidenceSecond = 0;
   double confidenceThird = 0;
 
-  var delay = Future.delayed(const Duration(milliseconds: 3));
-
   @override
   void initState() {
     if (mounted) {
