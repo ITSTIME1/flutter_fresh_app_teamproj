@@ -120,14 +120,14 @@ class _TeachableMachineState extends State<TeachableMachine> {
                             Text(
                               items[index].title,
                               style: const TextStyle(
-                                fontSize: 40,
+                                fontSize: 25,
                                 fontFamily: 'Sairafont',
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.left,
                             ),
-                            const SizedBox(
-                              height: 15,
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 55,
                             ),
                             Text(
                               items[index].subtitle,

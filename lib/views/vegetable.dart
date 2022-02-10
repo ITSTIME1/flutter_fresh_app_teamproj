@@ -21,7 +21,7 @@ class Vegetable extends StatefulWidget {
 class _VegetableState extends State<Vegetable> {
   final LoadModel loadModel = LoadModel();
 
-  int? index;
+  int? index = 0;
 
   // [confidence]
   // 각 예측값을 들어오기전 초기화
@@ -82,8 +82,8 @@ class _VegetableState extends State<Vegetable> {
             setRecognition: setRecognitions,
           ),
           SlidingUpPanel(
-            maxHeight: 250,
-            minHeight: 200,
+            maxHeight: 270,
+            minHeight: 230,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),

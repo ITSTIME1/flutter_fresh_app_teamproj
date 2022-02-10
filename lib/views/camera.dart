@@ -51,15 +51,17 @@ class _CamerasState extends State<Cameras> {
               (image) {
                 if (!isDetecting) {
                   isDetecting = true;
-                  Future.delayed(const Duration(milliseconds: 1000));
-                  Tflite.runModelOnFrame(
-                    bytesList: image.planes.map((e) {
-                      return e.bytes;
+                  Tflite.detectObjectOnFrame(
+                    bytesList: image.planes.map((plane) {
+                      return plane.bytes;
                     }).toList(),
+                    model: "SSDMobileNet",
                     imageHeight: image.height,
                     imageWidth: image.width,
-                    numResults: 5,
-                    threshold: 0.5,
+                    imageMean: 127.5,
+                    imageStd: 127.5,
+                    threshold: 0.4,
+                    numResultsPerClass: 3,
                   ).then((value) {
                     if (value!.isNotEmpty) {
                       // value 값이 비어있지 않다면 인식시작

@@ -2,6 +2,7 @@
     package="com.example.fresh_app_teamproj">
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
+        android:hardwareAccelerated="true" 
         android:label="fresh_app_teamproj"
         android:icon="@mipmap/ic_launcher">
         <activity

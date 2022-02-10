@@ -95,8 +95,8 @@ flutter:
     - lib/images/vegetable.png
     - lib/images/food.png
     - lib/images/fruits.png
-    - lib/assets/labels.txt
-    - lib/assets/model_unquant.tflite
+    - lib/assets/ssd_mobilenet.txt
+    - lib/assets/ssd_mobilenet.tflite
     - lib/images/salad.png
     - lib/images/RottenSalad.png
     - lib/images/sad.png
