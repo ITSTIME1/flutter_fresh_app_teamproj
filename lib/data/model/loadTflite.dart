@@ -1,6 +1,7 @@
 import 'package:tflite/tflite.dart';
 
 class LoadModel {
+  // Load TfliteModel();
   loadTfliteModel() async {
     await Tflite.loadModel(
       model: 'lib/assets/ssd_mobilenet.tflite',

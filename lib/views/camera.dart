@@ -48,36 +48,44 @@ class _CamerasState extends State<Cameras> {
             );
           } else {
             _cameraController.startImageStream(
-              (image) {
-                if (!isDetecting) {
-                  isDetecting = true;
-                  Tflite.detectObjectOnFrame(
-                    bytesList: image.planes.map((plane) {
-                      return plane.bytes;
-                    }).toList(),
-                    model: "SSDMobileNet",
-                    imageHeight: image.height,
-                    imageWidth: image.width,
-                    imageMean: 127.5,
-                    imageStd: 127.5,
-                    threshold: 0.4,
-                    numResultsPerClass: 3,
-                  ).then((value) {
-                    if (value!.isNotEmpty) {
-                      // value 값이 비어있지 않다면 인식시작
-                      // value 값을 넘겨줌 setRecognition
-                      widget.setRecognition(value);
-                      isDetecting = false;
-                      // 인식하는 부분을 불러옴
-                    }
-                  });
+              (image) async {
+                try {
+                  if (!isDetecting) {
+                    isDetecting = true;
+                    Future.delayed(Duration(milliseconds: 570), () async {
+                      await Tflite.runModelOnFrame(
+                        bytesList: image.planes.map((plane) {
+                          return plane.bytes;
+                        }).toList(),
+                        imageHeight: image.height,
+                        imageWidth: image.width,
+                        imageMean: 127.5,
+                        imageStd: 127.5,
+                        threshold: 0.1,
+                        numResults: 5,
+                        asynch: true,
+                      ).then((value) {
+                        if (value!.isNotEmpty) {
+                          // value 값이 비어있지 않다면 인식시작
+                          // value 값을 넘겨줌 setRecognition
+                          widget.setRecognition(value);
+                          isDetecting = false;
+                          // 인식하는 부분을 불러옴
+                        }
+                      });
+                    });
+                  }
+                } catch (e) {
+                  print(e);
                 }
               },
             );
           }
         },
       );
-    } catch (e) {}
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override

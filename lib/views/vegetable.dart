@@ -21,11 +21,7 @@ class Vegetable extends StatefulWidget {
 class _VegetableState extends State<Vegetable> {
   final LoadModel loadModel = LoadModel();
 
-  int? index = 0;
-
-  // [confidence]
-  // 각 예측값을 들어오기전 초기화
-
+  int? index;
   double confidence = 0;
   double confidenceSecond = 0;
   double confidenceThird = 0;
@@ -47,10 +43,12 @@ class _VegetableState extends State<Vegetable> {
       if (outputs[0]['index'] == 0) {
         index = 0;
         confidence = outputs[0]['confidence'];
+
         // outputs에 처음 들어온 index 값이 1 이라면
       } else if (outputs[0]['index'] == 1) {
         index = 1;
         confidenceSecond = outputs[0]['confidence'];
+
         // outputs에 처음 들어온 index 값이 2 이라면
       } else if (outputs[0]['index'] == 2) {
         index = 2;
@@ -142,13 +140,13 @@ class SlidingMainWidget extends StatelessWidget {
               ),
 
               // Recommend 인식 클래스
-              Recommend(confidence: confidence),
+              Recommend(confidence: confidence, index: index),
               const SizedBox(
                 height: 16.0,
               ),
 
               // NotRecommend 인식 클래스
-              NotRecommend(confidenceSecond: confidenceSecond),
+              NotRecommend(confidenceSecond: confidenceSecond, index: index),
               const SizedBox(
                 height: 16.0,
               ),
@@ -169,12 +167,11 @@ class SlidingMainWidget extends StatelessWidget {
 
 // [Recommend Class]
 class Recommend extends StatelessWidget {
-  const Recommend({
-    Key? key,
-    required this.confidence,
-  }) : super(key: key);
+  const Recommend({Key? key, required this.confidence, required this.index})
+      : super(key: key);
 
   final double confidence;
+  final int? index;
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +196,7 @@ class Recommend extends StatelessWidget {
         Expanded(
           flex: 7,
           child: SizedBox(
-            height: 25.0,
+            height: MediaQuery.of(context).size.height / 30,
             child: Stack(
               children: [
                 Padding(
@@ -212,9 +209,9 @@ class Recommend extends StatelessWidget {
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.green,
                       ),
-                      value: confidence,
+                      value: index == 0 ? confidence : 0.0,
                       backgroundColor: Colors.green.withOpacity(0.2),
-                      minHeight: 50.0,
+                      minHeight: 50,
                     ),
                   ),
                 ),
@@ -228,7 +225,7 @@ class Recommend extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -248,10 +245,11 @@ class NotRecommend extends StatelessWidget {
   const NotRecommend({
     Key? key,
     required this.confidenceSecond,
+    required this.index,
   }) : super(key: key);
 
   final double confidenceSecond;
-
+  final int? index;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -275,7 +273,7 @@ class NotRecommend extends StatelessWidget {
         Expanded(
           flex: 7,
           child: SizedBox(
-            height: 25.0,
+            height: MediaQuery.of(context).size.height / 30,
             child: Stack(
               children: [
                 Padding(
@@ -288,7 +286,7 @@ class NotRecommend extends StatelessWidget {
                       valueColor: AlwaysStoppedAnimation<Color>(
                         (Colors.green[200])!,
                       ),
-                      value: confidenceSecond,
+                      value: index == 1 ? confidenceSecond : 0.0,
                       backgroundColor: Colors.green.withOpacity(0.2),
                       minHeight: 50.0,
                     ),
@@ -303,7 +301,7 @@ class NotRecommend extends StatelessWidget {
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   ),
@@ -351,7 +349,7 @@ class Another extends StatelessWidget {
         Expanded(
           flex: 7,
           child: SizedBox(
-            height: 25.0,
+            height: MediaQuery.of(context).size.height / 30,
             child: Stack(
               children: [
                 Padding(
@@ -364,7 +362,7 @@ class Another extends StatelessWidget {
                       valueColor: const AlwaysStoppedAnimation<Color>(
                         Colors.green,
                       ),
-                      value: confidenceThird,
+                      value: index == 2 ? confidenceThird : 0.0,
                       backgroundColor: Colors.green.withOpacity(0.2),
                       minHeight: 50.0,
                     ),
@@ -377,9 +375,9 @@ class Another extends StatelessWidget {
                     child: Text(
                       '${index == 2 ? (confidenceThird * 100).toStringAsFixed(1) : 0.0} %',
                       style: TextStyle(
-                        color: Colors.green[100],
+                        color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 20,
+                        fontSize: 15,
                       ),
                     ),
                   ),
