@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
-import 'package:fresh_app_teamproj/bloc/bloc/google_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_event.dart';
@@ -324,18 +323,6 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               const SizedBox(
                                 height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 15,
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.2,
-                                    child: const GoogleLoginButton(),
-                                  ),
-                                ],
                               ),
                             ],
                           ),

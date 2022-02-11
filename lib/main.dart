@@ -74,7 +74,7 @@ class _TeamAppState extends State<TeamApp> {
             }
             // TeachableMachine으로 이동.
             if (state is AuthenticationSuccess) {
-              return TeachableMachine(userRepository: _userRepository);
+              return LoginPage2();
             }
             // 인증에 실패했을시 OnboardingScreen 으로 이동.
             if (state is AuthenticationFailure) {
