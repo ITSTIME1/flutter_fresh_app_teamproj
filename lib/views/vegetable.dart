@@ -1,5 +1,6 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fresh_app_teamproj/data/model/loadTflite.dart';
 import 'package:fresh_app_teamproj/views/camera.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -81,7 +82,7 @@ class _VegetableState extends State<Vegetable> {
           ),
           SlidingUpPanel(
             maxHeight: 270,
-            minHeight: 230,
+            minHeight: 200,
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(20),
               topRight: Radius.circular(20),
@@ -123,9 +124,9 @@ class SlidingMainWidget extends StatelessWidget {
           // ignore: prefer_const_literals_to_create_immutables
           children: [
             const Icon(
-              Icons.drag_handle_rounded,
+              Icons.keyboard_arrow_up_sharp,
               color: Colors.grey,
-              size: 25,
+              size: 35,
             ),
           ],
         ),
@@ -141,21 +142,21 @@ class SlidingMainWidget extends StatelessWidget {
 
               // Recommend 인식 클래스
               Recommend(confidence: confidence, index: index),
-              const SizedBox(
-                height: 16.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 45,
               ),
 
               // NotRecommend 인식 클래스
               NotRecommend(confidenceSecond: confidenceSecond, index: index),
-              const SizedBox(
-                height: 16.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 45,
               ),
               // Third Data UI
 
               // Another 인식 클래스
               Another(index: index, confidenceThird: confidenceThird),
-              const SizedBox(
-                height: 16.0,
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 70,
               ),
             ],
           ),
@@ -184,14 +185,11 @@ class Recommend extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 13,
-              height: MediaQuery.of(context).size.height / 13,
+              width: MediaQuery.of(context).size.width / 15,
+              height: MediaQuery.of(context).size.height / 15,
               child: Image.asset('lib/images/salad.png'),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 16.0,
         ),
         Expanded(
           flex: 7,
@@ -201,17 +199,28 @@ class Recommend extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: LinearProgressIndicator(
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.green,
+                  child: Neumorphic(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      value: index == 0 ? confidence : 0.0,
-                      backgroundColor: Colors.green.withOpacity(0.2),
-                      minHeight: 50,
+                      child: NeumorphicProgress(
+                        percent: index == 0 ? confidence : 0,
+                        height: 30,
+                        style: ProgressStyle(
+                          accent: Colors.green,
+                          variant: Colors.white,
+                        ),
+                      ),
+                      // child: LinearProgressIndicator(
+                      //   // 변경되는 색상.
+                      //   valueColor: AlwaysStoppedAnimation<Color>(
+                      //     (Colors.green[800])!,
+                      //   ),
+                      //   value: index == 0 ? confidence : 0.0,
+                      //   backgroundColor: Colors.green.withOpacity(0.4),
+                      //   minHeight: 50,
+                      // ),
                     ),
                   ),
                 ),
@@ -222,10 +231,10 @@ class Recommend extends StatelessWidget {
                     // % 숫자
                     child: Text(
                       '${(confidence * 100).toStringAsFixed(1)} %',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        fontSize: index == 0 ? 20 : 17,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -261,14 +270,11 @@ class NotRecommend extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 13,
-              height: MediaQuery.of(context).size.height / 13,
+              width: MediaQuery.of(context).size.width / 15,
+              height: MediaQuery.of(context).size.height / 15,
               child: Image.asset('lib/images/RottenSalad.png'),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 16.0,
         ),
         Expanded(
           flex: 7,
@@ -278,17 +284,19 @@ class NotRecommend extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: LinearProgressIndicator(
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                        (Colors.green[200])!,
+                  child: Neumorphic(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      value: index == 1 ? confidenceSecond : 0.0,
-                      backgroundColor: Colors.green.withOpacity(0.2),
-                      minHeight: 50.0,
+                      child: NeumorphicProgress(
+                        percent: index == 1 ? confidenceSecond : 0,
+                        height: 30,
+                        style: ProgressStyle(
+                          accent: Colors.green,
+                          variant: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -298,10 +306,10 @@ class NotRecommend extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Text(
                       '${(confidenceSecond * 100).toStringAsFixed(1)} %',
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        fontSize: index == 2 ? 20 : 17,
                       ),
                     ),
                   ),
@@ -337,14 +345,11 @@ class Another extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.only(left: 15.0),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 20,
-              height: MediaQuery.of(context).size.height / 20,
+              width: MediaQuery.of(context).size.width / 15,
+              height: MediaQuery.of(context).size.height / 15,
               child: Image.asset('lib/images/sad.png'),
             ),
           ),
-        ),
-        const SizedBox(
-          height: 16.0,
         ),
         Expanded(
           flex: 7,
@@ -354,17 +359,19 @@ class Another extends StatelessWidget {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0),
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.all(
-                      Radius.circular(10),
-                    ),
-                    child: LinearProgressIndicator(
-                      valueColor: const AlwaysStoppedAnimation<Color>(
-                        Colors.green,
+                  child: Neumorphic(
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(10),
                       ),
-                      value: index == 2 ? confidenceThird : 0.0,
-                      backgroundColor: Colors.green.withOpacity(0.2),
-                      minHeight: 50.0,
+                      child: NeumorphicProgress(
+                        percent: index == 2 ? confidenceThird : 0.0,
+                        height: 30,
+                        style: ProgressStyle(
+                          accent: Colors.green,
+                          variant: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -377,7 +384,7 @@ class Another extends StatelessWidget {
                       style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        fontSize: index == 2 ? 20 : 17,
                       ),
                     ),
                   ),

@@ -57,6 +57,7 @@ class _CamerasState extends State<Cameras> {
                         bytesList: image.planes.map((plane) {
                           return plane.bytes;
                         }).toList(),
+                        rotation: 90,
                         imageHeight: image.height,
                         imageWidth: image.width,
                         imageMean: 127.5,
@@ -113,7 +114,9 @@ class _CamerasState extends State<Cameras> {
         ),
         ClipPath(
           clipper: Clip(),
-          child: CameraPreview(_cameraController),
+          child: CameraPreview(
+            _cameraController,
+          ),
         ),
       ],
     );

@@ -270,7 +270,7 @@ class SkipButton extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
         Padding(
-          padding: const EdgeInsets.only(top: 10.0),
+          padding: const EdgeInsets.only(top: 30),
           child: TextButton(
             onPressed: () {
               _pageController.jumpToPage(2);
