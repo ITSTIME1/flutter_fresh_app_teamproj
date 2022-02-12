@@ -164,146 +164,10 @@ class _SignUpPageState extends State<SignUpPage> {
                 child: SingleChildScrollView(
                   child: Column(
                     children: [
-                      const SizedBox(
-                        height: 5.0,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 5,
                       ),
-                      Image.asset(
-                        'lib/images/Loginimg.png',
-                        width: MediaQuery.of(context).size.width / 1,
-                        height: MediaQuery.of(context).size.height / 1,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Container(
-                        height: 650,
-                        width: 450,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(2, 3),
-                            ),
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              TextButton(
-                                child: Text(
-                                  '로그인',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 18.0,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (context) {
-                                        return BlocProvider<LoginBloc>(
-                                          create: (context) => LoginBloc(
-                                              userRepository: _userRepository),
-                                          child: LoginPage(
-                                            userRepository: _userRepository,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-
-                              const SizedBox(height: 24.0),
-
-                              // [Email field]
-
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: _emailController,
-                                  validator: (_) {
-                                    return !state.isEmailValid
-                                        ? 'Invalid Email'
-                                        : null;
-                                  },
-                                  decoration: InputDecoration(
-                                    suffixIcon: _emailController.text.isEmpty
-                                        ? Container(width: 0)
-                                        : IconButton(
-                                            icon: Icon(Icons.close,
-                                                color: Colors.grey[600]),
-                                            onPressed: () => {
-                                              _emailController.clear(),
-                                            },
-                                          ),
-                                    labelText: '이메일',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-
-                              // [Password field]
-
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  controller: _passwordController,
-                                  validator: (_) {
-                                    return !state.isPasswordValid
-                                        ? 'Invalid password'
-                                        : null;
-                                  },
-                                  decoration: InputDecoration(
-                                    labelText: '비밀번호',
-                                    labelStyle: const TextStyle(),
-                                    suffixIcon: _passwordController.text.isEmpty
-                                        ? Container(width: 0)
-                                        : IconButton(
-                                            icon: Icon(Icons.close,
-                                                color: Colors.grey[600]),
-                                            onPressed: () => {
-                                              _passwordController.clear(),
-                                            },
-                                          ),
-                                  ),
-                                ),
-                              ),
-
-                              // [Register Button]
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 15,
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                width: double.infinity,
-                                child: RegisterButton(
-                                  onPressed: isRegisterButtonEnabled(state)
-                                      ? _onRegisterSubmiting
-                                      : null,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 30.0,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      RegisterInformation(state, context),
                     ],
                   ),
                 ),
@@ -311,6 +175,124 @@ class _SignUpPageState extends State<SignUpPage> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Padding RegisterInformation(RegisterState state, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(11.0),
+      child: Column(
+        children: [
+          Text(
+            '회원가입',
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 25,
+            ),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: _emailController,
+                    validator: (_) {
+                      return !state.isEmailValid ? 'Invalid Email' : null;
+                    },
+                    decoration: InputDecoration(
+                      suffixIcon: _emailController.text.isEmpty
+                          ? Container(width: 0)
+                          : IconButton(
+                              icon: Icon(Icons.close, color: Colors.grey[600]),
+                              onPressed: () => {
+                                _emailController.clear(),
+                              },
+                            ),
+                      labelText: '계정(이메일)',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: TextFormField(
+                    obscureText: true,
+                    keyboardType: TextInputType.visiblePassword,
+                    controller: _passwordController,
+                    validator: (_) {
+                      return !state.isPasswordValid ? 'Invalid password' : null;
+                    },
+                    decoration: InputDecoration(
+                      labelText: '비밀번호(8~15자)',
+                      labelStyle: const TextStyle(),
+                      suffixIcon: _passwordController.text.isEmpty
+                          ? Container(width: 0)
+                          : IconButton(
+                              icon: Icon(Icons.close, color: Colors.grey[600]),
+                              onPressed: () => {
+                                _passwordController.clear(),
+                              },
+                            ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Container(
+              width: double.infinity,
+              child: RegisterButton(
+                onPressed: isRegisterButtonEnabled(state)
+                    ? _onRegisterSubmiting
+                    : null,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BlocProvider<LoginBloc>(
+                            create: (context) =>
+                                LoginBloc(userRepository: _userRepository),
+                            child: LoginPage(
+                              userRepository: _userRepository,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '로그인',
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.grey[500],
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

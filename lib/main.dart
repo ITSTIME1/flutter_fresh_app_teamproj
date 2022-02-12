@@ -5,10 +5,8 @@ import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_event.dart';
 import 'package:fresh_app_teamproj/bloc/simple_bloc_observer.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/login_page2.dart';
 import 'package:fresh_app_teamproj/views/onboarding.dart';
 import 'package:fresh_app_teamproj/views/splash.dart';
-import 'package:fresh_app_teamproj/views/teachablemachine.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_state.dart';
 
 // ** main 메소드는 건들지 않아도 됩니다.**
@@ -74,7 +72,7 @@ class _TeamAppState extends State<TeamApp> {
             }
             // TeachableMachine으로 이동.
             if (state is AuthenticationSuccess) {
-              return TeachableMachine(userRepository: _userRepository);
+              return OnboardingScreen(userRepository: _userRepository);
             }
             // 인증에 실패했을시 OnboardingScreen 으로 이동.
             if (state is AuthenticationFailure) {

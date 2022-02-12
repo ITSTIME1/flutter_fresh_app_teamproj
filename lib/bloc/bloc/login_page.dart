@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fresh_app_teamproj/bloc/authentication_bloc.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/google_button.dart';
 import 'package:fresh_app_teamproj/bloc/bloc/login_bloc.dart';
@@ -157,197 +158,237 @@ class _LoginPageState extends State<LoginPage> {
               child: GestureDetector(
                 onTap: () => FocusScope.of(context).unfocus(),
                 child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Image.asset(
-                        'lib/images/Loginimg.png',
-                        width: MediaQuery.of(context).size.width / 1,
-                        height: MediaQuery.of(context).size.height / 1,
-                        fit: BoxFit.cover,
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Container(
-                        height: 650,
-                        width: 450,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.3),
-                              blurRadius: 20,
-                              offset: const Offset(2, 3),
-                            ),
-                          ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(11.0),
+                    child: Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 5,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 20.0,
-                              ),
-                              TextButton(
-                                child: Text(
-                                  '회원가입',
-                                  style: TextStyle(
-                                    color: Colors.grey[700],
-                                    fontSize: 18.0,
-                                    decoration: TextDecoration.underline,
-                                  ),
-                                ),
-                                onPressed: () {
-                                  Navigator.of(context).push(
-                                    MaterialPageRoute(
-                                      builder: (BuildContext context) {
-                                        return BlocProvider<RegisterBloc>(
-                                          create: (context) => RegisterBloc(
-                                              userRepository: _userRepository),
-                                          child: SignUpPage(
-                                            userRepository: _userRepository,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  );
-                                },
-                              ),
-
-                              const SizedBox(height: 24.0),
-                              // * email field next aciton
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  validator: (email) {
-                                    return !state.isEmailValid
-                                        ? 'Invalid Email'
-                                        : null;
-                                  },
-                                  keyboardType: TextInputType.emailAddress,
-                                  controller: _emailController,
-                                  decoration: InputDecoration(
-                                    suffixIcon: _emailController.text.isEmpty
-                                        ? Container(width: 0)
-                                        : IconButton(
-                                            icon: Icon(Icons.close,
-                                                color: Colors.grey[600]),
-                                            onPressed: () => {
-                                              _emailController.clear(),
-                                            },
-                                          ),
-                                    labelText: '이메일',
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10.0,
-                              ),
-                              // * password field
-                              // * passowrd field done
-
-                              Padding(
-                                padding: const EdgeInsets.all(10.0),
-                                child: TextFormField(
-                                  obscureText: true,
-                                  keyboardType: TextInputType.visiblePassword,
-                                  controller: _passwordController,
-                                  validator: (password) {
-                                    return !state.isPasswordValid
-                                        ? 'Invalid password'
-                                        : null;
-                                  },
-                                  decoration: InputDecoration(
-                                    labelText: '비밀번호',
-                                    labelStyle: const TextStyle(),
-                                    suffixIcon: _passwordController.text.isEmpty
-                                        ? Container(width: 0)
-                                        : IconButton(
-                                            icon: Icon(Icons.close,
-                                                color: Colors.grey[600]),
-                                            onPressed: () => {
-                                              _passwordController.clear(),
-                                            },
-                                          ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 15,
-                              ),
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                width: double.infinity,
-                                child: LoginButton(
-                                  onPressed: isLoginButtonEnabled(state)
-                                      ? _onSubmiting
-                                      : null,
-                                ),
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 15,
-                              ),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 5.0, right: 10.0),
-                                      child: const Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                  const Text(
-                                    '또는',
-                                    style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 17.0,
-                                    ),
-                                  ),
-                                  Expanded(
-                                    child: Container(
-                                      margin: const EdgeInsets.only(
-                                          left: 10.0, right: 5.0),
-                                      child: const Divider(
-                                        thickness: 2,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              const SizedBox(
-                                height: 30,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    height:
-                                        MediaQuery.of(context).size.height / 15,
-                                    width:
-                                        MediaQuery.of(context).size.width / 1.2,
-                                    child: const GoogleLoginButton(),
-                                  ),
-                                ],
-                              ),
-                            ],
+                        Text(
+                          '로그인',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 25,
                           ),
                         ),
-                      ),
-                    ],
+                        SizedBox(
+                          height: 30,
+                        ),
+                        // [Login DataSet]
+                        LoginInformation(state, context),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 65,
+                        ),
+                        // [Divder DataSet]
+                        DividerInformation(),
+                        OAuthLogin(context),
+                      ],
+                    ),
                   ),
                 ),
               ),
             );
           },
         ),
+      ),
+    );
+  }
+
+  Padding OAuthLogin(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          // [KaKaoLogin Button]
+          Container(
+            width: MediaQuery.of(context).size.height / 12,
+            height: MediaQuery.of(context).size.height / 12,
+            decoration: BoxDecoration(
+              color: Color.fromRGBO(254, 229, 0, 100),
+              shape: BoxShape.circle,
+            ),
+            child: Image(
+              image: AssetImage('lib/images/kakaocomment.png'),
+            ),
+          ),
+          // [GoogleLogin Button]
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+            width: MediaQuery.of(context).size.height / 13,
+            height: MediaQuery.of(context).size.height / 13,
+            child: GestureDetector(
+              onTap: () {
+                BlocProvider.of<LoginBloc>(context).add(
+                  LoginWithGooglePressed(),
+                );
+              },
+              child: Image(
+                image: AssetImage('lib/images/googlelogo.png'),
+              ),
+            ),
+          ),
+          // [NaverLogin Button]
+          Container(
+            width: MediaQuery.of(context).size.height / 11,
+            height: MediaQuery.of(context).size.height / 11,
+            decoration: BoxDecoration(
+              color: Colors.green,
+              shape: BoxShape.circle,
+            ),
+            child: Image(
+              image: AssetImage('lib/images/naver.png'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding DividerInformation() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 5.0, right: 10.0),
+              child: Divider(
+                thickness: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+          ),
+          Text(
+            '또는',
+            style: TextStyle(
+              color: (Colors.grey[300])!,
+              fontSize: 17.0,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.only(left: 10.0, right: 5.0),
+              child: Divider(
+                thickness: 1,
+                color: Colors.grey[300],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // [Class Set Data]
+  Padding LoginInformation(LoginState state, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              validator: (email) {
+                return !state.isEmailValid ? 'Invalid Email' : null;
+              },
+              keyboardType: TextInputType.emailAddress,
+              controller: _emailController,
+              decoration: InputDecoration(
+                suffixIcon: _emailController.text.isEmpty
+                    ? Container(width: 0)
+                    : IconButton(
+                        icon: Icon(Icons.close, color: Colors.grey[600]),
+                        onPressed: () => {
+                          _emailController.clear(),
+                        },
+                      ),
+                labelText: '계정(이메일)',
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextFormField(
+              obscureText: true,
+              keyboardType: TextInputType.visiblePassword,
+              controller: _passwordController,
+              validator: (password) {
+                return !state.isPasswordValid ? 'Invalid password' : null;
+              },
+              decoration: InputDecoration(
+                labelText: '비밀번호 (8~15자)',
+                labelStyle: const TextStyle(),
+                suffixIcon: _passwordController.text.isEmpty
+                    ? Container(width: 0)
+                    : IconButton(
+                        icon: Icon(Icons.close, color: Colors.grey[600]),
+                        onPressed: () => {
+                          _passwordController.clear(),
+                        },
+                      ),
+              ),
+            ),
+          ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 10,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Container(
+              width: double.infinity,
+              child: LoginButton(
+                onPressed: isLoginButtonEnabled(state) ? _onSubmiting : null,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return BlocProvider<RegisterBloc>(
+                            create: (context) =>
+                                RegisterBloc(userRepository: _userRepository),
+                            child: SignUpPage(
+                              userRepository: _userRepository,
+                            ),
+                          );
+                        },
+                      ),
+                    );
+                  },
+                  child: Text(
+                    '회원가입',
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    '비밀번호찾기',
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

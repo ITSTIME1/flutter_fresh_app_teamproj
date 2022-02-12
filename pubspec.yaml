@@ -101,6 +101,9 @@ flutter:
     - lib/images/salad.png
     - lib/images/RottenSalad.png
     - lib/images/sad.png
+    - lib/images/kakaocomment.png
+    - lib/images/googlelogo.png
+    - lib/images/naver.png 
     
 
 

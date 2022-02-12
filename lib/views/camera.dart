@@ -1,6 +1,5 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:fresh_app_teamproj/views/paint.dart';
 import 'package:tflite/tflite.dart';
 
 // [Camera]
@@ -26,7 +25,9 @@ class _CamerasState extends State<Cameras> {
   @override
   void initState() {
     super.initState();
-    initCamera();
+    if (mounted) {
+      initCamera();
+    }
   }
 
   // 카메라 초기화
@@ -52,7 +53,7 @@ class _CamerasState extends State<Cameras> {
                 try {
                   if (!isDetecting) {
                     isDetecting = true;
-                    Future.delayed(Duration(milliseconds: 570), () async {
+                    Future.delayed(Duration(milliseconds: 550), () async {
                       await Tflite.runModelOnFrame(
                         bytesList: image.planes.map((plane) {
                           return plane.bytes;
@@ -93,6 +94,7 @@ class _CamerasState extends State<Cameras> {
   void dispose() {
     _cameraController.dispose();
     super.dispose();
+    initCamera();
   }
 
   @override
@@ -106,17 +108,8 @@ class _CamerasState extends State<Cameras> {
     return Stack(
       children: [
         // customPaint 를 통해서 CameraPreview 를 보여줌.
-        CustomPaint(
-          foregroundPainter: Painter(),
-          child: CameraPreview(
-            _cameraController,
-          ),
-        ),
-        ClipPath(
-          clipper: Clip(),
-          child: CameraPreview(
-            _cameraController,
-          ),
+        CameraPreview(
+          _cameraController,
         ),
       ],
     );
