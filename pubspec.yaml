@@ -47,6 +47,7 @@ dependencies:
   flutter_slider_drawer: ^2.1.1
   tflite: ^1.1.2
   flutter_neumorphic: ^3.2.0
+  flutter_signin_button: ^2.0.0
 
 
 
@@ -91,7 +92,6 @@ flutter:
     - lib/images/Loginimg.png
     - lib/images/Signupimg.png
     - lib/images/kakaotalk.png
-    - lib/images/google.png
     - lib/images/naver.png
     - lib/images/vegetable.png
     - lib/images/food.png
