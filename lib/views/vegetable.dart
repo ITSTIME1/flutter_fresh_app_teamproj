@@ -31,13 +31,18 @@ class _VegetableState extends State<Vegetable> {
   void initState() {
     if (mounted) {
       setState(() {
-        loadModel.loadTfliteModel();
+        loadModel.loadVegetableModel();
       });
     }
     super.initState();
   }
 
+  // 인식 함수.
   setRecognitions(outputs) {
+    print(outputs);
+
+    // [{confidence: 0.1245125, index = 1, label = '추천해요'}]
+
     if (mounted) {
       // outputs에 처음 들어온 index 값이 0이라면
       // 각각 confidence 에 예측값 대입.

@@ -53,7 +53,7 @@ class _CamerasState extends State<Cameras> {
                 try {
                   if (!isDetecting) {
                     isDetecting = true;
-                    Future.delayed(Duration(milliseconds: 550), () async {
+                    Future.delayed(Duration(milliseconds: 560), () async {
                       await Tflite.runModelOnFrame(
                         bytesList: image.planes.map((plane) {
                           return plane.bytes;
@@ -94,7 +94,6 @@ class _CamerasState extends State<Cameras> {
   void dispose() {
     _cameraController.dispose();
     super.dispose();
-    initCamera();
   }
 
   @override

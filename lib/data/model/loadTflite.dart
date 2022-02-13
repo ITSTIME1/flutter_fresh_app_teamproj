@@ -2,7 +2,7 @@ import 'package:tflite/tflite.dart';
 
 class LoadModel {
   // Load TfliteModel();
-  loadTfliteModel() async {
+  loadVegetableModel() async {
     await Tflite.loadModel(
       model: 'lib/assets/ssd_mobilenet.tflite',
       labels: "lib/assets/ssd_mobilenet.txt",
@@ -10,4 +10,6 @@ class LoadModel {
       numThreads: 5,
     );
   }
+
+  loadFruitsModel() async {}
 }

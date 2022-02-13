@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic/flutter_neumorphic.dart';
 import 'package:fresh_app_teamproj/data/model/data.dart';
 import 'package:fresh_app_teamproj/repository/user_repository.dart';
-import 'package:fresh_app_teamproj/views/food.dart';
 import 'package:fresh_app_teamproj/views/fruits.dart';
 import 'package:fresh_app_teamproj/views/vegetable.dart';
 
@@ -34,6 +33,7 @@ class TeachableMachine extends StatefulWidget {
 }
 
 class _TeachableMachineState extends State<TeachableMachine> {
+  bool _backBtn = false;
   @override
   void initState() {
     super.initState();
@@ -46,111 +46,118 @@ class _TeachableMachineState extends State<TeachableMachine> {
 
   @override
   Widget build(BuildContext context) {
-    return Neumorphic(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Swiper(
-          layout: SwiperLayout.DEFAULT,
-          itemCount: items.length,
-          itemWidth: MediaQuery.of(context).size.width / 1 * 64,
-          itemHeight: MediaQuery.of(context).size.height / 1 * 64,
-          itemBuilder: (context, index) {
-            return Stack(
-              children: [
-                Center(
-                  child: SizedBox(
-                    height: 450,
-                    width: 340,
-                    child: Card(
-                      elevation: 9.0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          // [Image]
-
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              GestureDetector(
-                                onTap: () async {
-                                  await availableCameras().then(
-                                    (value) {
-                                      if (items[index].image ==
-                                          'lib/images/vegetable.png') {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Vegetable(
-                                              camera: value,
-                                            ),
-                                          ),
-                                        );
-                                      } else if (items[index].image ==
-                                          'lib/images/fruits.png') {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) => Fruits(
-                                              camera: value,
-                                            ),
-                                          ),
-                                        );
-                                      } else if (items[index].image ==
-                                          'libe/images/food.png') {
-                                        print('준비중');
-                                      }
-                                    },
-                                  );
-                                },
-                                child: Image.asset(
-                                  items[index].image,
-                                  width: 250,
-                                  height: 250,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          // [Text]
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                items[index].title,
-                                style: const TextStyle(
-                                  fontSize: 25,
-                                  fontFamily: 'Sairafont',
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                textAlign: TextAlign.left,
-                              ),
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 55,
-                              ),
-                              Text(
-                                items[index].subtitle,
-                                style: const TextStyle(
-                                  fontSize: 14,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            );
-          },
+    return WillPopScope(
+      onWillPop: () async {
+        return _backBtn;
+      },
+      child: Neumorphic(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Swiper(
+            layout: SwiperLayout.DEFAULT,
+            itemCount: items.length,
+            itemWidth: MediaQuery.of(context).size.width / 1 * 64,
+            itemHeight: MediaQuery.of(context).size.height / 1 * 64,
+            itemBuilder: CardWidget,
+          ),
         ),
       ),
+    );
+  }
+
+  Widget CardWidget(context, index) {
+    return Stack(
+      children: [
+        Center(
+          child: SizedBox(
+            height: 450,
+            width: 340,
+            child: Card(
+              elevation: 9.0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // [Image]
+
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      GestureDetector(
+                        onTap: () async {
+                          await availableCameras().then(
+                            (value) {
+                              if (items[index].image ==
+                                  'lib/images/vegetable.png') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Vegetable(
+                                      camera: value,
+                                    ),
+                                  ),
+                                );
+                              } else if (items[index].image ==
+                                  'lib/images/fruits.png') {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => Fruits(
+                                      camera: value,
+                                    ),
+                                  ),
+                                );
+                              } else if (items[index].image ==
+                                  'libe/images/food.png') {
+                                print('준비중');
+                              }
+                            },
+                          );
+                        },
+                        child: Image.asset(
+                          items[index].image,
+                          width: 250,
+                          height: 250,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  // [Text]
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        items[index].title,
+                        style: const TextStyle(
+                          fontSize: 25,
+                          fontFamily: 'Sairafont',
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 55,
+                      ),
+                      Text(
+                        items[index].subtitle,
+                        style: const TextStyle(
+                          fontSize: 14,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
