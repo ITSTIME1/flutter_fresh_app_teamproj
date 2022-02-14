@@ -31,7 +31,7 @@ class _CamerasState extends State<Cameras> {
   }
 
   // 카메라 초기화
-  initCamera() {
+  Future<void> initCamera() async {
     try {
       _cameraController = CameraController(
         widget.camera.first,
@@ -39,10 +39,9 @@ class _CamerasState extends State<Cameras> {
         // Image format
         imageFormatGroup: ImageFormatGroup.yuv420,
       );
-      _cameraController.initialize().then(
+      await _cameraController.initialize().then(
         (value) {
           // 만약 마운트가 되지 않았다면
-          // 서클프로그래스를 보여주고
           if (!mounted) {
             const Center(
               child: CircularProgressIndicator(),
@@ -58,7 +57,6 @@ class _CamerasState extends State<Cameras> {
                         bytesList: image.planes.map((plane) {
                           return plane.bytes;
                         }).toList(),
-                        rotation: 90,
                         imageHeight: image.height,
                         imageWidth: image.width,
                         imageMean: 127.5,
@@ -70,6 +68,7 @@ class _CamerasState extends State<Cameras> {
                         if (value!.isNotEmpty) {
                           // value 값이 비어있지 않다면 인식시작
                           // value 값을 넘겨줌 setRecognition
+                          print(value);
                           widget.setRecognition(value);
                           isDetecting = false;
                           // 인식하는 부분을 불러옴

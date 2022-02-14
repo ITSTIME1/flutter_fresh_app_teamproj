@@ -2,14 +2,14 @@ import 'package:tflite/tflite.dart';
 
 class LoadModel {
   // Load TfliteModel();
-  loadVegetableModel() async {
+  loadFruitsModel() async {
     await Tflite.loadModel(
-      model: 'lib/assets/ssd_mobilenet.tflite',
-      labels: "lib/assets/ssd_mobilenet.txt",
+      model: 'lib/assets/fruitsModel.tflite',
+      labels: "lib/assets/fruitsModelLabel.txt",
       useGpuDelegate: true,
       numThreads: 5,
     );
   }
 
-  loadFruitsModel() async {}
+  loadVegetableModel() async {}
 }

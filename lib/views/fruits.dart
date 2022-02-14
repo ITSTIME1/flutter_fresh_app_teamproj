@@ -208,7 +208,7 @@ class Recommend extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: NeumorphicProgress(
-                        percent: index == 0 ? confidence : 0,
+                        percent: index == 0 ? confidence : 0.0,
                         height: 30,
                         style: ProgressStyle(
                           accent: Colors.green,
@@ -293,7 +293,7 @@ class NotRecommend extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: NeumorphicProgress(
-                        percent: index == 1 ? confidenceSecond : 0,
+                        percent: index == 1 ? confidenceSecond : 0.0,
                         height: 30,
                         style: ProgressStyle(
                           accent: Colors.green,

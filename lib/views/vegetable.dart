@@ -31,7 +31,7 @@ class _VegetableState extends State<Vegetable> {
   void initState() {
     if (mounted) {
       setState(() {
-        loadModel.loadVegetableModel();
+        loadModel.loadFruitsModel();
       });
     }
     super.initState();
@@ -60,6 +60,7 @@ class _VegetableState extends State<Vegetable> {
         index = 2;
         confidenceThird = outputs[0]['confidence'];
       }
+
       setState(() {
         confidence;
         confidenceSecond;
@@ -210,7 +211,7 @@ class Recommend extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: NeumorphicProgress(
-                        percent: index == 0 ? confidence : 0,
+                        percent: index != 0 ? 0.0 : confidence,
                         height: 30,
                         style: ProgressStyle(
                           accent: Colors.green,
@@ -295,7 +296,7 @@ class NotRecommend extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: NeumorphicProgress(
-                        percent: index == 1 ? confidenceSecond : 0,
+                        percent: index != 1 ? 0.0 : confidenceSecond,
                         height: 30,
                         style: ProgressStyle(
                           accent: Colors.green,
@@ -370,7 +371,7 @@ class Another extends StatelessWidget {
                         Radius.circular(10),
                       ),
                       child: NeumorphicProgress(
-                        percent: index == 2 ? confidenceThird : 0.0,
+                        percent: index != 2 ? 0.0 : confidenceThird,
                         height: 30,
                         style: ProgressStyle(
                           accent: Colors.green,
